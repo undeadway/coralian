@@ -96,7 +96,7 @@ let {noReference, unsupportedType} = Error;
 
 that.Coralian = {
 	ABOUT: 'Coralian',
-	VERSION: '0.0.1',
+	VERSION: '0.0.4',
 	HREF: 'http://www.waygc.net',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
@@ -120,22 +120,6 @@ that.Coralian = {
 		if (String.isEmpty(name)) throw new Error("不能使用空字符串作为属性名");
 
 		setToGlobal(that, name.split("."), obj);
-	},
-	getFromGlobal: function (name) {
-
-		if (!typeIs(name, 'string')) unsupportedType(name);
-		if (String.isEmpty(name)) throw new Error("不能使用空字符串作为属性名");
-
-		name = name.split(".");
-
-		var obj = that[name[0]];
-		for (let i = 1, len = name.length; i < len; i++) {
-			if (obj === null || obj === undefined) noReference();
-			obj = obj[name[i]];
-		}
-		if (!obj) noReference();
-
-		return obj;
 	},
 	exports: function (name, obj) {
 		setExports(that, name, obj);
