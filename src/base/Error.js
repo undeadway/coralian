@@ -1,4 +1,12 @@
-let {isNumber, getFunctionName} = require("../base/common");
+let isNumber, getFunctionName;
+
+function init() {
+	if (!isNumber || !getFunctionName) {
+		let common = require("../base/common");
+		isNumber = common.isNumber;
+		getFunctionName = common.getFunctionName;
+	}
+}
 
 /* ==================== Error 的扩展 ==================== */
 function debugError(e) {
@@ -8,6 +16,7 @@ function debugError(e) {
 }
 
 function errorCast(obj, type) {
+	init();
 
 	if ('function' !== typeof type) {
 		errorCast(type, Function);
@@ -22,6 +31,7 @@ function errorCast(obj, type) {
 Error.errorCast = errorCast;
 
 function indexOutOfBounds(given, want) {
+	init();
 	if (!isNumber(given)) errorCast(given, Number);
 	if (!isNumber(want)) errorCast(want, Number);
 
