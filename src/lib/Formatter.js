@@ -1,6 +1,4 @@
-let formatString = require("../base/common").formatString;
-
-function formatNumber(number, type) {
+function formatNumber(number) {
 
 	// 目前只实现保留两位小数
 	number = (number).toString().split(".");
@@ -36,5 +34,5 @@ module.exports = exports = {
 		}
 		return formated;
 	},
-	formatString: formatString
+	formatString:  require("./../base/common").formatString
 };

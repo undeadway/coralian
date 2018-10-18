@@ -2,8 +2,8 @@
  * Coralian.logger 只实现最基本的日志记录功能，
  * 以及对日志进行最基本的格式化功能
  */
-let formatString = require("../base/common").formatString;
 let Calendar = require("./Calendar");
+let formatString = require("./../base/common").formatString;
 
 var INFO = 'INFO',
 	ERROR = 'ERROR',

@@ -1,4 +1,7 @@
-let {hasOwnProperty, formatString} = require("../base/common");
+let { hasOwnProperty, formatString } = require("./../base/common");
+
+const { unsupportedType, unsupportedOperation, errorCast } = Error;
+const { isNumber } = Number;
 
 // 一天的毫秒数
 var ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
@@ -36,7 +39,7 @@ var TEN = 10,
 
 function formatTime(date, format) {
 	if (!(date instanceof Date)) {
-		Error.errorCast(date, Date);
+		errorCast(date, Date);
 	}
 	format = format || DEFAULT_DT_FORMAT;
 	var tmpMonth = date.getMonth();
@@ -83,7 +86,7 @@ function instanceTime(arg, format) {
 		return new Date();
 	} else if (arg instanceof Date) {
 		return arg;
-	} else if (Number.isNumber(arg)) {
+	} else if (isNumber(arg)) {
 		let _date = new Date();
 		format = format || 8;
 		switch (format) {
@@ -113,11 +116,11 @@ function instanceTime(arg, format) {
 				_date.setTime(arg);
 				break;
 			default:
-				Error.unsupportedOperation('所选择的格式化参数不正确');
+				unsupportedOperation('所选择的格式化参数不正确');
 		}
 		return _date;
 	} else {
-		Error.unsupportedType(arg);
+		unsupportedType(arg);
 	}
 }
 
@@ -126,12 +129,12 @@ function isLeapYear(year) {
 }
 
 function checkMonthIsValid(month) {
-	if (!Number.isNumber(month)) Error.errorCast(month, Number);
-	if (month < 1 || 12 < month) Error.unsupportedOperation(month + " 不是一个合法的月份");
+	if (!isNumber(month)) errorCast(month, Number);
+	if (month < 1 || 12 < month) unsupportedOperation(month + " 不是一个合法的月份");
 }
 
 function checkYearIsValid(year) {
-	if (!Number.isNumber(year)) Error.errorCast(year, Number);
+	if (!isNumber(year)) errorCast(year, Number);
 }
 
 function getMonthDays(year, month) {
@@ -227,7 +230,7 @@ module.exports = exports = {
 	isLeapYear: function (year) {
 
 		if (!isNumber(year)) {
-			Error.errorCast(year, Number);
+			errorCast(year, Number);
 		}
 
 		return isLeapYear(year);
@@ -260,11 +263,11 @@ module.exports = exports = {
 		 */
 		getSpringFestival: function (year) {
 			checkYearIsValid(year);
-			Error.unsupportedOperation('暂不支持农历年表示法');
+			unsupportedOperation('暂不支持农历年表示法');
 		},
 		getMonthlyCalendar: function (year) {
 			checkYearIsValid(year);
-			Error.unsupportedOperation('暂不支持农历年表示法');
+			unsupportedOperation('暂不支持农历年表示法');
 
 		}
 	}

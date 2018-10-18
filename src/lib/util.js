@@ -1,9 +1,9 @@
-let { hasOwnProperty, Interface, Iterator,objectClone, getType} = require("../base/common");
-let {unsupportedOperate, unsupportedOperation, unsupportedType, errorCast} = Error;
+let { hasOwnProperty, Interface, Iterator, objectClone, getType } = require("../base/common");
+let { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
 
 module.exports = exports = {
-	Interface : Interface,
-	Iterator : Iterator,
+	Interface: Interface,
+	Iterator: Iterator,
 	MathUtil: {
 		/*
 		 * 代码来自：https://tool.lu/hexconvert/
@@ -104,8 +104,8 @@ module.exports = exports = {
 				inBase = Number(inBase);
 				outBase = Number(outBase);
 
-				if (inBase > HEX && !(inBase in HEX_CHARS)) Error.illegalArguments("不支持的输入进制基数：" + inBase);
-				if (outBase > HEX && !(outBase in HEX_CHARS)) Error.illegalArguments("不支持的输出进制基数：" + outBase);
+				if (inBase > HEX && !(inBase in HEX_CHARS)) illegalArguments("不支持的输入进制基数：" + inBase);
+				if (outBase > HEX && !(outBase in HEX_CHARS)) illegalArguments("不支持的输出进制基数：" + outBase);
 
 				let type = typeOf(num);
 				switch (type) {
@@ -117,7 +117,7 @@ module.exports = exports = {
 						outBase = inBase;
 						break;
 					default:
-						Error.illegalArguments("不被支持的参数类型：" + type);
+						illegalArguments("不被支持的参数类型：" + type);
 				}
 
 				let hexChars = (outBase < DEC) ? HEX_CHARS[DEC].slice(0, outBase) : HEX_CHARS[outBase];
@@ -157,10 +157,10 @@ module.exports = exports = {
 				calcPrimeByInput: (from, to) => {
 
 					// 错误检查
-					if (!Number.isNumber(from)) Error.errorCast(from, Number);
-					if (!Number.isNumber(to)) Error.errorCast(to, Number);
-					if (from > to) Error.unsupportedOperate("开始数必须大于结束数");
-					if (to < 0 || from < 0) Error.unsupportedOperate("开始数必须大于 0");
+					if (!Number.isNumber(from)) errorCast(from, Number);
+					if (!Number.isNumber(to)) errorCast(to, Number);
+					if (from > to) unsupportedOperation("开始数必须大于结束数");
+					if (to < 0 || from < 0) unsupportedOperation("开始数必须大于 0");
 
 					let primes = PRIME_IN_50.slice();
 					let output = getPrimeInInputStartsWithFrom(primes, from);
@@ -181,7 +181,7 @@ module.exports = exports = {
 				},
 				isPrimeNumber: (input) => {
 
-					if (!typeIs(input, 'number')) Error.errorCast(input, Number);
+					if (!typeIs(input, 'number')) errorCast(input, Number);
 
 					let inputRoot = Math.sqrt(input);
 
@@ -282,15 +282,15 @@ module.exports = exports = {
 
 			if (!isNumber(num)) errorCast(num, Number);
 			if (split !== undefined && !isNumber(split)) errorCast(split, Number);
-	
+
 			split = parseInt(Math.pow(10, split || 3));
-	
+
 			var result = String.BLANK;
-	
+
 			while (true) {
 				let part = num % split;
 				num = parseInt(num / split);
-	
+
 				rersult = part + result;
 				if (num !== 0) {
 					result = ',' + result;
@@ -298,7 +298,7 @@ module.exports = exports = {
 					break;
 				}
 			}
-	
+
 			return result;
 		},
 		parseInt: function (num, nag) {

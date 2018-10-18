@@ -1,4 +1,5 @@
-let { hasOwnProperty, isArray, getFunctionName , getFunctionDefine, getType, isNumber} = require("../base/common");
+const { hasOwnProperty, getFunctionName, getFunctionDefine, getType, isNumber } = require("../base/common");
+const { errorCast, unsupportedType } = Error;
 
 /* ==================== Date 的扩展 ==================== */
 Date.toJSON = Date.toString = function (date) {
@@ -8,7 +9,7 @@ Date.toJSON = Date.toString = function (date) {
 };
 Date.clone = function (date) {
 	if (!(date instanceof Date)) {
-		Error.errorCast(date, Date);
+		errorCast(date, Date);
 	}
 	var another = new Date(date.getTime());
 	return another;
@@ -21,8 +22,8 @@ if (!Number.isNumber) {
 
 Number.equals = function (num1, num2) {
 
-	if (!isNumber(num1)) Error.unsupportedType(num1);
-	if (!isNumber(num2)) Error.unsupportedType(num2);
+	if (!isNumber(num1)) unsupportedType(num1);
+	if (!isNumber(num2)) unsupportedType(num2);
 
 	return num1 == num2;
 };
@@ -80,7 +81,7 @@ if (!Set.equals) {
 function collectionIsSame(c1, c2) {
 
 	if (c1 === c2) return true;
-	if (getType(c1).getName() !== getType(c2).getName()) return false;
+	if (Function.getName(getType(c1)) !== Function.getName(getType(c2))) return false;
 	if (c1.size !== c2.size) return false;
 
 	let c1Iter = c1[Symbol.iterator]();

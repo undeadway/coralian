@@ -151,35 +151,6 @@ replaceElement.DEFAULT_SURFIX = DEFAULT_SURFIX;
 
 exports.replaceElement = replaceElement;
 
-function formatString(str, obj) {
-	var arglen = arguments.length;
-	if (arglen > 2) {
-		for (let i = 1; i < arglen; i++) {
-			str = str.replace(/\%s/, arguments[i]);
-		}
-	} else if (arglen === 2) {
-		switch (typeOf(obj)) {
-			case 'array':
-				Object.forEach(obj, function (i, e) {
-					str = str.replace(/\%s/, e);
-				});
-				break;
-			case 'object':
-				str = replaceElement(str, obj);
-				break;
-			case 'string' :
-				str = str.replace(/\%s/, obj);
-				break;
-			default:
-				unsupportedOperation('至少需要一个字符来进行替换');
-		}
-	} else {
-		unsupportedOperation('至少需要一个字符来进行替换');
-	}
-
-	return str;
-}
-exports.formatString = formatString;
 
 /*
  * [ERR:20170310] 将 nodejs 更新至 v6.10.0 之后有些时候会出现 hasOwnProperty 错误。
@@ -442,7 +413,6 @@ let getType = exports.getType = (obj) => {
 	return new Type(obj);
 }
 
-
 function Interface(name, methods) {
 	for (let i = 0, len = methods.length; i < len; i++) {
 		let method = methods[i];
@@ -512,4 +482,33 @@ exports.isNumber = (number, notation) => {
 	}
 
 	return isFinite(number);
+}
+
+exports.formatString = (str, obj) => {
+	var arglen = arguments.length;
+	if (arglen > 2) {
+		for (let i = 1; i < arglen; i++) {
+			str = str.replace(/\%s/, arguments[i]);
+		}
+	} else if (arglen === 2) {
+		switch (typeOf(obj)) {
+			case 'array':
+				Object.forEach(obj, function (i, e) {
+					str = str.replace(/\%s/, e);
+				});
+				break;
+			case 'object':
+				str = replaceElement(str, obj);
+				break;
+			case 'string':
+				str = str.replace(/\%s/, obj);
+				break;
+			default:
+				unsupportedOperation('至少需要一个字符来进行替换');
+		}
+	} else {
+		unsupportedOperation('至少需要一个字符来进行替换');
+	}
+
+	return str;
 }

@@ -96,8 +96,8 @@ let {noReference, unsupportedType} = Error;
 
 that.Coralian = {
 	ABOUT: 'Coralian',
-	VERSION: '0.0.4',
-	HREF: 'http://www.waygc.net',
+	VERSION: '0.0.5',
+	HREF: 'http://wpl.waygc.net/prj=coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
 		return side;

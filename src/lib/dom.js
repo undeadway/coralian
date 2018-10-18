@@ -1,5 +1,6 @@
-let {browserOnly, hasOwnProperty} = require("../base/common");
-let EMPTY_STRING = String.BLANK;
+const { browserOnly, hasOwnProperty } = require("../base/common");
+const { unsupportedType, indexOutOfBounds, errorCast } = Error;
+const EMPTY_STRING = String.BLANK;
 
 // 标签
 var START_START_TAG = '<',
@@ -80,7 +81,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 				parse: (parse === undefined) ? true : parse
 			});
 		} else {
-			Error.unsupportedType(element);
+			unsupportedType(element);
 		}
 
 		return this;
@@ -148,10 +149,10 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 				}
 			} else {
-				Error.indexOutOfBounds(tIndex, index);
+				indexOutOfBounds(tIndex, index);
 			}
 		} else {
-			Error.errorCast(index, Number);
+			errorCast(index, Number);
 		}
 	};
 
@@ -181,7 +182,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 				}
 			} else {
-				Error.indexOutOfBounds(nIndex, index);
+				indexOutOfBounds(nIndex, index);
 			}
 		} else if (Number.isNumber(index)) {
 			if (index < nIndex) {
@@ -192,10 +193,10 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 				}
 			} else {
-				Error.indexOutOfBounds(nIndex, index);
+				indexOutOfBounds(nIndex, index);
 			}
 		} else {
-			Error.errorCast(index, Number);
+			errorCast(index, Number);
 		}
 		return null;
 	};
@@ -211,7 +212,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 				}
 			} else {
-				Error.errorCast(tagName, String);
+				errorCast(tagName, String);
 			}
 		} else {
 			for (let i = children.length - 1; i >= 0; i--) {
@@ -237,7 +238,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 				}
 			} else {
-				Error.errorCast(tagName, String);
+				errorCast(tagName, String);
 			}
 		} else {
 			for (let i = 0, len = children.length; i < len; i++) {
@@ -256,13 +257,13 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 	this.update = function (index, element) {
 
-		if (!Number.isNumber(index)) Error.errorCast(index, Number);
+		if (!Number.isNumber(index)) errorCast(index, Number);
 
 		var type = typeof element;
-		if (('string' !== type) && !(element instanceof XmlWrapper)) Error.unsupportedType(element);
+		if (('string' !== type) && !(element instanceof XmlWrapper)) unsupportedType(element);
 
 		var len = children.length;
-		if (index >= len) Error.indexOutOfBounds(index, len);
+		if (index >= len) indexOutOfBounds(index, len);
 
 		var old = children[index];
 
@@ -341,7 +342,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					element.appendChild(node.element.render());
 					break;
 				default:
-					Error.unsupportedType(node.type);
+					unsupportedType(node.type);
 			}
 		});
 
@@ -351,10 +352,10 @@ function XmlWrapper(tag, attribute, xmlType) {
 	this.remove = function (index, count, type, tag) {
 
 		var len = children.length;
-		if (index < 0 || index >= len) Error.indexOutOfBounds(index, 0);
+		if (index < 0 || index >= len) indexOutOfBounds(index, 0);
 
 		var last = index + count;
-		if (len <= last) Error.indexOutOfBounds(last, len);
+		if (len <= last) indexOutOfBounds(last, len);
 
 		var removed = [];
 		var nRemoved = 0,
@@ -382,7 +383,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 					break;
 				default:
-					Error.unsupportedType(element.type);
+					unsupportedType(element.type);
 			}
 
 		}
@@ -399,7 +400,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					element.index -= nRevmoed;
 					break;
 				default:
-					Error.unsupportedType(element.type);
+					unsupportedType(element.type);
 			}
 		}
 
@@ -468,7 +469,7 @@ function XmlWrapper(tag, attribute, xmlType) {
  */
 function jsonToHTML(json) {
 	if (!Array.isArray(json)) {
-		Error.unsupportedType(json);
+		unsupportedType(json);
 	}
 	var result = [];
 	for (let i = 0, len = json.length; i < len; i++) {
@@ -504,7 +505,7 @@ function parse(input) {
  */
 function jsonToXml(json, rootTag) {
 
-	if (!typeIs(json, 'object', 'array', 'string', 'number')) Error.unsupportedType(json);
+	if (!typeIs(json, 'object', 'array', 'string', 'number')) unsupportedType(json);
 
 	var root = new XmlWrapper(rootTag || 'root');
 	root.setXmlType(true);
