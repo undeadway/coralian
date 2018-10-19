@@ -12,7 +12,7 @@
    所有实现均为对 ECMAScript 的扩展，不包含任何与 `window`、`document` 等有关的 DOM、BOM操作
 
 ## 使用
-### 客户端
+### 浏览器
 
 下载 dist 文件夹中的 coralian.js，然后导入即可
 ```
@@ -22,12 +22,12 @@
 
 | 名称 | 最低版本号 |
 | --- | --- |
-| Firefox | |
-| Chrome | |
-| Opera | |
-| Edge | |
+| Firefox | 13 |
+| Chrome | 38 |
+| Opera | 25 |
+| Edge | 12 |
 
-### node端
+### node
 
 ```
 npm install coralian
@@ -47,3 +47,42 @@ Apache-2.0
 
 
 # English
+A function expand library of javascript.
+
+## Use
+### Browser
+
+download the `coralian.js` under dist folder, and import it to your project.
+```
+<script type="text/javascript" src="coralian.js"></script>
+```
+
+#### Supported Browsers
+
+| Name | Version |
+| --- | --- |
+| Firefox | 13 |
+| Chrome | 38 |
+| Opera | 25 |
+| Edge | 12 |
+
+
+### node
+
+1 install it.
+```
+npm install coralian
+```
+
+2 require it in you project.
+```
+require("coralian")
+```
+
+Then could use it.
+```
+Coralian.logger.log("hello world");
+```
+
+## License
+Apache-2.0
