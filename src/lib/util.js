@@ -249,7 +249,7 @@ module.exports = exports = {
 					// 这里 encodeURIComponent 是因为 nodejs 端才这么写，其他服务器语言可能用不着
 					// JSON.stringify 这句是因为可能存在包含对象类型的数据
 					if (typeIs(obj[key], 'object')) {
-						string.push(key + '=' + JSONstringify(encodeURIComponent(obj[key])));
+						string.push(key + '=' + JSON.stringify(encodeURIComponent(obj[key])));
 					} else {
 						string.push(key + '=' + encodeURIComponent(obj[key]));
 					}

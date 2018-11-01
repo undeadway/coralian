@@ -1,6 +1,6 @@
 {
   "name": "coralian",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "The base expands library of Javascript",
   "main": "./src/index.js",
   "scripts": {
@@ -25,7 +25,8 @@
     "webpack-cli": "^3.1.2"
   },
   "directories": {
-    "lib": "lib",
+    "doc": "doc",
     "test": "test"
-  }
+  },
+  "devDependencies": {}
 }

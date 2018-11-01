@@ -20,7 +20,7 @@
  */
 
 /*
- * 这些属于 JS 的基本类库扩展，不用导入Coralian中
+ * 这些属于 JS 的基本类库扩展，不用导入Coralian命名空间
  */
 require("./base/Error");
 require("./base/Array");
@@ -77,7 +77,6 @@ function serverOnly() {
 	if (side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "服务端"));
 }
 
-
 function setToGlobal(parent, pkg, obj) {
 
 	let name = pkg[0];
@@ -94,8 +93,8 @@ function setToGlobal(parent, pkg, obj) {
 
 let {noReference, unsupportedType} = Error;
 
-that.Coralian = {
-	ABOUT: 'Coralian',
+let Coralian = {
+	ABOUT: 'coralian',
 	VERSION: '0.0.5',
 	HREF: 'http://wpl.waygc.net/prj=coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
@@ -134,3 +133,5 @@ that.Coralian = {
 	ReplaceHolder: require("./lib/ReplaceHolder"),
 	Validator: require("./lib/Validator")
 };
+
+module.exports = exports = Coralian;
