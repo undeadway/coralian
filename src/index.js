@@ -95,7 +95,7 @@ let {noReference, unsupportedType} = Error;
 
 let Coralian = {
 	ABOUT: 'coralian',
-	VERSION: '0.0.5',
+	VERSION: '0.0.6',
 	HREF: 'http://wpl.waygc.net/prj=coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
