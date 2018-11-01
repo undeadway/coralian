@@ -1,5 +1,5 @@
-let { keyArray, hasOwnProperty, instanceTo, objectClone } = require("../base/common");
-let {unsupportedType, noReference} = Error;
+let { keyArray, hasOwnProperty, instanceTo, objectClone, isPrimitive } = require("../base/common");
+let { unsupportedType, noReference } = Error;
 
 /* ==================== Object 的扩展 ==================== */
 function objectIsEmpty(obj) {
@@ -123,7 +123,7 @@ if (!Object.forEach) {
 				case 'object':
 					for (let k in obj) {
 						if (hasOwnProperty(obj, k)) {
-							let result =callback(k, obj[k]);
+							let result = callback(k, obj[k]);
 							if (false === result) break;
 							if (true === result) continue;
 						}
@@ -159,6 +159,13 @@ if (!Object.mix) {
 		return result;
 	}
 }
+
+Object.isPrimitive = (obj) => {
+	if (obj === null || obj === undefined) return true;
+	let type = obj.constructor;
+
+	return isPrimitive(type);
+};
 
 if (!Object.clone) {
 	Object.clone = objectClone;

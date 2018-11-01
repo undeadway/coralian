@@ -4,7 +4,7 @@ let _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 			typeof arr === 'object' &&
 			typeof arr.length === 'number' &&
 			arr.propertyIsEnumerable('length'));
-		};
+	};
 
 let keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 	(obj) => {
@@ -17,7 +17,7 @@ let keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 		return keys;
 	};
 
-let {errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod} = Error;
+let { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 
 /**
  * 用于得到数据类型
@@ -218,7 +218,7 @@ exports.newInstance = (type, args) => {
 }
 
 function arrayClone(array) {
-	
+
 	var output = [];
 
 	for (let i = 0, len = array.length; i < len; i++) {
@@ -331,6 +331,19 @@ function Constructor(type, name, callback, isFunction) {
 	};
 }
 
+/*
+ * 布尔类型 布尔表示一个逻辑实体，可以有两个值： true 和 false 。
+ * Null 类型 Null 类型只有一个值： null ，更多详情可查看 null 和Null 。
+ * Undefined 类型 ...
+ * 数字类型 ...
+ * 字符串类型 ...
+ * 符号类型 ... 
+ */
+function isPrimitive(type) {
+	return (type === String || type === Number || type === Boolean || type === Symbol);
+}
+exports.isPrimitive = isPrimitive;
+
 function Type(obj) {
 
 	// 对象的数据类型
@@ -339,20 +352,20 @@ function Type(obj) {
 		prototype = obj.prototype || Object;
 
 	// 是否是基本数据类型
-	var isPrimitive = (type === String || type === Number || type === Boolean),
+	var _isPrimitive = isPrimitive(type),
 		// 是否是接口
 		_isInterface = isInterface(obj),
 		// 是否是数组
 		isArray = _isArray(obj),
 		isFunction = (type === Function),
 		// 是否是字面量对象
-		isLiteral = (type === Object || isPrimitive || isArray || type === RegExp);
+		isLiteral = (type === Object || _isPrimitive || isArray || type === RegExp);
 
 	// 类型的名字
 	var name = getFunctionName(type);
 
 	function constructorCheck() {
-		if (isLiteral || isPrimitive) {
+		if (isLiteral || _isPrimitive) {
 			throw new Error("请使用字面量来构造对象");
 		}
 		if (_isInterface) {
@@ -378,23 +391,23 @@ function Type(obj) {
 	};
 	this.isFunction = function () {
 		return isFunction;
-	},
-		// TODO 这两个到底是个什么还没想好
-		//			this.invoke = function() {
-		//				if (isFunction) {
-		//					return type.apply(null, arguments);
-		//				} else {
-		//					unsupportedOperation(typeOf(type) + "不是函数");
-		//				}
-		//			},
-		this.newInstance = function () {
-			constructorCheck();
-			if (!isFunction) {
-				return newInstance(type);
-			} else {
-				return new type();
-			}
-		};
+	};
+	// TODO 这两个到底是个什么还没想好
+	//			this.invoke = function() {
+	//				if (isFunction) {
+	//					return type.apply(null, arguments);
+	//				} else {
+	//					unsupportedOperation(typeOf(type) + "不是函数");
+	//				}
+	//			},
+	this.newInstance = function () {
+		constructorCheck();
+		if (!isFunction) {
+			return newInstance(type);
+		} else {
+			return new type();
+		}
+	};
 	this.getPrototype = function () {
 		return prototype;
 	};

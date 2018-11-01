@@ -1,5 +1,5 @@
 const { hasOwnProperty, getFunctionName, getFunctionDefine, getType, isNumber } = require("../base/common");
-const { errorCast, unsupportedType } = Error;
+const { errorCast, unsupportedType, noReference } = Error;
 
 /* ==================== Date 的扩展 ==================== */
 Date.toJSON = Date.toString = function (date) {
@@ -26,6 +26,12 @@ Number.equals = function (num1, num2) {
 	if (!isNumber(num2)) unsupportedType(num2);
 
 	return num1 == num2;
+};
+Number.from = (obj) => {
+	if (!isNumber(obj)) return NaN;
+
+	return Number(obj);
+	// return (obj).toString();
 };
 /* ==================== Number 的扩展 ==================== */
 /* ==================== Function 的扩展 ==================== */

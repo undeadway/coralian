@@ -239,4 +239,12 @@ Object.defineProperty(String, 'BLANK', {
 	value: EMPTY_STRING,
 	writable: false
 });
+
+/*
+ * 因为JS已经有 valueOf 函数，所以这里用 from 来实现 类似 Java 中 String.valueOf 的 功能
+ */
+String.from = (obj) => {
+	if (obj === null || obj === undefined) return EMPTY_STRING;
+	return (obj).valueOf();
+};
 /* ==================== String 的扩展 ==================== */
