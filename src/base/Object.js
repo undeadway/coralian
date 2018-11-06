@@ -108,33 +108,33 @@ function equals(arg1, arg2) {
 }
 Object.equals = equals;
 
-if (!Object.forEach) {
-	Object.forEach = (obj, callback) => {
-		if (obj === null || obj === undefined) noReference();
-		if (obj instanceof Map) {
-			for (let [key, value] of obj.entries()) {
-				callback(key, value);
-			}
-		} else {
-			switch (typeOf(obj)) {
-				case 'array':
-					Array.forEach(obj, callback);
-					break;
-				case 'object':
-					for (let k in obj) {
-						if (hasOwnProperty(obj, k)) {
-							let result = callback(k, obj[k]);
-							if (false === result) break;
-							if (true === result) continue;
-						}
+
+Object.forEach = (obj, callback) => {
+	if (obj === null || obj === undefined) noReference();
+	if (obj instanceof Map) {
+		for (let [key, value] of obj.entries()) {
+			callback(key, value);
+		}
+	} else {
+		switch (typeOf(obj)) {
+			case 'array':
+				Array.forEach(obj, callback);
+				break;
+			case 'object':
+				for (let k in obj) {
+					if (hasOwnProperty(obj, k)) {
+						let result = callback(k, obj[k]);
+						if (false === result) break;
+						if (true === result) continue;
 					}
-					break;
-				default:
-					unsupportedType(obj);
-			}
+				}
+				break;
+			default:
+				unsupportedType(obj);
 		}
 	}
 }
+
 if (!Object.mix) {
 	Object.mix = function () {
 		let deepCpy = arguments[0],
