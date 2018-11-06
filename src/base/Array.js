@@ -1,5 +1,5 @@
-let {isArray, arrayClone} = require("../base/common");
-let {unsupportedType, indexOutOfBounds, errorCast} = Error;
+let { isArray, arrayClone } = require("../base/common");
+let { unsupportedType, indexOutOfBounds, errorCast } = Error;
 
 /* ==================== Array 的扩展 ==================== */
 var array_slice = Array.prototype.slice;
@@ -13,34 +13,33 @@ if (!Array.removeEach) {
 	};
 }
 
-if (!Array.forEach) {
-	Array.forEach = function (array, start, end, callback) {
-		if (!typeIs(array, 'array')) unsupportedType(array);
+Array.forEach = function (array, start, end, callback) {
+	if (!typeIs(array, 'array')) unsupportedType(array);
 
-		switch (arguments.length) {
-			case 2:
-				callback = start;
-				start = 0;
-				end = array.length;
-				break;
-			case 3:
-				callback = end;
-				end = array.length;
-				break;
-			default:
-				break;
-		}
+	switch (arguments.length) {
+		case 2:
+			callback = start;
+			start = 0;
+			end = array.length;
+			break;
+		case 3:
+			callback = end;
+			end = array.length;
+			break;
+		default:
+			break;
+	}
 
-		if (start < 0) indexOutOfBounds(start, 0);
-		if (end > array.length) indexOutOfBounds(end, array.length);
+	if (start < 0) indexOutOfBounds(start, 0);
+	if (end > array.length) indexOutOfBounds(end, array.length);
 
-		for (let i = start; i < end; i++) {
-			let result = callback(i, array[i]);
-			if (false === result) break;
-			if (true === result) continue;
-		}
-	};
-}
+	for (let i = start; i < end; i++) {
+		let result = callback(i, array[i]);
+		if (false === result) break;
+		if (true === result) continue;
+	}
+};
+
 if (!Array.equals) {
 	function equals(arr1, arr2) {
 

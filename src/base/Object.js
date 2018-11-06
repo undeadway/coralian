@@ -108,7 +108,6 @@ function equals(arg1, arg2) {
 }
 Object.equals = equals;
 
-
 Object.forEach = (obj, callback) => {
 	if (obj === null || obj === undefined) noReference();
 	if (obj instanceof Map) {

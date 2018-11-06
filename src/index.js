@@ -93,7 +93,7 @@ function setToGlobal(parent, pkg, obj) {
 
 let {noReference, unsupportedType} = Error;
 
-let Coralian = {
+that.Coralian = {
 	ABOUT: 'coralian',
 	VERSION: '0.0.6',
 	HREF: 'http://wpl.waygc.net/prj=coralian',
@@ -133,5 +133,3 @@ let Coralian = {
 	ReplaceHolder: require("./lib/ReplaceHolder"),
 	Validator: require("./lib/Validator")
 };
-
-module.exports = exports = Coralian;
