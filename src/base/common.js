@@ -1,9 +1,9 @@
 let _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 	(arr) => {
 		return arr && (arr instanceof Array ||
-			typeof arr === 'object' &&
+			(typeof arr === 'object' &&
 			typeof arr.length === 'number' &&
-			arr.propertyIsEnumerable('length'));
+			arr.propertyIsEnumerable('length')));
 	};
 
 let keyArray = exports.keyArray = (Object.keys) ? Object.keys :
@@ -497,30 +497,16 @@ exports.isNumber = (number, notation) => {
 	return isFinite(number);
 }
 
-exports.formatString = (str, obj) => {
-	var arglen = arguments.length;
-	if (arglen > 2) {
-		for (let i = 1; i < arglen; i++) {
-			str = str.replace(/\%s/, arguments[i]);
-		}
-	} else if (arglen === 2) {
-		switch (typeOf(obj)) {
-			case 'array':
-				Object.forEach(obj, function (i, e) {
-					str = str.replace(/\%s/, e);
-				});
-				break;
-			case 'object':
-				str = replaceElement(str, obj);
-				break;
-			case 'string':
-				str = str.replace(/\%s/, obj);
-				break;
-			default:
-				unsupportedOperation('至少需要一个字符来进行替换');
-		}
+exports.formatString = (str, ...obj) => {
+
+	if (!obj) unsupportedOperation('至少需要一个字符来进行替换');
+
+	if ('object' === typeOf(obj[0])) {
+		str = replaceElement(str, obj[0]);
 	} else {
-		unsupportedOperation('至少需要一个字符来进行替换');
+		Object.forEach(obj, function (i, e) {
+			str = str.replace(/\%s/, e);
+		});
 	}
 
 	return str;
