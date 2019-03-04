@@ -106,6 +106,32 @@ module.exports = exports = {
 		OCT: 8,
 		BIN: 2
 	},
+	"HtmlTagType": {
+		input: {
+			BUTTON: "button",
+			CHECKBOX: "checkbox",
+			COLOR: "color",
+			DATE: "date",
+			"DATETIME-LOCAL": "datetime-local",
+			EMAIL: "email",
+			FILE: "file",
+			HIDDEN: "hidden",
+			IMAGE: "image",
+			MONTH: "month",
+			NUMBER: "number",
+			PASSWORD: "password",
+			RADIO: "radio",
+			RANGE: "range",
+			RESET: "reset",
+			SEARCH: "search",
+			SUBMIT: "submit",
+			TEL: "tel",
+			TEXT: "text",
+			TIME: "time",
+			URL: "url",
+			WEEK: "week",
+		}
+	},
 	"HtmlTag": {
 		A: "a",
 		ABBR: "abbr",
