@@ -48,7 +48,7 @@ if (!String.equalsIgnoreCase) {
 		if (string.equalsIgnoreCase) return string.equalsIgnoreCase(another);
 
 		if ((another !== null && another !== undefined) || string.length === another.length) {
-			return String.equals(string.toUpperCase(), another.toUpperCase());
+			return equals(string.toUpperCase(), another.toUpperCase());
 		}
 
 		return false;
