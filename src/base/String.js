@@ -13,7 +13,7 @@ function equals(from, another) {
 	// 添加最后这段是为了保证其他各种因为 new 或者其他原因造成的问题
 	if (from.length === another.length) {
 		for (let i = 0, len = from.length; i < len; i++) {
-			if (from.charAt(i) !== anothre.charAt(i)) return false;
+			if (from.charAt(i) !== another.charAt(i)) return false;
 		}
 		return true;
 	} else {
@@ -48,7 +48,7 @@ if (!String.equalsIgnoreCase) {
 		if (string.equalsIgnoreCase) return string.equalsIgnoreCase(another);
 
 		if ((another !== null && another !== undefined) || string.length === another.length) {
-			return String.equal(string.toUpperCase(), another.toUpperCase());
+			return String.equals(string.toUpperCase(), another.toUpperCase());
 		}
 
 		return false;
