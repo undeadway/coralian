@@ -322,8 +322,11 @@ module.exports = exports = {
 			LOWER_Z = 0x007A;
 		var SPACE = [' ', '\t', '\r', '\n', '\r\n', '\u000B', '\f', '\u001C', '\u001D', '\u001E', '\u001F'];
 
+		/*
+		 * 这个函数有点问题，先暂时不用
+		 */
 		function __isNumber(number) {
-			if (!isChar(input)) invaildCharacter(input);
+			if (!isChar(number)) invaildCharacter(number);
 			var code = number.charCodeAt(0);
 			return code >= ZERO && code <= NINE;
 		}
@@ -341,10 +344,10 @@ module.exports = exports = {
 
 		return {
 			isChar: isChar,
-			isNumber: __isNumber,
+			isNumber: Number.isNumber,
 			isAlphabet: isAlphabet,
 			isNumberOrAlphabet: function (arg) {
-				return isNumber(arg) || isAlphabet(arg);
+				return Number.isNumber(arg) || isAlphabet(arg);
 			},
 			isASCII(input) {
 				if (!isChar(input)) invaildCharacter(input);
@@ -355,7 +358,7 @@ module.exports = exports = {
 				return Array.has(SPACE, input);
 			},
 			change: function (value, count) {
-				if (!isNumber(count)) errorCast(count, Number);
+				if (!Number.isNumber(count)) errorCast(count, Number);
 				if (isChar(value)) {
 					return String.fromCharCode(value.charCodeAt(0) + count);
 				} else {
@@ -369,7 +372,7 @@ module.exports = exports = {
 			},
 			asUnicodeEncode: function (input) {
 				var code;
-				if (!isNumber(input)) {
+				if (!Number.isNumber(input)) {
 					if (!isChar(input)) invaildCharacter(input);
 					code = (input.charCodeAt(0)).toString(16);
 				} else {
