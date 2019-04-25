@@ -28,10 +28,9 @@ require("./base/Object");
 require("./base/String");
 require("./base/others");
 
-let {typeOf, typeIs, formatString}= require("./base/common");
+let {side, typeOf, typeIs, formatString, browserOnly, serverOnly}= require("./base/common");
 
-var side = typeof (window) !== 'undefined', // 设置端点，side = true 客户端 side = false 服务端
-	that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
+var that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
 	n_eval = null; // 将 eval 函数的指针赋值给本地局部变量（暂时不知道能干嘛，保留指针）
 
 var NBSP = '&nbsp;';
@@ -67,15 +66,6 @@ if (side) {
 // 将 typeOf 和 typeIs 分别添加到全局对象
 that.typeOf = typeOf;
 that.typeIs = typeIs;
-
-const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";
-function browserOnly() {
-	if (!side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "浏览器"));
-}
-
-function serverOnly() {
-	if (side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "服务端"));
-}
 
 function setToGlobal(parent, pkg, obj) {
 
