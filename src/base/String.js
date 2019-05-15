@@ -149,9 +149,9 @@ if (!String.fromCodePoint) {
 			var index = -1;
 			var length = arguments.length;
 			if (!length) {
-				return String.BLANK;
+				return EMPTY_STRING;
 			}
-			var result = String.BLANK;
+			var result = EMPTY_STRING;
 			while (++index < length) {
 				let codePoint = Number(arguments[index]);
 				if (!isFinite(codePoint) || // `NaN`, `+Infinity`, or
