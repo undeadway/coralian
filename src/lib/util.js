@@ -43,7 +43,7 @@ module.exports = exports = {
 			HEX_CHARS[DEC] = '0123456789';
 			HEX_CHARS[HEX] = HEX_CHARS[DEC] + 'ABCDEF';
 			HEX_CHARS[TWENTY_SIX] = 'abcdefghijklmnopqrstuvwxyz';
-			HEX_CHARS[SIXTY_FOUR] = (HEX_CHARS[DEC] + HEX_CHARS[TWENTY_SIX] + HEX_CHARS[TWENTY_SIX].toUpperCase()).replace(/[OolI]/g, '') + '!@$&#%';
+			HEX_CHARS[SIXTY_FOUR] = (HEX_CHARS[DEC] + HEX_CHARS[TWENTY_SIX] + HEX_CHARS[TWENTY_SIX].toUpperCase()).replace(/[Oo01lI]/g, String.BLANK) + '!@$&#%';
 			HEX_CHARS[SIXTY_TWO] = HEX_CHARS[SIXTY_FOUR].slice(2);
 
 			// Returns a string representation of the given number for the given alphabet:
@@ -61,7 +61,7 @@ module.exports = exports = {
 				while (digits.length) {
 					chars.push(alphabet[digits.pop()]);
 				}
-				return chars.join('');
+				return chars.join(String.BLANK);
 			};
 
 			// Returns an integer representation of the given string for the given alphabet:
@@ -154,7 +154,7 @@ module.exports = exports = {
 			}
 
 			return {
-				calcPrimeByInput: (from, to) => {
+				calcByInput: (from, to) => {
 
 					// 错误检查
 					if (!Number.isNumber(from)) errorCast(from, Number);
@@ -179,7 +179,7 @@ module.exports = exports = {
 
 					return output;
 				},
-				isPrimeNumber: (input) => {
+				checkIs: (input) => {
 
 					if (!typeIs(input, 'number')) errorCast(input, Number);
 
@@ -322,14 +322,12 @@ module.exports = exports = {
 			LOWER_Z = 0x007A;
 		var SPACE = [' ', '\t', '\r', '\n', '\r\n', '\u000B', '\f', '\u001C', '\u001D', '\u001E', '\u001F'];
 
-		/*
-		 * 这个函数有点问题，先暂时不用
-		 */
-		function __isNumber(number) {
-			if (!isChar(number)) invaildCharacter(number);
-			var code = number.charCodeAt(0);
-			return code >= ZERO && code <= NINE;
-		}
+		// TODO 这个函数有点问题，先暂时不用
+		// function __isNumber(number) {
+		// 	if (!isChar(number)) invaildCharacter(number);
+		// 	var code = number.charCodeAt(0);
+		// 	return code >= ZERO && code <= NINE;
+		// }
 
 		function isAlphabet(input) {
 			if (!isChar(input)) invaildCharacter(input);

@@ -492,7 +492,7 @@ function jsonToHTML(json) {
 			result.push(xml);
 		}
 	}
-	return result.join('');
+	return result.join(String.BLANK);
 }
 
 // String -> XmlWrapper

@@ -106,13 +106,13 @@ module.exports = exports = {
 		OCT: 8,
 		BIN: 2
 	},
-	"HtmlTagType": {
+	"HtmlTagAttribute": {
 		input: {
 			BUTTON: "button",
 			CHECKBOX: "checkbox",
 			COLOR: "color",
 			DATE: "date",
-			"DATETIME-LOCAL": "datetime-local",
+			DATETIME_LOCAL: "datetime-local",
 			EMAIL: "email",
 			FILE: "file",
 			HIDDEN: "hidden",
