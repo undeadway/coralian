@@ -18,7 +18,7 @@ function debugError(e) {
 function errorCast(obj, type) {
 	init();
 
-	if ('function' !== typeof type) {
+	if (Function.TYPE_NAME !== typeof type) {
 		errorCast(type, Function);
 	}
 

@@ -1,13 +1,73 @@
+Object.defineProperty(Array, 'TYPE_NAME', {
+	get: () => {
+		return 'array';
+	}
+});
+Object.defineProperty(Boolean, 'TYPE_NAME', {
+	get: () => {
+		return 'boolean';
+	}
+});
+Object.defineProperty(Error, 'TYPE_NAME', {
+	get: () => {
+		return 'error';
+	}
+});
+Object.defineProperty(Function, 'TYPE_NAME', {
+	get: () => {
+		return 'function';
+	}
+});
+Object.defineProperty(Number, 'TYPE_NAME', {
+	get: () => {
+		return 'number';
+	}
+});
+Object.defineProperty(Number, 'NaN_TYPE_NAME', {
+	get: () => {
+		return 'NaN';
+	}
+});
+Object.defineProperty(Number, 'Infinity_TYPE_NAME', {
+	get: () => {
+		return 'Infinity';
+	}
+});
+Object.defineProperty(Object, 'TYPE_NAME', {
+	get: () => {
+		return 'object';
+	}
+});
+Object.defineProperty(Object, 'NULL_TYPE_NAME', {
+	get: () => {
+		return 'null';
+	}
+});
+Object.defineProperty(Object, 'UNDEFINED_TYPE_NAME', {
+	get: () => {
+		return 'undefined';
+	}
+});
+Object.defineProperty(String, 'TYPE_NAME', {
+	get: () => {
+		return 'string';
+	}
+});
+Object.defineProperty(RegExp, 'TYPE_NAME', {
+	get: () => {
+		return 'regexp';
+	}
+});
 
-let _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
+const _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 	(arr) => {
 		return arr && (arr instanceof Array ||
-			(typeof arr === 'object' &&
-			typeof arr.length === 'number' &&
-			arr.propertyIsEnumerable('length')));
+			(typeof arr === Object.TYPE_NAME &&
+				typeof arr.length === Number.TYPE_NAME &&
+				arr.propertyIsEnumerable('length')));
 	};
 
-let keyArray = exports.keyArray = (Object.keys) ? Object.keys :
+const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 	(obj) => {
 		let keys = [];
 		for (let k in obj) {
@@ -18,29 +78,29 @@ let keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 		return keys;
 	};
 
-let { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
+const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 
 /**
  * 用于得到数据类型
  * 一般以 string 类型返回数据类型的值
  * 数据类型判断不依照 JS 规则，而是以以下基准判断
- * 'null' === typeOf(null)
- * 'undefined' === typeOf(undefined)
- * 'boolean' === typeOf(boolean)
- * 'NaN' === typeOf(NaN) 仅用于 NaN ，如果提供的是 '12X' 则直接判断为字符串
- * 'Infinity' === typeOf(Infinity) 仅用于 Infinity 和 -Infinity，其他可用字面量表达的数字判断为 number
- * 'number' === typeOf(number)
- * 'string' === typeOf(string)
- * 'function' === typeOf(function)
- * 'object' === typeOf(object)
- * 'array' === typeOf(array)
- * 'regexp' === typeOf(regexp)
+ * Object.NULL_TYPE_NAME === typeOf(null)
+ * Object.UNDEFINED_TYPE_NAME === typeOf(undefined)
+ * Boolean.TYPE_NAME === typeOf(boolean)
+ * Number.NaN_TYPE_NAME === typeOf(NaN) 仅用于 NaN ，如果提供的是 '12X' 则直接判断为字符串
+ * Number.Infinity_TYPE_NAME === typeOf(Infinity) 仅用于 Infinity 和 -Infinity，其他可用字面量表达的数字判断为 number
+ * Number.TYPE_NAME === typeOf(number)
+ * String.TYPE_NAME === typeOf(string)
+ * Function.TYPE_NAME === typeOf(function)
+ * Object.TYPE_NAME === typeOf(object)
+ * Array.TYPE_NAME === typeOf(array)
+ * RegExp.TYPE_NAME === typeOf(regexp)
  * 
  * String、Number、Boolean 这三种可以被包装的对象也当成字面量来进行判断，而不返回 object
  * 即
- * 'string' === typeOf(new String());
- * 'number' === typeOf(new Number());
- * 'boolean' === typeOf(new Boolean());
+ * String.TYPE_NAME === typeOf(new String());
+ * Number.TYPE_NAME === typeOf(new Number());
+ * Boolean.TYPE_NAME === typeOf(new Boolean());
  * 
  * 但不会判断包括JS 内置的 Date 类型，以及 XmllWrapper 在内的 Coralian 自定义数据类型，这些类型都将被辨认为 object
  * 
@@ -50,25 +110,25 @@ function typeOf(object) {
 	var result;
 
 	if (object === null) {
-		result = 'null';
+		result = Object.NULL_TYPE_NAME;
 	} else if (_isArray(object)) {
-		result = 'array';
+		result = Array.TYPE_NAME;
 	} else if (object !== object) {
-		result = 'NaN';
+		result = Number.NaN_TYPE_NAME;
 	} else if (object === Infinity || object === -Infinity) {
-		result = 'Infinity';
+		result = Infinity_TYPE_NAME;
 	} else if (object instanceof RegExp) {
-		result = 'regexp';
+		result = RegExp.TYPE_NAME;
 	} else if (object instanceof Number) { // new Number
-		result = 'number';
+		result = Number.TYPE_NAME;
 	} else if (object instanceof Boolean) { // new Boolean
-		result = 'boolean';
+		result = Boolean.TYPE_NAME;
 	} else if (object instanceof String) { // new String
-		result = 'string';
+		result = String.TYPE_NAME;
 	} else {
 		result = typeof object;
-		if (result === 'number' && isNaN(object)) { // 以防有漏网之鱼
-			result = 'NaN';
+		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
+			result = Number.NaN_TYPE_NAME;
 		}
 	}
 
@@ -86,7 +146,7 @@ function typeIs(object, types) {
 	var type = typeOf(object);
 	var _types = types;
 
-	if (arguments.length === 2 && typeof types === 'string') {
+	if (arguments.length === 2 && typeof types === String.TYPE_NAME) {
 		return type === types;
 	} else if (!_isArray(types) && arguments.length > 2) {
 		_types = Array.prototype.slice.call(arguments, 1);
@@ -96,16 +156,16 @@ function typeIs(object, types) {
 }
 exports.typeIs = typeIs;
 
-var LOOP_REG_START = "#{",
+const LOOP_REG_START = "#{",
 	LOOP_REG_END = "#{/",
 	LOOP_IN_START = "#:{";
-var LOOP_REG_START_L = LOOP_REG_START.length;
-var DEFAULT_PREFIX = "${",
+const LOOP_REG_START_L = LOOP_REG_START.length;
+const DEFAULT_PREFIX = "${",
 	DEFAULT_SURFIX = "}";
 
 function replaceElement(str, obj, prefix, surfix) {
 
-	if (!typeIs(str, 'string')) errorCast(str, String);
+	if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 
 	prefix = prefix || DEFAULT_PREFIX;
 	surfix = surfix || DEFAULT_SURFIX;
@@ -197,11 +257,11 @@ let getFunctionName = exports.getFunctionName = (func) => {
 	return functionName;
 }
 
-var FUNCTION_MARK = 'function ',
+const FUNCTION_MARK = 'function ',
 	ARG_MARK = 'arg';
-var BEFOR_BRACKET = '(',
+const BEFOR_BRACKET = '(',
 	AFTER_BRACKET = ');';
-let getFunctionDefine = exports.getFunctionDefine = (name, count) => {
+const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 	var _d = [];
 	for (let i = 0; i < count; i++) {
 		_d.push(ARG_MARK + i);
@@ -213,7 +273,7 @@ exports.newInstance = (type, args) => {
 
 	var obj = {};
 	var ret = type.apply(obj, args);
-	var instance = typeIs(ret, 'object') ? ret : obj;
+	var instance = typeIs(ret, Object.TYPE_NAME) ? ret : obj;
 
 	return instanceTo(instance, type);
 }
@@ -234,7 +294,7 @@ function objectClone(obj) {
 
 	if (obj === null || obj === undefined) return obj;
 	if (obj !== obj) return obj; // NaN
-	if (typeIs(obj, 'string', 'number', 'Infinity', 'boolean', 'regexp', 'function')) return obj;
+	if (typeIs(obj, String.TYPE_NAME, Number.TYPE_NAME, Number.Infinity_TYPE_NAME, Boolean.TYPE_NAME, RegExp.TYPE_NAME, Function.TYPE_NAME)) return obj;
 	if (obj.clone) return obj.clone();
 
 	if (_isArray(obj)) {
@@ -259,7 +319,7 @@ function Iterator(obj) {
 	if (obj === null || obj === undefined) noReference();
 
 	var isArray = _isArray(obj);
-	if (!isArray && !typeIs(obj, 'object')) unsupportedType(obj);
+	if (!isArray && !typeIs(obj, Object.TYPE_NAME)) unsupportedType(obj);
 
 	var keys = keyArray(obj);
 	var index = 0,
@@ -303,11 +363,6 @@ function Iterator(obj) {
 }
 
 exports.Iterator = Iterator;
-
-var FUNCTION_MARK = 'function ',
-	ARG_MARK = 'arg';
-var BEFOR_BRACKET = '(',
-	AFTER_BRACKET = ');';
 
 function Constructor(type, name, callback, isFunction) {
 
@@ -430,7 +485,7 @@ let getType = exports.getType = (obj) => {
 function Interface(name, methods) {
 	for (let i = 0, len = methods.length; i < len; i++) {
 		let method = methods[i];
-		if (!typeIs(method, 'string')) errorCast(method, String);
+		if (!typeIs(method, String.TYPE_NAME)) errorCast(method, String);
 	}
 	this.getName = function () {
 		return name;
@@ -467,7 +522,7 @@ exports.Interface = {
 			while (iterator.hasNext()) {
 				let name = iterator.next();
 				let method = object[name];
-				if (!method || !typeIs(method, 'function')) noSuchMethod(name);
+				if (!method || !typeIs(method, Function.TYPE_NAME)) noSuchMethod(name);
 			}
 		}
 	},
@@ -502,7 +557,7 @@ exports.formatString = (str, ...obj) => {
 
 	if (!obj) unsupportedOperation('至少需要一个字符来进行替换');
 
-	if ('object' === typeOf(obj[0])) {
+	if (Object.TYPE_NAME === typeOf(obj[0])) {
 		str = replaceElement(str, obj[0]);
 	} else {
 		Object.forEach(obj, function (i, e) {
@@ -513,7 +568,7 @@ exports.formatString = (str, ...obj) => {
 	return str;
 }
 
-let side = typeof (window) !== 'undefined'; // 设置端点，side = true 客户端 side = false 服务端
+let side = typeof (window) !== Object.UNDEFINED_TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
 exports.side = side;
 
 const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";

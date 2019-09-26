@@ -1,8 +1,8 @@
-var ALL_CASE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-var UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-var LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
-var NUMBER = "1234567890";
-var RAND_CODES = ALL_CASE + NUMBER;
+const ALL_CASE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
+const NUMBER = "1234567890";
+const RAND_CODES = ALL_CASE + NUMBER;
 
 function getRand(type, length) {
 

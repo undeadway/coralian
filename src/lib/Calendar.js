@@ -1,36 +1,35 @@
-let { hasOwnProperty, formatString } = require("./../base/common");
-
+const { hasOwnProperty, formatString } = require("./../base/common");
 const { unsupportedType, unsupportedOperation, errorCast } = Error;
 const { isNumber } = Number;
 
 // 一天的毫秒数
-var ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
+const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 // 默认对时间进行格式化
-var DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss",
+const DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss",
 	YEAR_REGEXP = /(Y+)/;
 // 中文的周几
-var LONG_CHINESE_WEEK = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+const LONG_CHINESE_WEEK = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
 	SHORT_CHINESE_WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 // 地支
-var EARTHLY_BRANCH = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+const EARTHLY_BRANCH = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
 // 天干
-var CELESTIAL_STEM = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+const CELESTIAL_STEM = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 // 生肖
-var CHINESE_ZODIAC = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
-var SEXAGENARY_CYCLE_FIRST = 4; // 公元 4年 甲子年
+const CHINESE_ZODIAC = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+const SEXAGENARY_CYCLE_FIRST = 4; // 公元 4年 甲子年
 // 英文的周几
-var ENGLISH_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const ENGLISH_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 // 中文的几月
-var CHINESE_MONTH = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+const CHINESE_MONTH = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
 // 英文的几月
-var ENGLISH_MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augst', 'September',
+const ENGLISH_MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augst', 'September',
 	'October', 'November', 'December'
 ];
 // 一个月有几天
-var MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var CHINESE_CALANER = ['zh', 'xq', 'yue', 'nian'],
+const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const CHINESE_CALANER = ['zh', 'xq', 'yue', 'nian'],
 	ONE_COUNT = ['M', 'D', 'h', 'm', 's'];
-var TEN = 10,
+const TEN = 10,
 	TWELVE = 12,
 	THIRTY = 30,
 	SEVEN = 7,
@@ -220,7 +219,7 @@ module.exports = exports = {
 	},
 	// 返回被格式化之后的当前时间
 	getTime: function (time, format) {
-		if (time && !typeIs(time, 'number')) {
+		if (time && !typeIs(time, Number.TYPE_NAME)) {
 			time = parseInt(time);
 		}
 		return formatTime(instanceTime(time, 16), format);

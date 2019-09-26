@@ -1,5 +1,5 @@
-let { keyArray, hasOwnProperty, instanceTo, objectClone, isPrimitive } = require("../base/common");
-let { unsupportedType, noReference } = Error;
+const { keyArray, hasOwnProperty, instanceTo, objectClone, isPrimitive } = require("../base/common");
+const { unsupportedType, noReference } = Error;
 
 /* ==================== Object 的扩展 ==================== */
 function objectIsEmpty(obj) {
@@ -16,13 +16,13 @@ if (!Object.isEmpty) {
 
 function addAll(from, to) {
 
-	if (!typeIs(from, 'object', 'array')) unsupportedType(from);
-	if (!typeIs(to, 'object', 'array')) unsupportedType(to);
+	if (!typeIs(from, Object.TYPE_NAME, Array.TYPE_NAME)) unsupportedType(from);
+	if (!typeIs(to, Object.TYPE_NAME, Array.TYPE_NAME)) unsupportedType(to);
 
 	for (let key in from) {
 		if (hasOwnProperty(from, key)) {
 			let now = from[key];
-			if (typeIs(now, 'object')) {
+			if (typeIs(now, Object.TYPE_NAME)) {
 				let _to = {};
 				addAll(now, _to);
 				to[key] = _to;
@@ -73,19 +73,19 @@ function equals(arg1, arg2) {
 	if (arg1.equals) return arg1.equals(arg2);
 
 	switch (type1) {
-		case 'NaN':
+		case Number.NaN_TYPE_NAME:
 			return true; // 因为两个都是 NaN，直接返回 true
-		case 'function':
-		case 'Infinity':
+		case Function.TYPE_NAME:
+		case Number.Infinity_TYPE_NAME:
 			return arg1 === arg2;
-		case 'array':
+		case Array.TYPE_NAME:
 			if (arg1.length !== arg2.length) return false;
 
 			for (let i = 0, len = arg1.length; i < len; i++) {
 				if (!Array.equals(!arg1[i], arg2[i])) return false;
 			}
 			return true;
-		case 'object':
+		case Object.TYPE_NAME:
 			// 提取对象的 KEY 为一个数组
 			var key1 = keyArray(arg1), key2 = keyArray(arg2);
 			if (key1.length === key2.length) {
@@ -99,7 +99,7 @@ function equals(arg1, arg2) {
 					return false;
 				}
 			}
-		case 'regexp':
+		case RegExp.TYPE_NAME:
 			return arg1.toString == arg2.toString();
 		default:
 			// 其余不可判断的类型全部JSON化之后判断字符串内容
@@ -116,10 +116,10 @@ Object.forEach = (obj, callback) => {
 		}
 	} else {
 		switch (typeOf(obj)) {
-			case 'array':
+			case Array.TYPE_NAME:
 				Array.forEach(obj, callback);
 				break;
-			case 'object':
+			case Object.TYPE_NAMEE:
 				for (let k in obj) {
 					if (hasOwnProperty(obj, k)) {
 						let result = callback(k, obj[k]);
@@ -138,7 +138,7 @@ if (!Object.mix) {
 	Object.mix = function () {
 		let deepCpy = arguments[0],
 			start = 1;
-		if (!typeIs(deepCpy, 'boolean')) {
+		if (!typeIs(deepCpy, Boolean.TYPE_NAME)) {
 			deepCpy = false;
 			start = 0;
 		}
@@ -148,7 +148,7 @@ if (!Object.mix) {
 		for (let i = start; i < arguments.length; i++) {
 			let e = arguments[i];
 
-			if (!typeIs(e, 'object')) unsupportedType(e);
+			if (!typeIs(e, Object.TYPE_NAME)) unsupportedType(e);
 
 			let el = deepCpy ? JSON.parse(JSON.stringify(e)) : e;
 

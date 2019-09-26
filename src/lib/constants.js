@@ -1,6 +1,7 @@
 /*
  * 定义所有的常量
  */
+
 module.exports = exports = {
 	"MimeType": {
 		// application
@@ -118,7 +119,7 @@ module.exports = exports = {
 			HIDDEN: "hidden",
 			IMAGE: "image",
 			MONTH: "month",
-			NUMBER: "number",
+			NUMBER: Number.TYPE_NAME,
 			PASSWORD: "password",
 			RADIO: "radio",
 			RANGE: "range",
@@ -209,7 +210,7 @@ module.exports = exports = {
 		NAV: "nav",
 		NOFRAMES: "noframes",
 		NOSCRIPT: "noscript",
-		OBJECT: "object",
+		OBJECT: Object.TYPE_NAME,
 		OL: "ol",
 		OPTGROUP: "optgroup",
 		OPTION: "option",
@@ -254,4 +255,4 @@ module.exports = exports = {
 		VIDEO: "video",
 		WBR: "wbr"
 	}
-}
+};

@@ -16,7 +16,7 @@ function formatNumber(number) {
 	return number;
 }
 
-var DEFAULT_FORMAT_TYPE = "#.00";
+const DEFAULT_FORMAT_TYPE = "#.00";
 
 module.exports = exports = {
 	formatNumber: formatNumber,

@@ -1,11 +1,11 @@
-let { isArray, arrayClone } = require("../base/common");
-let { unsupportedType, indexOutOfBounds, errorCast } = Error;
+const { isArray, arrayClone } = require("../base/common");
+const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 
 /* ==================== Array 的扩展 ==================== */
 var array_slice = Array.prototype.slice;
 if (!Array.removeEach) {
 	Array.removeEach = function (array, callback) {
-		if (!typeIs(array, 'array')) unsupportedType(array);
+		if (!typeIs(array, Array.TYPE_NAME)) unsupportedType(array);
 
 		while ((node = array.shift()) !== undefined) {
 			callback(node);
@@ -14,7 +14,7 @@ if (!Array.removeEach) {
 }
 
 Array.forEach = function (array, start, end, callback) {
-	if (!typeIs(array, 'array')) unsupportedType(array);
+	if (!typeIs(array, Array.TYPE_NAME)) unsupportedType(array);
 
 	switch (arguments.length) {
 		case 2:
@@ -98,7 +98,7 @@ if (!Array.last) {
 		if (!cnt) { // 真的最后一个位置
 			return array[len - 1];
 		} else {
-			if (!typeIs(cnt, 'number')) unsupportedType(cnt);
+			if (!typeIs(cnt, Number.TYPE_NAME)) unsupportedType(cnt);
 			if (cnt > len) indexOutOfBounds(cnt, len);
 			if (cnt > 0) {
 				return array[len - cnt];
@@ -122,7 +122,7 @@ if (!Array.from) {
 	Array.from = (function () {
 		var toStr = Object.prototype.toString;
 		var isCallable = function (fn) {
-			return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+			return typeof fn === Function.TYPE_NAME || toStr.call(fn) === '[object Function]';
 		};
 		var toInteger = function (value) {
 			var number = Number(value);
@@ -156,7 +156,7 @@ if (!Array.from) {
 			// 4. If mapfn is undefined, then let mapping be false.
 			var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
 			var T;
-			if (typeof mapFn !== 'undefined') {
+			if (typeof mapFn !== Object.UNDEFINED_TYPE_NAME) {
 				// 5. else      
 				// 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
 				if (!isCallable(mapFn)) {
@@ -185,7 +185,7 @@ if (!Array.from) {
 			while (k < len) {
 				kValue = items[k];
 				if (mapFn) {
-					A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+					A[k] = typeof T === Object.UNDEFINED_TYPE_NAME ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
 				} else {
 					A[k] = kValue;
 				}

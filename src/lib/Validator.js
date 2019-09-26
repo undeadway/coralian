@@ -1,6 +1,6 @@
-let Calendar = require("./Calendar");
+const Calendar = require("./Calendar");
 
-var UPPER_CASE = /[A-Z]/,
+const UPPER_CASE = /[A-Z]/,
 	LOWER_CASE = /[a-z]/,
 	NUMBER = /[0-9]/,
 	MARKS = /[\@#\$\%\&\*\!\^\+\=\-_\~:\;\,\.\?]/;

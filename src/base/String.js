@@ -1,11 +1,11 @@
 /* ==================== String 的扩展 ==================== */
-const {errorCast, unsupportedType} = Error;
+const { errorCast, unsupportedType } = Error;
 
 const EMPTY_STRING = "";
 function equals(from, another) {
 
-	if (!typeIs(from, 'string')) errorCast(from, String); // from 不是字符串
-	if (!typeIs(another, 'string')) errorCast(from, String); // another 不是字符串
+	if (!typeIs(from, String.TYPE_NAME)) errorCast(from, String); // from 不是字符串
+	if (!typeIs(another, String.TYPE_NAME)) errorCast(from, String); // another 不是字符串
 
 	if (String(from) === String(another)) return true;
 	if (from.equals) return from.equals(another);
@@ -25,7 +25,7 @@ if (!String.isEmpty) {
 	String.isEmpty = function (input) {
 
 		if (input === null || input === undefined) return true;
-		if (!typeIs(input, 'string')) unsupportedType(input);
+		if (!typeIs(input, String.TYPE_NAME)) unsupportedType(input);
 		if (input.isEmpty) return input.isEmpty();
 
 		return input.length === 0 || equals(input, EMPTY_STRING); // 后面一半仅限于前半段不知道什么时候会坏掉时用

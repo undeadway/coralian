@@ -1,5 +1,5 @@
-let { hasOwnProperty, Interface, Iterator, objectClone, getType } = require("../base/common");
-let { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
+const { hasOwnProperty, Interface, Iterator, objectClone, getType } = require("../base/common");
+const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
 
 module.exports = exports = {
 	Interface: Interface,
@@ -12,14 +12,14 @@ module.exports = exports = {
 		 * 进制转换函数。
 		 * 有三个参数：
 		 *   第一个参数支持的数据类型包括字符串和数字，
-		 *     当第一个参数的数据类型为数字（typeof === 'number'），
+		 *     当第一个参数的数据类型为数字（typeof === Number.TYPE_NAME），
 		 *       且没有提供第三个参数，则第二个参数的值作为输出参数处理。
 		 *   第二个参数是输入进制基数，
 		 *      如果不提供该参数，则判断输入的数字为10进制；
 		 *      如果输入的字符串中含有该进制不认可的字符，则返回NaN；
 		 *      如果hexConvert 不支持该进制，则抛出错误。
 		 *   第三个参数是输出进制基数，
-		 *      当第一个参数的数据类型为数字（typeof === 'number'），该参数无效，
+		 *      当第一个参数的数据类型为数字（typeof === Number.TYPE_NAME），该参数无效，
 		 *        以第二个参数作为输出进制基数进行处理
 		 *      如果不提供该参数，则判断输入的数字为10进制；
 		 *      如果hexConvert 不支持该进制，则抛出错误。
@@ -38,7 +38,7 @@ module.exports = exports = {
 				OCT_START = '0o',
 				HEX_START = '0x'
 
-			const NaN_STR = 'NaN';
+			const NaN_STR = Number.NaN_TYPE_NAME;
 			const HEX_CHARS = {};
 			HEX_CHARS[DEC] = '0123456789';
 			HEX_CHARS[HEX] = HEX_CHARS[DEC] + 'ABCDEF';
@@ -109,11 +109,11 @@ module.exports = exports = {
 
 				let type = typeOf(num);
 				switch (type) {
-					case 'string':
+					case String.TYPE_NAME:
 						num = fromBase(num, inBase);
 						if (Object.is(num, NaN)) return NaN_STR;
 						break;
-					case 'number':
+					case Number.TYPE_NAME:
 						outBase = inBase;
 						break;
 					default:
@@ -181,7 +181,7 @@ module.exports = exports = {
 				},
 				checkIs: (input) => {
 
-					if (!typeIs(input, 'number')) errorCast(input, Number);
+					if (!typeIs(input, Number.TYPE_NAME)) errorCast(input, Number);
 
 					let inputRoot = Math.sqrt(input);
 
@@ -239,7 +239,7 @@ module.exports = exports = {
 		},
 		queryString: function (obj) {
 
-			if (typeIs(obj, 'string')) {
+			if (typeIs(obj, String.TYPE_NAME)) {
 				return encodeURI(obj);
 			}
 
@@ -248,7 +248,7 @@ module.exports = exports = {
 				if (hasOwnProperty(obj, key)) {
 					// 这里 encodeURIComponent 是因为 nodejs 端才这么写，其他服务器语言可能用不着
 					// JSON.stringify 这句是因为可能存在包含对象类型的数据
-					if (typeIs(obj[key], 'object')) {
+					if (typeIs(obj[key], Object.TYPE_NAME)) {
 						string.push(key + '=' + JSON.stringify(encodeURIComponent(obj[key])));
 					} else {
 						string.push(key + '=' + encodeURIComponent(obj[key]));
@@ -258,19 +258,19 @@ module.exports = exports = {
 			return string.join('&');
 		},
 		firstToUpperCase: function (str) {
-			if (!typeIs(str, 'string')) errorCast(str, String);
+			if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 			return str.charAt(0).toUpperCase() + str.slice(1);
 		},
 		firstToLowserCase: function (str) {
-			if (!typeIs(str, 'string')) errorCast(str, String);
+			if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 			return str.charAt(0).toLowserCase() + str.slice(1);
 		}
 	},
 	// Coralian.util.NumberUtil
 	NumberUtil: {
 		addBeforeZero: function (arg, length) {
-			if (!typeIs(arg, 'number')) unsupportedType(arg);
-			if (!typeIs(length, 'number')) unsupportedType(length);
+			if (!typeIs(arg, Number.TYPE_NAME)) unsupportedType(arg);
+			if (!typeIs(length, Number.TYPE_NAME)) unsupportedType(length);
 
 			var r = [];
 			for (let i = 0; i < length; i++) {
@@ -336,7 +336,7 @@ module.exports = exports = {
 		}
 
 		function isChar(str) {
-			if (!typeIs(str, 'string')) errorCast(str, String);
+			if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 			return 1 === str.length;
 		}
 

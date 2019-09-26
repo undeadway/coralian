@@ -1,5 +1,5 @@
-//require("../src/index");
+require("../src/index");
 
-require("../dist/coralian")
-
-console.log(Coralian);
+// require("../dist/coralian")
+Array.TYPE_NAME = 'new';
+console.log(Array.TYPE_NAME);

@@ -1,5 +1,5 @@
-let replaceElement = require("../base/common").replaceElement;
-let {LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L} = replaceElement;
+const replaceElement = require("../base/common").replaceElement;
+const { LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L } = replaceElement;
 
 function replaceLoop(str, objs, callback) {
 	var result = [];
@@ -31,7 +31,7 @@ function replaceLoop(str, objs, callback) {
 				let loopStr = inStr; // 定义循环所使用的变量
 				loopStr = loopStr.replace(new RegExp(LOOP_IN_START + "id}", "g"), i);
 				loopStr = loopStr.replace(new RegExp(LOOP_IN_START + "key}", "g"), keys[i]);
-				if ('string' === typeof o) {
+				if (String.TYPE_NAME === typeof o) {
 					result.push(loopStr.replace(new RegExp(LOOP_IN_START + "text}", "g"), keys[i]));
 				} else {
 					// 递归查找子循环

@@ -2,15 +2,15 @@
  * Coralian.logger 只实现最基本的日志记录功能，
  * 以及对日志进行最基本的格式化功能
  */
-let Calendar = require("./Calendar");
-let formatString = require("./../base/common").formatString;
+const Calendar = require("./Calendar");
+const formatString = require("./../base/common").formatString;
 
-var INFO = 'INFO',
+const INFO = 'INFO',
 	ERROR = 'ERROR',
 	WARN = 'WARN';
 
-var STRING_FORMAT = "[${date}] ${level} ${message}";
-var TIME_FORMAT = "YYYY-MM-DD hh:mm:ss.ms";
+const STRING_FORMAT = "[${date}] ${level} ${message}";
+const TIME_FORMAT = "YYYY-MM-DD hh:mm:ss.ms";
 
 function format(level, message) {
 	return formatString(STRING_FORMAT, {
@@ -27,6 +27,6 @@ exports.err = (err) => {
 	console.error(err.message)
 	console.error(format(ERROR, err.stack));
 };
-exports.warn =  (str) => {
+exports.warn = (str) => {
 	console.warn(format(WARN, str));
 };

@@ -56,7 +56,7 @@ if (side) {
 } else {
 	that = global;
 	that.alert = function (msg) {
-		if (String.contains(msg, "error")) {
+		if (String.contains(msg, Error.TYPE_NAME)) {
 			console.log(new Error());
 		}
 		console.log(msg);
@@ -84,7 +84,7 @@ function setToGlobal(parent, pkg, obj) {
 let {noReference, unsupportedType} = Error;
 
 that.Coralian = {
-	ABOUT: 'coralian',
+	ABOUT: 'Coralian',
 	VERSION: '0.0.6',
 	HREF: 'http://wpl.waygc.net/prj=coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
@@ -105,7 +105,7 @@ that.Coralian = {
 	setToGlobal: function (name, obj) {
 
 		if (obj === null || obj === undefined) noReference();
-		if (!typeIs(name, 'string')) unsupportedType(name);
+		if (!typeIs(name, String.TYPE_NAME)) unsupportedType(name);
 		if (String.isEmpty(name)) throw new Error("不能使用空字符串作为属性名");
 
 		setToGlobal(that, name.split("."), obj);

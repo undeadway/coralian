@@ -3,23 +3,23 @@ const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
 
 // 标签
-var START_START_TAG = '<',
+const START_START_TAG = '<',
 	START_END_TAG = '</',
 	END_TAG = '>',
 	ENMPTY_END_TAG = ' />';
 
 // 包括 img 在内没有回标签的标签集合
-var NO_BODY_TAG = ['img', 'input', 'br', 'hr', 'title'];
+const NO_BODY_TAG = ['img', 'input', 'br', 'hr', 'title'];
 
 // 不能再在标签内部添加同名标签
-var NOT_SAME_TAG = [
+const NOT_SAME_TAG = [
 	// HTML 体标签
 	'html', 'head', 'title', 'body',
 	// 其他标签
 	'a', 'i', 'b', 'del', 'u', 'strike'
 ];
 
-var ABEND_TAG = ['script'];
+const ABEND_TAG = ['script'];
 
 const KEY_NAME = new Map();
 KEY_NAME.set('class', 'className');
@@ -32,7 +32,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 	let _hashcode = '$=!' + (2388 / Math.random() + Math.sin(Date.now()));
 
-	if (!tag || !typeIs(tag, 'string')) throw new Error("只有非空文本能作为标签");
+	if (!tag || !typeIs(tag, String.TYPE_NAME)) throw new Error("只有非空文本能作为标签");
 	if (Array.has(ABEND_TAG, tag)) throw new Error("不允许使用 XmlWrapper 来动态构建 " + tag + " 元素");
 
 	let attrs;
@@ -72,7 +72,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 				element: element
 			});
 			element.setParent(this);
-		} else if (typeIs(element, 'string')) {
+		} else if (typeIs(element, String.TYPE_NAME)) {
 
 			children.push({
 				index: tIndex++,
@@ -203,7 +203,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 	this.lastNode = function (tagName) {
 		if (tagName) {
-			if (typeIs(tagName, 'string')) {
+			if (typeIs(tagName, String.TYPE_NAME)) {
 				for (let i = children.length - 1; i >= 0; i--) {
 					let element = children[i];
 					let node = element.element;
@@ -229,7 +229,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 		let results = [];
 
 		if (tagName) {
-			if (typeIs(tagName, 'string')) {
+			if (typeIs(tagName, String.TYPE_NAME)) {
 				for (let i = 0, len = children.length; i < len; i++) {
 					let element = children[i];
 					let node = element.element;
@@ -260,7 +260,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 		if (!Number.isNumber(index)) errorCast(index, Number);
 
 		var type = typeof element;
-		if (('string' !== type) && !(element instanceof XmlWrapper)) unsupportedType(element);
+		if ((String.TYPE_NAME !== type) && !(element instanceof XmlWrapper)) unsupportedType(element);
 
 		var len = children.length;
 		if (index >= len) indexOutOfBounds(index, len);
@@ -286,7 +286,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 				tmp.index--;
 			}
 		}
-		if ('string' === type) {
+		if (String.TYPE_NAME === type) {
 			nIndex++;
 			tIndex--;
 		} else {
@@ -323,7 +323,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 		browserOnly();
 
-		var element = document.createElement(tag);
+		let element = document.createElement(tag);
 
 		attrs.forEach(function (val, key) {
 			element[getKeyName(key)] = val;
@@ -366,7 +366,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 			let element = children[i];
 			switch (element.type) {
 				case String:
-					if (type === 'string') {
+					if (type === String.TYPE_NAME) {
 						tRemoved++;
 						removed.push(element.element);
 					}
@@ -474,13 +474,13 @@ function jsonToHTML(json) {
 	var result = [];
 	for (let i = 0, len = json.length; i < len; i++) {
 		let obj = json[i];
-		if (!typeIs(obj, 'object')) {
+		if (!typeIs(obj, Object.TYPE_NAME)) {
 			result.push((obj).toString());
 		} else {
 			let xml = new XmlWrapper(obj.tag, obj.attribute);
 			let child = obj.child;
 			if (child) {
-				if (typeIs(child, 'string')) {
+				if (typeIs(child, String.TYPE_NAME)) {
 					xml.add(child);
 				} else {
 					var children = jsonToHTML(child);
@@ -505,11 +505,11 @@ function parse(input) {
  */
 function jsonToXml(json, rootTag) {
 
-	if (!typeIs(json, 'object', 'array', 'string', 'number')) unsupportedType(json);
+	if (!typeIs(json, Object.TYPE_NAME, Array.TYPE_NAME, String.TYPE_NAME, Number.TYPE_NAME)) unsupportedType(json);
 
 	var root = new XmlWrapper(rootTag || 'root');
 	root.setXmlType(true);
-	if (typeOf(json, 'string')) {
+	if (typeOf(json, String.TYPE_NAME)) {
 		root.add(json);
 	} else {
 		for (let name in json) {
