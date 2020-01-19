@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/undeadway/coralian/issues"
   },
-  "homepage": "http://wpl.waygc.net/prj=coralian",
+  "homepage": "http://codes.waygc.net/project/?coralian",
   "devDependencies": {
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
