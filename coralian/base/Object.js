@@ -119,7 +119,7 @@ Object.forEach = (obj, callback) => {
 			case Array.TYPE_NAME:
 				Array.forEach(obj, callback);
 				break;
-			case Object.TYPE_NAMEE:
+			case Object.TYPE_NAME:
 				for (let k in obj) {
 					if (hasOwnProperty(obj, k)) {
 						let result = callback(k, obj[k]);

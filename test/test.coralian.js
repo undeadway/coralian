@@ -1,4 +1,4 @@
-require("../src/index");
+require("../coralian/index");
 
 // require("../dist/coralian")
 Array.TYPE_NAME = 'new';

@@ -1,8 +1,8 @@
 const { newWindow } = require("./parts");
 
-var TO_TOP = 0,
+var TO_DOWN = 0,
 	TO_RIGHT = 1,
-	TO_BOTTOM = 2,
+	TO_TOP = 2,
 	TO_LEFT = 3;
 
 function funcInterval(speed, target, inner, direction, callback) {
@@ -46,19 +46,16 @@ function funcInterval(speed, target, inner, direction, callback) {
 	}, speed);
 }
 
-function setting(node, width, height, tag, callback) {
+function setting(node, width, height, callback) {
+
 	node.style.width = width + "px";
 	node.style.height = height + "px";
 	node.style.overflow = node.style.overflowX = node.style.overflowY = "hidden";
 
-	var target = node.getElementsByTagName("div")[0];
-	if (!target)
-		return;
-	var innerTag = target.getElementsByTagName(tag);
-	if (!innerTag)
-		return;
+	let target = node.getElementsByTagName("div")[0];
+	if (!target) return;
 
-	callback(target, innerTag);
+	callback(target);
 }
 
 /*
@@ -79,11 +76,13 @@ function setting(node, width, height, tag, callback) {
 function marquee(id, tag, width, height, direction, speed, space, stop) {
 
 	var intervalID;
-	var target = $dom.getNode(id);
+	var target = document.getElementById(id);
 
-	setting(target, width, height, tag, function (innerDiv, innerTag) {
+	setting(target, width, height, function (innerDiv) {
 
 		innerDiv.innerHTML += innerDiv.innerHTML;
+		let innerTag = innerDiv.getElementsByTagName(tag);
+
 		switch (direction) {
 			case 0:
 				innerDiv.style.width = width + "px";
@@ -135,173 +134,175 @@ function marquee(id, tag, width, height, direction, speed, space, stop) {
 	});
 }
 
-function addButtons(node, elements, size, onMouseOverCallback, onMouseOutCallback) {
+// function addButtons(node, elements, size, onMouseOverCallback, onMouseOutCallback) {
 
-	// 创建按钮
-	var buttons = $dom.create("ul", {
-		className: 'slide_buttons'
-	}),
-		btnArray = [];
+// 	// 创建按钮
+// 	var buttons = $("ul", {
+// 		className: 'slide_buttons'
+// 	}),
+// 		btnArray = [];
 
-	// 添加 button 和 隐藏对象
-	for (var i = 0; i < size; i++) {
-		(function (element, index) {
-			var li = $dom.create("li", {
-				onmouseover: function () {
-					onMouseOverCallback(index);
-				},
-				onmouseout: onMouseOutCallback,
-				innerHTML: index + 1, // 显示编号
-				className: "slice_button_" + ((i === 0) ? "on" : "out") // 设置初始状态
-			});
+// 	// 添加 button 和 隐藏对象
+// 	for (var i = 0; i < size; i++) {
+// 		(function (element, index) {
+// 			var li = $("li", {
+// 				'class': "slice_button_" + ((i === 0) ? "on" : "out") // 设置初始状态
+// 			});
+// 			li.on('mouseover', function () {
+// 				onMouseOverCallback(index);
+// 			});
+// 			li.on('mouseout', onMouseOutCallback);
+// 			li.text(index + 1);
 
-			buttons.appendChild(li);
-			btnArray.push(li);
-		})(elements[i], i);
-	}
+// 			buttons.append(li);
+// 			btnArray.push(li);
+// 		})(elements[i], i);
+// 	}
 
-	node.appendChild(buttons);
+// 	node.append(buttons);
 
-	return btnArray;
-}
+// 	return btnArray;
+// }
 
-function changeButton(before, after) {
-	before.className = "slice_button_out";
-	after.className = "slice_button_on";
-}
+// function changeButton(before, after) {
+// 	before.className = "slice_button_out";
+// 	after.className = "slice_button_on";
+// }
 
-function slideshow(node, childTagName, interval, width, height, data) {
+// function slideshow(node, childTagName, interval, width, height, data) {
 
-	var elements, intervalID, index = 0,
-		size, buttons, _target;
+// 	var elements, intervalID, index = 0,
+// 		size, buttons, _target;
 
-	// 获得要进行移动的节点对象
-	setting(node, width, height, "div", function (target, innerTag) {
-		elements = target.getElementsByTagName(childTagName);
-		size = elements.length;
+// 	// 获得要进行移动的节点对象
+// 	setting(node, width, height, function (target) {
+// 		elements = target.getElementsByTagName(childTagName);
+// 		size = elements.length;
 
-		// 为整个 div 添加 onclick 事件，这样就不用为每个元素单独添加 onclick 事件了
-		target.onclick = function () {
-			var link = data[index].link;
-			newWindow(link.url, elements[index].name, link.features);
-		};
+// 		// 为整个 div 添加 onclick 事件，这样就不用为每个元素单独添加 onclick 事件了
+// 		target.onclick = function () {
+// 			var link = data[index].link;
+// 			newWindow(link.url, elements[index].name, link.features);
+// 		};
 
-		_target = target;
-	});
+// 		_target = target;
+// 	});
 
-	function changeAltTitle() {
-		_target.title = elements[index].name;
-	}
+// 	function changeAltTitle() {
+// 		_target.title = elements[index].name;
+// 	}
 
-	return {
-		change: function () {
+// 	return {
+// 		change: function () {
 
-			function runChange() {
-				intervalID = setInterval(function () {
-					var before = index++;
-					elements[before].style.display = "none";
-					if (index === size) {
-						index = 0;
-					}
-					elements[index].style.display = "block";
-					changeButton(buttons[before], buttons[index]);
-					changeAltTitle();
-				}, interval);
-			}
+// 			function runChange() {
+// 				intervalID = setInterval(function () {
+// 					var before = index++;
+// 					elements[before].style.display = "none";
+// 					if (index === size) {
+// 						index = 0;
+// 					}
+// 					elements[index].style.display = "block";
+// 					changeButton(buttons[before], buttons[index]);
+// 					changeAltTitle();
+// 				}, interval);
+// 			}
 
-			buttons = addButtons(node, elements, size, function (i) {
-				clearInterval(intervalID);
-				elements[index].style.display = "none";
-				elements[i].style.display = "block";
-				changeButton(buttons[index], buttons[i]);
-				changeAltTitle();
-				index = i;
-			}, runChange);
-			runChange();
-		},
-		move: function (direction, speed) {
+// 			buttons = addButtons(node, elements, size, function (i) {
+// 				clearInterval(intervalID);
+// 				elements[index].style.display = "none";
+// 				elements[i].style.display = "block";
+// 				changeButton(buttons[index], buttons[i]);
+// 				changeAltTitle();
+// 				index = i;
+// 			}, runChange);
+// 			runChange();
+// 		},
+// 		move: function (direction, speed) {
 
-			function runMove() {
-			}
+// 			function runMove() {
+// 			}
 
-			buttons = addButtons(node, elements, size, function () {
-				clearInterval(intervalID);
-			}, runMove);
-			runMove();
-		},
-		fadeInOut: function (speed) {
+// 			buttons = addButtons(node, elements, size, function () {
+// 				clearInterval(intervalID);
+// 			}, runMove);
+// 			runMove();
+// 		},
+// 		fadeInOut: function (speed) {
 
-			for (var i = 0; i < size; i++) {
-				elements[i].zIndex = i;
-				var style = elements[i].style;
-				style.position = "absolute";
-				style.top = "0px";
-				style.left = "0px";
-				style.opacity = 0;
-			}
-			elements[0].style.opacity = 1;
+// 			for (var i = 0; i < size; i++) {
+// 				elements[i].zIndex = i;
+// 				var style = elements[i].style;
+// 				style.position = "absolute";
+// 				style.top = "0px";
+// 				style.left = "0px";
+// 				style.opacity = 0;
+// 			}
+// 			elements[0].style.opacity = 1;
 
-			function changeImg(before, now) {
-				var opacityInterval = setInterval(function () {
-					if (now.style.opacity > 1) {
-						clearInterval(opacityInterval);
-					}
-					before.style.opacity -= 0.2;
-					// 因为 style 全是字符串形式，用+会变成字符串连接，数字<->字符串之间的来回变换太烦，
-					// 所以这里为了偷懒，直接用减法语法糖计算
-					now.style.opacity -= -0.2;
-				}, speed);
+// 			function changeImg(before, now) {
+// 				var opacityInterval = setInterval(function () {
+// 					if (now.style.opacity > 1) {
+// 						clearInterval(opacityInterval);
+// 					}
+// 					before.style.opacity -= 0.2;
+// 					// 因为 style 全是字符串形式，用+会变成字符串连接，数字<->字符串之间的来回变换太烦，
+// 					// 所以这里为了偷懒，直接用减法语法糖计算
+// 					now.style.opacity -= -0.2;
+// 				}, speed);
 
-			}
+// 			}
 
-			function runFadeInOut() {
-				intervalID = setInterval(function () {
-					var before = index++;
-					elements[before].style.opacity = 1;
-					if (index === size) {
-						index = 0;
-					}
-					elements[index].style.opacity = 0;
+// 			function runFadeInOut() {
+// 				intervalID = setInterval(function () {
+// 					var before = index++;
+// 					elements[before].style.opacity = 1;
+// 					if (index === size) {
+// 						index = 0;
+// 					}
+// 					elements[index].style.opacity = 0;
 
-					changeButton(buttons[before], buttons[index]);
-					changeImg(elements[before], elements[index]);
-					changeAltTitle();
+// 					changeButton(buttons[before], buttons[index]);
+// 					changeImg(elements[before], elements[index]);
+// 					changeAltTitle();
 
-				}, interval);
-			}
+// 				}, interval);
+// 			}
 
-			buttons = addButtons(node, elements, size, function (i) {
-				changeImg(elements[index], elements[i]);
-				changeButton(buttons[index], buttons[i]);
-				index = i;
-				clearInterval(intervalID);
-				changeAltTitle();
-			}, runFadeInOut);
-			runFadeInOut();
-		},
-		/*
-		 * firstColor：第一种颜色
-		 * secondColor：第二种颜色
-		 * rCnt：行
-		 * cCnt：列
-		 */
-		chessboard: function (firstColor, secondColor, rCnt, cCnt, speed) {
+// 			buttons = addButtons(node, elements, size, function (i) {
+// 				changeImg(elements[index], elements[i]);
+// 				changeButton(buttons[index], buttons[i]);
+// 				index = i;
+// 				clearInterval(intervalID);
+// 				changeAltTitle();
+// 			}, runFadeInOut);
+// 			runFadeInOut();
+// 		},
+// 		/*
+// 		 * firstColor：第一种颜色
+// 		 * secondColor：第二种颜色
+// 		 * rCnt：行
+// 		 * cCnt：列
+// 		 */
+// 		chessboard: function (firstColor, secondColor, rCnt, cCnt, speed) {
 
-			function runChessboard() { }
+// 			function runChessboard() { }
 
-			buttons = addButtons(node, elements, size, function () {
+// 			buttons = addButtons(node, elements, size, function () {
 
-			}, runChessboard);
-			runChessboard();
-		}
-	};
-}
+// 			}, runChessboard);
+// 			runChessboard();
+// 		}
+// 	};
+// }
 
 exports = module.exports = {
-	TO_TOP: TO_TOP,
-	TO_LEFT: TO_LEFT,
-	TO_RIGHT: TO_RIGHT,
-	TO_BOTTOM: TO_BOTTOM,
+	Direction: {
+		TOP: TO_TOP,
+		LEFT: TO_LEFT,
+		RIGHT: TO_RIGHT,
+		DOWN: TO_DOWN,
+	},
 	marquee: marquee,
-	slideshow: slideshow
+	// slideshow: slideshow
 };
