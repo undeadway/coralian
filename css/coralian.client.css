@@ -1,0 +1,39 @@
+body {
+	margin:0px;
+	padding:0px;
+}
+.menubar_box {
+	margin:10px; border:1px solid #000099; border-bottom:0px;
+	font-size:10pt; width:calc(100% - 20px); background:#F7F7F7;
+}
+
+.menubar_box div {
+	display: inline-block;
+	padding: 3px 4px;
+}
+.menubar_item {
+	position: relative;
+	cursor: pointer;
+}
+.menu_list {
+	position: absolute;
+	margin: 0px;
+	padding:0px;
+}
+
+.list_menu {
+	list-style: none;
+}
+
+.list_menu div {
+	background:#F7F7F7;
+	margin: 0px;
+	width: 100px;
+	height:1.5rem;
+	padding:0.25rem;
+	cursor: pointer;
+}
+
+.list_menu div:hover {
+	background: #F0F0F0;
+}

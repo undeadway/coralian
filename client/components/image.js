@@ -1,4 +1,4 @@
-const { getScrollTop } = require("./base");
+const { getScrollTop } = require("./parts");
 
 function close() {
 	album.removeChild(img);

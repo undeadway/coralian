@@ -1,27 +1,35 @@
-var WHITE = {
+const WHITE = {
 	background: '#FFFFFF'
 },
 	RED = {
 		background: '#FF0000'
 	};
 
-function validateBlur($$, index) {
-	$$.css(index, WHITE);
+function validateBlur(key) {
+	$(`#${key}`).css(WHITE);
 }
 
-function validateFocus($$, index) {
-	$$.event(index, 'focus');
+function validateFocus(key) {
+	$(`#${key}`).focus();
 }
 
-function validateOnError($$, index, message) {
-	if (!message) return;
+function validateOnError({ key, msg }) {
+	if (!msg) return;
 
-	$$.css(index, RED);
-	alert(message);
-	validateFocus($$, index);
+	let $$ = $(`#${key}`);
+
+	$$.css(RED);
+	alert(msg);
+	$$.focus();
+
+	$$.on('blur', function () {
+		if (!String.isEmpty($$.val())) {
+			$$.css(WHITE);
+		}
+	});
 }
 
-exports = module.exports = {
+module.exports = exports = {
 	onError: validateOnError,
 	blur: validateBlur,
 	focus: validateFocus

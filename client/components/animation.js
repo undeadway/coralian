@@ -1,4 +1,4 @@
-const { newWindow } = require("./base");
+const { newWindow } = require("./parts");
 
 var TO_TOP = 0,
 	TO_RIGHT = 1,
@@ -91,7 +91,6 @@ function marquee(id, tag, width, height, direction, speed, space, stop) {
 				innerTag[1].style.width = width + "px";
 				if (height >= innerTag[1].offsetHeight || space) {
 					innerTag[0].style.paddingBottom = height + "px";
-					// innerTag[1].style.paddingBottom = height + "px";
 				}
 				break;
 			case 1:
