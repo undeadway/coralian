@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/undeadway/coralian.git"
+    "url": "git+https://gitee.com/undeadway/coralian.git"
   },
   "keywords": [
     "expands",
@@ -17,7 +17,7 @@
   "author": "hzwaygc@gmail.com",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/undeadway/coralian/issues"
+    "url": "https://gitee.com/undeadway/coralian/issues"
   },
   "homepage": "http://codes.waygc.net/project/?coralian",
   "devDependencies": {
