@@ -16,7 +16,6 @@ function isValidPassword(password) {
 		passwordCheckError('密码不能为空');
 	}
 
-
 	/*
 	 * 密码校验必须符合以下两项规则
 	 * 1. 长度必须 >= 6 位
