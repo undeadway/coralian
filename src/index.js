@@ -28,12 +28,11 @@ require("./base/Object");
 require("./base/String");
 require("./base/others");
 
-let {side, typeOf, typeIs, formatString, browserOnly, serverOnly}= require("./base/common");
+const { side, typeOf, typeIs, browserOnly, serverOnly } = require("./base/common");
+const { noReference, unsupportedType } = Error;
 
-var that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
+let that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
 	n_eval = null; // 将 eval 函数的指针赋值给本地局部变量（暂时不知道能干嘛，保留指针）
-
-var NBSP = '&nbsp;';
 
 /*
  * 因为服务端（Nodejs）和客户端（浏览器）有不一样的地方 所以这里分别为服务端和客户端添加载入 Coralian
@@ -81,12 +80,10 @@ function setToGlobal(parent, pkg, obj) {
 	}
 }
 
-let {noReference, unsupportedType} = Error;
-
 that.Coralian = {
 	ABOUT: 'Coralian',
 	VERSION: '0.0.6',
-	HREF: 'http://wpl.waygc.net/prj=coralian',
+	HOMEPAGE: 'http://codes.waygc.net/project/?coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
 		return side;
