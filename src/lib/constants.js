@@ -10,6 +10,7 @@ module.exports = exports = {
 		QUOT: "&quot;", // "
 		APOS: "&apos;", // '
 		SHARP: '&#35;', // #
+		SPACE: '&nbsp;'
 	},
 	CharCode: {
 		ZERO_WIDTH: "\uFEFF",
