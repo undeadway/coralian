@@ -3,7 +3,60 @@
  */
 
 module.exports = exports = {
-	"MimeType": {
+	XmlEntity: {
+		LEFT_ANGLE: '&lt;', // <
+		RIGHT_ANGLE: '&gt;',  // >
+		AMP: '&amp;', // &
+		QUOT: "&quot;", // "
+		APOS: "&apos;", // '
+		SHARP: '&#35;', // #
+	},
+	CharCode: {
+		ZERO_WIDTH: "\uFEFF",
+		ZERO: 0x0030,
+		NINE: 0x0039,
+		// 大写字母字母的 ASCII 编号
+		UPPER_A: 0x0041,
+		UPPER_Z: 0x005A,
+		UPPER_F: 0x0046,
+		// 小写字母字母的 ASCII 编号
+		LOWER_A: 0x0061,
+		LOWER_Z: 0x007A,
+		LOWER_F: 0x0066,
+		// 特殊符号的 ASCII 编号
+		UNDERBAR: 0x005F, // _
+		DOLLAR: 0x0024, // $
+	},
+	Mark: {
+		SPACE_REGX: /\s/, // 标准空白
+		DQUOTE: '"',
+		QUOTE: "'",
+		GRAVE_ACCENT: '`',
+		SLASH: '/',
+		ASTERISK: '*',
+		NEW_LINE: '\n',
+		AT: '@',
+		AND: '&',
+		TAB: '\t',
+		SHARP: '#',
+		COMMA: ",",
+		SEMICOLON: ';',
+		COLON: ':',
+		LEFT_BRACKET: '{',
+		RIGHT_BRACKET: '}',
+		LEFT_SQUARE_BRACKET: '[',
+		RIGHT_SQUARE_BRACKET: ']',
+		LEFT_PARENTHE: '(',
+		RIGHT_PARENTHE: ')',
+		POINT: '.',
+		HYPHEN: "-",
+		EQUALS: '=',
+		TILDE: '~',
+		EXCALMATORY: '!',
+		LEFT_ANGLE: '<',
+		RIGHT_ANGLE: '>'
+	},
+	MimeType: {
 		// application
 		JSON: 'application/json',
 		PDF: 'application/pdf',
@@ -26,7 +79,7 @@ module.exports = exports = {
 		ICON: 'image/x-icon',
 		SVG: 'image/svg+xml'
 	},
-	"HttpRequestMethod": {
+	HttpRequestMethod: {
 		GET: 'GET',
 		PUT: 'PUT',
 		POST: 'POST',
@@ -37,7 +90,7 @@ module.exports = exports = {
 		TRACE: 'TRACE',
 		PATCH: 'PATCH'
 	},
-	"HttpStatusCode": {
+	HttpStatusCode: {
 		"CONTINUE": 100,
 		"SWITCHING_PROTOCOLS": 101,
 		"PROCESSING": 102,
@@ -101,13 +154,13 @@ module.exports = exports = {
 		"NOT_EXTENDED": 510,
 		"NETWORK_AUTHENTICATION_REQUIRED": 511
 	},
-	"NumberNonation": {
+	NumberNonation: {
 		HEX: 16,
 		DEC: 10,
 		OCT: 8,
 		BIN: 2
 	},
-	"HtmlTagAttribute": {
+	HtmlTagAttribute: {
 		input: {
 			BUTTON: "button",
 			CHECKBOX: "checkbox",
@@ -133,7 +186,7 @@ module.exports = exports = {
 			WEEK: "week",
 		}
 	},
-	"HtmlTag": {
+	HtmlTag: {
 		A: "a",
 		ABBR: "abbr",
 		ACRONYM: "acronym",
