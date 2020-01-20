@@ -1,26 +1,29 @@
-const Calendar = require("./Calendar");
-
 const UPPER_CASE = /[A-Z]/,
 	LOWER_CASE = /[a-z]/,
 	NUMBER = /[0-9]/,
 	MARKS = /[\@#\$\%\&\*\!\^\+\=\-_\~:\;\,\.\?]/;
 
 function passwordCheckError(msg, id) {
-	return {
-		message: msg,
-		id: id || 'password'
-	};
+	var e = new Error(msg);
+	e.id = id || 'password';
+
+	throw e;
 }
 
-function checkPassword(password) {
+function isValidPassword(password) {
 
-	if (String.isEmpty(password)) return passwordCheckError('密码不能为空');
+	if (String.isEmpty(password)) {
+		passwordCheckError('密码不能为空');
+	}
+
 
 	/*
 	 * 密码校验必须符合以下两项规则
 	 * 1. 长度必须 >= 6 位
 	 */
-	if (password.length < 6) return passwordCheckError('密码长度最少 6 位');
+	if (password.length < 6) {
+		passwordCheckError('密码长度最少 6 位');
+	}
 
 	/*
 	 * 2. 必须包含大小写字母、数字、特殊字符（@#$%&*!^+=-_~:;,.?，不再左列中，以及不是字母、数字的字符被视为非法字符）中的三项
@@ -60,37 +63,40 @@ function checkPassword(password) {
 
 }
 
-/*
- * 身份证号验证
- * 代码来源：http://www.cnblogs.com/xiaoafei1991/p/4309328.html
- * 有修改
- */
-function isIDNumber(cardid) {
-	//身份证正则表达式(18位) 
-	var isIdCard2 = /^[1-9]\d{5}(19\d{2}|[2-9]\d{3})((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])(\d{4}|\d{3}X)$/i;
-	var stard = "10X98765432"; //最后一位身份证的号码
-	var first = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; //1-17系数
-	var sum = 0;
-	if (!isIdCard2.test(cardid)) return false;
-
-	var year = cardid.substr(6, 4),
-		month = cardid.substr(10, 2),
-		day = cardid.substr(12, 2);
-	var birthday = cardid.substr(6, 8);
-	if (birthday !== Calendar.formatTime(new Date(year, month, day), 'YYYYMMDD')) //校验日期是否合法
-		return false;
-
-	for (let i = 0; i < 17; i++) {
-		sum += cardid[i] * first[i];
-	}
-	var result = sum % 11;
-	var last = stard[result]; //计算出来的最后一位身份证号码
-
-	return String.last(cardid).toUpperCase() === last.toUpperCase();
-}
-
 module.exports = exports = {
-	passwordCheckError: passwordCheckError,
-	checkPassword: checkPassword,
-	isIDNumber: isIDNumber
+	isValidPassword: isValidPassword,
+	// 校验身份证号
+	// 来源：https://segmentfault.com/a/1190000010452673
+	isValidIdNumber: function (id) {
+		// 1 "验证通过!", 0 //校验不通过
+		var format = /^(([1][1-5])|([2][1-3])|([3][1-7])|([4][1-6])|([5][0-4])|([6][1-5])|([7][1])|([8][1-2]))\d{4}(([1][9]\d{2})|([2]\d{3}))(([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|([3][0-1]))\d{3}[0-9xX]$/;
+		//号码规则校验
+		if (!format.test(id)) {
+			return false;
+		}
+		//区位码校验
+		//出生年月日校验   前正则限制起始年份为1900;
+		var year = id.substr(6, 4),//身份证年
+			month = id.substr(10, 2),//身份证月
+			date = id.substr(12, 2),//身份证日
+			time = Date.parse(month + '-' + date + '-' + year),//身份证日期时间戳date
+			now_time = Date.parse(new Date()),//当前时间戳
+			dates = (new Date(year, month, 0)).getDate();//身份证当月天数
+		if (time > now_time || date > dates) {
+			return false;
+		}
+		//校验码判断
+		var c = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);   //系数
+		var b = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');  //校验码对照表
+		var id_array = id.split("");
+		var sum = 0;
+		for (var k = 0; k < 17; k++) {
+			sum += parseInt(id_array[k]) * parseInt(c[k]);
+		}
+
+		return id_array[17].toUpperCase() === b[sum % 11].toUpperCase();
+	},
+	isValidMPhone: function (mphone) {
+		return /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/.test(mphone);
+	}
 };
