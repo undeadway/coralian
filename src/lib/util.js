@@ -179,7 +179,7 @@ module.exports = exports = {
 
 					return output;
 				},
-				checkIs: (input) => {
+				is: (input) => {
 
 					if (!typeIs(input, Number.TYPE_NAME)) errorCast(input, Number);
 
