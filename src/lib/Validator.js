@@ -88,7 +88,7 @@ module.exports = exports = {
 		//校验码判断
 		var c = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);   //系数
 		var b = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');  //校验码对照表
-		var id_array = id.split("");
+		var id_array = id.split(String.BLANK);
 		var sum = 0;
 		for (var k = 0; k < 17; k++) {
 			sum += parseInt(id_array[k]) * parseInt(c[k]);
