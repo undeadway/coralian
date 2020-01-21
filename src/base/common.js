@@ -23,12 +23,12 @@ Object.defineProperty(Number, 'TYPE_NAME', {
 		return 'number';
 	}
 });
-Object.defineProperty(NaN, 'TYPE_NAME', {
+Object.defineProperty(Number, 'NaN_TYPE_NAME', {
 	get: () => {
 		return 'NaN';
 	}
 });
-Object.defineProperty(Infinity, 'TYPE_NAME', {
+Object.defineProperty(Number, 'Infinity_TYPE_NAME', {
 	get: () => {
 		return 'Infinity';
 	}
