@@ -23,12 +23,12 @@ Object.defineProperty(Number, 'TYPE_NAME', {
 		return 'number';
 	}
 });
-Object.defineProperty(Number, 'NaN_TYPE_NAME', {
+Object.defineProperty(NaN, 'TYPE_NAME', {
 	get: () => {
 		return 'NaN';
 	}
 });
-Object.defineProperty(Number, 'Infinity_TYPE_NAME', {
+Object.defineProperty(Infinity, 'TYPE_NAME', {
 	get: () => {
 		return 'Infinity';
 	}
@@ -114,9 +114,9 @@ function typeOf(object) {
 	} else if (_isArray(object)) {
 		result = Array.TYPE_NAME;
 	} else if (object !== object) {
-		result = Number.NaN_TYPE_NAME;
+		result = NaN.TYPE_NAME;
 	} else if (object === Infinity || object === -Infinity) {
-		result = Infinity_TYPE_NAME;
+		result = Infinity.TYPE_NAME;
 	} else if (object instanceof RegExp) {
 		result = RegExp.TYPE_NAME;
 	} else if (object instanceof Number) { // new Number
@@ -128,7 +128,7 @@ function typeOf(object) {
 	} else {
 		result = typeof object;
 		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
-			result = Number.NaN_TYPE_NAME;
+			result = NaN.TYPE_NAME;
 		}
 	}
 

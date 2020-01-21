@@ -35,8 +35,7 @@ Array.forEach = function (array, start, end, callback) {
 
 	for (let i = start; i < end; i++) {
 		let result = callback(i, array[i]);
-		if (false === result) break;
-		if (true === result) continue;
+		if (undefined !== result) break;
 	}
 };
 

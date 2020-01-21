@@ -123,8 +123,7 @@ Object.forEach = (obj, callback) => {
 				for (let k in obj) {
 					if (hasOwnProperty(obj, k)) {
 						let result = callback(k, obj[k]);
-						if (false === result) break;
-						if (true === result) continue;
+						if (undefined !== result) break;
 					}
 				}
 				break;
