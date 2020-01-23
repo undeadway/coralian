@@ -60,8 +60,9 @@ if (!Array.equals) {
 	Array.equals = equals;
 }
 if (!Array.isEmpty) {
-	Array.isEmpty = function (input) {
-		return input.length === 0;
+	Array.isEmpty = function (obj) {
+		if (obj === null || obj === undefined) return true;
+		return obj.length === 0;
 	};
 }
 if (!Array.asObject) {
