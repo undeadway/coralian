@@ -162,7 +162,7 @@ const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOp
  * @returns
  */
 function typeOf(object) {
-	var result;
+	let result;
 
 	if (object === null) {
 		result = Object.NULL_TYPE_NAME;
@@ -208,8 +208,8 @@ exports.typeOf = typeOf;
  */
 function typeIs(object, types) {
 
-	var type = typeOf(object);
-	var _types = types;
+	let type = typeOf(object);
+	let _types = types;
 
 	if (arguments.length === 2 && typeof types === String.TYPE_NAME) {
 		return type === types;
@@ -232,7 +232,7 @@ function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURF
 
 	if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 
-	var ret = String.BLANK,
+	let ret = String.BLANK,
 		p1 = 0,
 		p2 = 0;
 	while (true) {
@@ -288,7 +288,7 @@ exports.hasOwnProperty = hasOwnProperty;
 
 function instanceTo(instance, type) {
 
-	var prototype = type.prototype;
+	let prototype = type.prototype;
 
 	if (prototype) {
 		instance.__proto__ = prototype;
@@ -299,8 +299,8 @@ exports.instanceTo = instanceTo;
 
 let getFunctionName = exports.getFunctionName = (func) => {
 
-	var functionName = String.BLANK;
-	var _name = func.name;
+	let functionName = String.BLANK;
+	let _name = func.name;
 	if (_name !== undefined) {
 		functionName = _name;
 	} else {
@@ -324,7 +324,7 @@ const FUNCTION_MARK = 'function ',
 const BEFOR_BRACKET = '(',
 	AFTER_BRACKET = ');';
 const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
-	var _d = [];
+	let _d = [];
 	for (let i = 0; i < count; i++) {
 		_d.push(ARG_MARK + i);
 	}
@@ -333,16 +333,16 @@ const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 
 exports.newInstance = (type, args) => {
 
-	var obj = {};
-	var ret = type.apply(obj, args);
-	var instance = typeIs(ret, Object.TYPE_NAME) ? ret : obj;
+	let obj = {};
+	let ret = type.apply(obj, args);
+	let instance = typeIs(ret, Object.TYPE_NAME) ? ret : obj;
 
 	return instanceTo(instance, type);
 }
 
 function arrayClone(array) {
 
-	var output = [];
+	let output = [];
 
 	for (let i = 0, len = array.length; i < len; i++) {
 		output.push(objectClone(array[i]));
@@ -362,7 +362,7 @@ function objectClone(obj) {
 	if (_isArray(obj)) {
 		return arrayClone(obj);
 	} else {
-		var another = {};
+		let another = {};
 		for (let key in obj) {
 			if (hasOwnProperty(obj, key)) {
 				another[key] = objectClone(obj[key]);
@@ -380,18 +380,18 @@ exports.objectClone = objectClone;
 function Iterator(obj) {
 	if (obj === null || obj === undefined) noReference();
 
-	var isArray = _isArray(obj);
+	let isArray = _isArray(obj);
 	if (!isArray && !typeIs(obj, Object.TYPE_NAME)) unsupportedType(obj);
 
-	var keys = keyArray(obj);
-	var index = 0,
+	let keys = keyArray(obj);
+	let index = 0,
 		count = keys.length;
 
 	this.hasNext = function () {
 		return index < count;
 	};
 	this.next = function () {
-		var key = keys[index++];
+		let key = keys[index++];
 		if (isArray) {
 			return key;
 		} else {
@@ -413,7 +413,7 @@ function Iterator(obj) {
 		}
 	};
 	this.forward = function (cnt) {
-		var at = index + cnt;
+		let at = index + cnt;
 		if (at < 0) {
 			indexOutOfBounds(at, 0);
 		}
@@ -429,7 +429,7 @@ exports.Iterator = Iterator;
 function Constructor(type, name, callback, isFunction) {
 
 	// 参数个数
-	var count = type.length,
+	let count = type.length,
 		// 获得定义
 		define = getFunctionDefine(name, count);
 
@@ -465,12 +465,12 @@ exports.isPrimitive = isPrimitive;
 function Type(obj) {
 
 	// 对象的数据类型
-	var type = obj.constructor || Object,
+	let type = obj.constructor || Object,
 		// 对象的原型
 		prototype = obj.prototype || Object;
 
 	// 是否是基本数据类型
-	var _isPrimitive = isPrimitive(type),
+	let _isPrimitive = isPrimitive(type),
 		// 是否是接口
 		_isInterface = isInterface(obj),
 		// 是否是数组
@@ -480,7 +480,7 @@ function Type(obj) {
 		isLiteral = (type === Object || _isPrimitive || isArray || type === RegExp);
 
 	// 类型的名字
-	var name = getFunctionName(type);
+	let name = getFunctionName(type);
 
 	function constructorCheck() {
 		if (isLiteral || _isPrimitive) {

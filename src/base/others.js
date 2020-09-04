@@ -11,7 +11,7 @@ Date.clone = function (date) {
 	if (!(date instanceof Date)) {
 		errorCast(date, Date);
 	}
-	var another = new Date(date.getTime());
+	let another = new Date(date.getTime());
 	return another;
 };
 /* ==================== Date 的扩展 ==================== */
@@ -49,7 +49,7 @@ if (!Function.EMPTY_BODY) {
 if (!Function.getStatic) {
 	Function.getStatic = (func) => {
 
-		var statics = {};
+		let statics = {};
 
 		for (let k in func) {
 			if (hasOwnProperty(func, k)) {
