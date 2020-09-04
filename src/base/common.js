@@ -58,6 +58,54 @@ Object.defineProperty(RegExp, 'TYPE_NAME', {
 		return 'regexp';
 	}
 });
+Object.defineProperty(Date, 'TYPE_NAME', {
+	get: () => {
+		return 'date';
+	}
+});
+//  ES6 新增
+if (Set) {
+	Object.defineProperty(Set, 'TYPE_NAME', {
+		get: () => {
+			return 'set';
+		}
+	});
+}
+if (WeakSet) {
+	Object.defineProperty( WeakSet, 'TYPE_NAME', {
+		get: () => {
+			return 'weakset';
+		}
+	});
+}
+if (Map) {
+	Object.defineProperty(Map, 'TYPE_NAME', {
+		get: () => {
+			return 'set';
+		}
+	});
+}
+if (WeakMap) {
+	Object.defineProperty( WeakMap, 'TYPE_NAME', {
+		get: () => {
+			return 'weakset';
+		}
+	});
+}
+if (TypedArray) {
+	Object.defineProperty( TypedArray, 'TYPE_NAME', {
+		get: () => {
+			return 'typedarray';
+		}
+	});
+}
+if (Symbol) {
+	Object.defineProperty(Symbol, 'TYPE_NAME', {
+		get: () => {
+			return 'typedarray';
+		}
+	});
+}
 
 const _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 	(arr) => {
@@ -95,6 +143,12 @@ const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOp
  * Object.TYPE_NAME === typeOf(object)
  * Array.TYPE_NAME === typeOf(array)
  * RegExp.TYPE_NAME === typeOf(regexp)
+ * Date.TYPE_NAME === typeOf(date)
+ * Set.TYPE_NAME === typeOf(set)
+ * WeakSet.TYPE_NAME === typeOf(weakset)
+ * Map.TYPE_NAME === typeOf(map)
+ * WeakMap.TYPE_NAME === typeOf(weakmap)
+ * Symbol.TYPE_NAME === typeOf(symbol)
  * 
  * String、Number、Boolean 这三种可以被包装的对象也当成字面量来进行判断，而不返回 object
  * 即
@@ -102,7 +156,8 @@ const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOp
  * Number.TYPE_NAME === typeOf(new Number());
  * Boolean.TYPE_NAME === typeOf(new Boolean());
  * 
- * 但不会判断包括JS 内置的 Date 类型，以及 XmllWrapper 在内的 Coralian 自定义数据类型，这些类型都将被辨认为 object
+ * 只判断 JS 内置的数据类型格式
+ * 不会判断各种自定义数据类型，这些类型都将被辨认为 object
  * 
  * @returns
  */
@@ -125,10 +180,20 @@ function typeOf(object) {
 		result = Boolean.TYPE_NAME;
 	} else if (object instanceof String) { // new String
 		result = String.TYPE_NAME;
+	} else if (obj instanceof Date) {
+		result = Date.TYPE_NAME;
+	} else if (obj instanceof Set) {
+		result = Set.TYPE_NAME;
+	} else if (obj instanceof WeakSet) {
+		result = WeakSet.TYPE_NAME;
+	} else if (obj instanceof Map) {
+		result = Map.TYPE_NAME;
+	} else if (obj instanceof WeakMap) {
+		result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
 		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
-			result = NaN.TYPE_NAME;
+			result = Number.NaN_TYPE_NAME
 		}
 	}
 
