@@ -228,12 +228,9 @@ const LOOP_REG_START_L = LOOP_REG_START.length;
 const DEFAULT_PREFIX = "${",
 	DEFAULT_SURFIX = "}";
 
-function replaceElement(str, obj, prefix, surfix) {
+function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURFIX) {
 
 	if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
-
-	prefix = prefix || DEFAULT_PREFIX;
-	surfix = surfix || DEFAULT_SURFIX;
 
 	var ret = String.BLANK,
 		p1 = 0,
