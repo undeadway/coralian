@@ -278,14 +278,16 @@ module.exports = exports = {
 			}
 			return r.join(EMPTY_STRING) + arg;
 		},
-		addComma: (num, cutSize) => {
+		toCounts: (num, cutSize) => {
 
-			var num = (num || 0).toString(), result = '';
-			while (num.length > cutSize) {
+			let sNum = (num || 0).toString(), result = '';
+			while (sNum.length > cutSize) {
 				result = ',' + num.slice(-cutSize) + result;
-				num = num.slice(0, num.length - cutSize);
+				sNum = sNum.slice(0, sNum.length - cutSize);
 			}
-			if (num) { result = num + result; }
+			if (sNum) {
+				result = sNum + result;
+			}
 			return result;
 		},
 		parseInt: function (num, nag) {
