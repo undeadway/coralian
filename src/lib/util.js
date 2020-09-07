@@ -278,7 +278,7 @@ module.exports = exports = {
 			}
 			return r.join(EMPTY_STRING) + arg;
 		},
-		toCounts: (num, cutSize) => {
+		toCounts: (num, cutSize = 3) => {
 
 			let sNum = (num || 0).toString(), result = '';
 			while (sNum.length > cutSize) {
