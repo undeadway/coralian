@@ -356,7 +356,8 @@ function objectClone(obj) {
 
 	if (obj === null || obj === undefined) return obj;
 	if (obj !== obj) return obj; // NaN
-	if (typeIs(obj, String.TYPE_NAME, Number.TYPE_NAME, Number.Infinity_TYPE_NAME, Boolean.TYPE_NAME, RegExp.TYPE_NAME, Function.TYPE_NAME)) return obj;
+	if (typeIs(obj, String.TYPE_NAME, Number.TYPE_NAME, Number.Infinity_TYPE_NAME, 
+		Boolean.TYPE_NAME, RegExp.TYPE_NAME, Function.TYPE_NAME)) return obj;
 	if (obj.clone) return obj.clone();
 
 	if (_isArray(obj)) {
