@@ -92,17 +92,17 @@ if (WeakMap) {
 		}
 	});
 }
-if (TypedArray) {
-	Object.defineProperty( TypedArray, 'TYPE_NAME', {
-		get: () => {
-			return 'typedarray';
-		}
-	});
-}
+// if (global.TypedArray) {
+// 	Object.defineProperty( global.TypedArray, 'TYPE_NAME', {
+// 		get: () => {
+// 			return 'typedarray';
+// 		}
+// 	});
+// }
 if (Symbol) {
 	Object.defineProperty(Symbol, 'TYPE_NAME', {
 		get: () => {
-			return 'typedarray';
+			return 'symbol';
 		}
 	});
 }
@@ -180,15 +180,15 @@ function typeOf(object) {
 		result = Boolean.TYPE_NAME;
 	} else if (object instanceof String) { // new String
 		result = String.TYPE_NAME;
-	} else if (obj instanceof Date) {
+	} else if (object instanceof Date) {
 		result = Date.TYPE_NAME;
-	} else if (obj instanceof Set) {
+	} else if (object instanceof Set) {
 		result = Set.TYPE_NAME;
-	} else if (obj instanceof WeakSet) {
+	} else if (object instanceof WeakSet) {
 		result = WeakSet.TYPE_NAME;
-	} else if (obj instanceof Map) {
+	} else if (object instanceof Map) {
 		result = Map.TYPE_NAME;
-	} else if (obj instanceof WeakMap) {
+	} else if (object instanceof WeakMap) {
 		result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
