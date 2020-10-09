@@ -29,6 +29,7 @@ module.exports = exports = {
 		DOLLAR: 0x0024, // $
 	},
 	Mark: {
+		QUESTION: '?',
 		SPACE_REGX: /\s/, // 标准空白
 		DQUOTE: '"',
 		QUOTE: "'",
