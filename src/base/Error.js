@@ -22,7 +22,7 @@ function errorCast(obj, type) {
 		errorCast(type, Function);
 	}
 
-	var error = new TypeError();
+	let error = new TypeError();
 	console.error(error.message);
 	console.error(error.stack);
 	error = typeOf(obj) + " 类型的数据无法转变为 " + getFunctionName(type) + "。";
@@ -44,14 +44,14 @@ function indexOutOfBounds(given, want) {
 Error.indexOutOfBounds = indexOutOfBounds;
 
 function noReference(msg) {
-	var error = new ReferenceError();
+	let error = new ReferenceError();
 	error.message = msg || "当前引用错误。";
 	debugError(error);
 }
 Error.noReference = noReference;
 
 function unsupportedType(type) {
-	var error = new TypeError();
+	let error = new TypeError();
 	error.message = typeOf(type) + "类型的数据不被当前操作所支持。";
 	debugError(error);
 }

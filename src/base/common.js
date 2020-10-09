@@ -58,6 +58,54 @@ Object.defineProperty(RegExp, 'TYPE_NAME', {
 		return 'regexp';
 	}
 });
+Object.defineProperty(Date, 'TYPE_NAME', {
+	get: () => {
+		return 'date';
+	}
+});
+//  ES6 新增
+if (Set) {
+	Object.defineProperty(Set, 'TYPE_NAME', {
+		get: () => {
+			return 'set';
+		}
+	});
+}
+if (WeakSet) {
+	Object.defineProperty( WeakSet, 'TYPE_NAME', {
+		get: () => {
+			return 'weakset';
+		}
+	});
+}
+if (Map) {
+	Object.defineProperty(Map, 'TYPE_NAME', {
+		get: () => {
+			return 'set';
+		}
+	});
+}
+if (WeakMap) {
+	Object.defineProperty( WeakMap, 'TYPE_NAME', {
+		get: () => {
+			return 'weakset';
+		}
+	});
+}
+if (TypedArray) {
+	Object.defineProperty( TypedArray, 'TYPE_NAME', {
+		get: () => {
+			return 'typedarray';
+		}
+	});
+}
+if (Symbol) {
+	Object.defineProperty(Symbol, 'TYPE_NAME', {
+		get: () => {
+			return 'typedarray';
+		}
+	});
+}
 
 const _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 	(arr) => {
@@ -95,6 +143,12 @@ const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOp
  * Object.TYPE_NAME === typeOf(object)
  * Array.TYPE_NAME === typeOf(array)
  * RegExp.TYPE_NAME === typeOf(regexp)
+ * Date.TYPE_NAME === typeOf(date)
+ * Set.TYPE_NAME === typeOf(set)
+ * WeakSet.TYPE_NAME === typeOf(weakset)
+ * Map.TYPE_NAME === typeOf(map)
+ * WeakMap.TYPE_NAME === typeOf(weakmap)
+ * Symbol.TYPE_NAME === typeOf(symbol)
  * 
  * String、Number、Boolean 这三种可以被包装的对象也当成字面量来进行判断，而不返回 object
  * 即
@@ -102,12 +156,13 @@ const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOp
  * Number.TYPE_NAME === typeOf(new Number());
  * Boolean.TYPE_NAME === typeOf(new Boolean());
  * 
- * 但不会判断包括JS 内置的 Date 类型，以及 XmllWrapper 在内的 Coralian 自定义数据类型，这些类型都将被辨认为 object
+ * 只判断 JS 内置的数据类型格式
+ * 不会判断各种自定义数据类型，这些类型都将被辨认为 object
  * 
  * @returns
  */
 function typeOf(object) {
-	var result;
+	let result;
 
 	if (object === null) {
 		result = Object.NULL_TYPE_NAME;
@@ -125,10 +180,20 @@ function typeOf(object) {
 		result = Boolean.TYPE_NAME;
 	} else if (object instanceof String) { // new String
 		result = String.TYPE_NAME;
+	} else if (obj instanceof Date) {
+		result = Date.TYPE_NAME;
+	} else if (obj instanceof Set) {
+		result = Set.TYPE_NAME;
+	} else if (obj instanceof WeakSet) {
+		result = WeakSet.TYPE_NAME;
+	} else if (obj instanceof Map) {
+		result = Map.TYPE_NAME;
+	} else if (obj instanceof WeakMap) {
+		result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
 		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
-			result = NaN.TYPE_NAME;
+			result = Number.NaN_TYPE_NAME
 		}
 	}
 
@@ -143,8 +208,8 @@ exports.typeOf = typeOf;
  */
 function typeIs(object, types) {
 
-	var type = typeOf(object);
-	var _types = types;
+	let type = typeOf(object);
+	let _types = types;
 
 	if (arguments.length === 2 && typeof types === String.TYPE_NAME) {
 		return type === types;
@@ -163,14 +228,11 @@ const LOOP_REG_START_L = LOOP_REG_START.length;
 const DEFAULT_PREFIX = "${",
 	DEFAULT_SURFIX = "}";
 
-function replaceElement(str, obj, prefix, surfix) {
+function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURFIX) {
 
 	if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
 
-	prefix = prefix || DEFAULT_PREFIX;
-	surfix = surfix || DEFAULT_SURFIX;
-
-	var ret = String.BLANK,
+	let ret = String.BLANK,
 		p1 = 0,
 		p2 = 0;
 	while (true) {
@@ -212,12 +274,14 @@ replaceElement.DEFAULT_SURFIX = DEFAULT_SURFIX;
 
 exports.replaceElement = replaceElement;
 
-
 /*
  * [ERR:20170310] 将 nodejs 更新至 v6.10.0 之后有些时候会出现 hasOwnProperty 错误。
  * 错误信息：TypeError: hasOwnProperty is not a function
  * 原因未知。
  * 所以暂时用这种方式来解决问题
+ * 
+ * 一种解释，仅供参考：
+ * https://stackoverflow.com/questions/53978067/hasownproperty-is-not-a-function-in-node-js
  */
 function hasOwnProperty(obj, keyName) {
 	return Object.prototype.hasOwnProperty.call(obj, keyName);
@@ -226,7 +290,7 @@ exports.hasOwnProperty = hasOwnProperty;
 
 function instanceTo(instance, type) {
 
-	var prototype = type.prototype;
+	let prototype = type.prototype;
 
 	if (prototype) {
 		instance.__proto__ = prototype;
@@ -237,8 +301,8 @@ exports.instanceTo = instanceTo;
 
 let getFunctionName = exports.getFunctionName = (func) => {
 
-	var functionName = String.BLANK;
-	var _name = func.name;
+	let functionName = String.BLANK;
+	let _name = func.name;
 	if (_name !== undefined) {
 		functionName = _name;
 	} else {
@@ -257,12 +321,10 @@ let getFunctionName = exports.getFunctionName = (func) => {
 	return functionName;
 }
 
-const FUNCTION_MARK = 'function ',
-	ARG_MARK = 'arg';
-const BEFOR_BRACKET = '(',
-	AFTER_BRACKET = ');';
+const FUNCTION_MARK = 'function ', ARG_MARK = 'arg';
+const BEFOR_BRACKET = '(', AFTER_BRACKET = ');';
 const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
-	var _d = [];
+	let _d = [];
 	for (let i = 0; i < count; i++) {
 		_d.push(ARG_MARK + i);
 	}
@@ -271,16 +333,16 @@ const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 
 exports.newInstance = (type, args) => {
 
-	var obj = {};
-	var ret = type.apply(obj, args);
-	var instance = typeIs(ret, Object.TYPE_NAME) ? ret : obj;
+	let obj = {};
+	let ret = type.apply(obj, args);
+	let instance = typeIs(ret, Object.TYPE_NAME) ? ret : obj;
 
 	return instanceTo(instance, type);
 }
 
 function arrayClone(array) {
 
-	var output = [];
+	let output = [];
 
 	for (let i = 0, len = array.length; i < len; i++) {
 		output.push(objectClone(array[i]));
@@ -294,13 +356,14 @@ function objectClone(obj) {
 
 	if (obj === null || obj === undefined) return obj;
 	if (obj !== obj) return obj; // NaN
-	if (typeIs(obj, String.TYPE_NAME, Number.TYPE_NAME, Number.Infinity_TYPE_NAME, Boolean.TYPE_NAME, RegExp.TYPE_NAME, Function.TYPE_NAME)) return obj;
+	if (typeIs(obj, String.TYPE_NAME, Number.TYPE_NAME, Number.Infinity_TYPE_NAME, 
+		Boolean.TYPE_NAME, RegExp.TYPE_NAME, Function.TYPE_NAME)) return obj;
 	if (obj.clone) return obj.clone();
 
 	if (_isArray(obj)) {
 		return arrayClone(obj);
 	} else {
-		var another = {};
+		let another = {};
 		for (let key in obj) {
 			if (hasOwnProperty(obj, key)) {
 				another[key] = objectClone(obj[key]);
@@ -318,18 +381,18 @@ exports.objectClone = objectClone;
 function Iterator(obj) {
 	if (obj === null || obj === undefined) noReference();
 
-	var isArray = _isArray(obj);
+	let isArray = _isArray(obj);
 	if (!isArray && !typeIs(obj, Object.TYPE_NAME)) unsupportedType(obj);
 
-	var keys = keyArray(obj);
-	var index = 0,
+	let keys = keyArray(obj);
+	let index = 0,
 		count = keys.length;
 
 	this.hasNext = function () {
 		return index < count;
 	};
 	this.next = function () {
-		var key = keys[index++];
+		let key = keys[index++];
 		if (isArray) {
 			return key;
 		} else {
@@ -351,7 +414,7 @@ function Iterator(obj) {
 		}
 	};
 	this.forward = function (cnt) {
-		var at = index + cnt;
+		let at = index + cnt;
 		if (at < 0) {
 			indexOutOfBounds(at, 0);
 		}
@@ -367,7 +430,7 @@ exports.Iterator = Iterator;
 function Constructor(type, name, callback, isFunction) {
 
 	// 参数个数
-	var count = type.length,
+	let count = type.length,
 		// 获得定义
 		define = getFunctionDefine(name, count);
 
@@ -403,12 +466,12 @@ exports.isPrimitive = isPrimitive;
 function Type(obj) {
 
 	// 对象的数据类型
-	var type = obj.constructor || Object,
+	let type = obj.constructor || Object,
 		// 对象的原型
 		prototype = obj.prototype || Object;
 
 	// 是否是基本数据类型
-	var _isPrimitive = isPrimitive(type),
+	let _isPrimitive = isPrimitive(type),
 		// 是否是接口
 		_isInterface = isInterface(obj),
 		// 是否是数组
@@ -418,7 +481,7 @@ function Type(obj) {
 		isLiteral = (type === Object || _isPrimitive || isArray || type === RegExp);
 
 	// 类型的名字
-	var name = getFunctionName(type);
+	let name = getFunctionName(type);
 
 	function constructorCheck() {
 		if (isLiteral || _isPrimitive) {

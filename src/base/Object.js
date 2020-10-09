@@ -48,6 +48,7 @@ if (!Object.keys) {
 	};
 }
 
+// 下面的代码是从 MDN 上抄的，所以 var 不修改为 let
 if (!Object.values) {
 	Object.values = function (o) {
 		if (o !== Object(o))
@@ -82,12 +83,12 @@ function equals(arg1, arg2) {
 			if (arg1.length !== arg2.length) return false;
 
 			for (let i = 0, len = arg1.length; i < len; i++) {
-				if (!Array.equals(!arg1[i], arg2[i])) return false;
+				if (!Array.equals(arg1[i], arg2[i])) return false;
 			}
 			return true;
 		case Object.TYPE_NAME:
 			// 提取对象的 KEY 为一个数组
-			var key1 = keyArray(arg1), key2 = keyArray(arg2);
+			let key1 = keyArray(arg1), key2 = keyArray(arg2);
 			if (key1.length === key2.length) {
 				// 直接转化为字符串判断两个 KEY 的内容是否一致
 				if (key1.toString() === key2.toString()) {

@@ -61,7 +61,7 @@ if (!String.endsWith) {
 
 		position = position || str.length;
 		position = position - searchString.length;
-		var lastIndex = str.lastIndexOf(searchString);
+		let lastIndex = str.lastIndexOf(searchString);
 		return lastIndex !== -1 && lastIndex === position;
 	};
 }
@@ -113,6 +113,7 @@ if (!String.trimRight) {
 	};
 }
 
+// 下面的代码是从 MDN 上抄的，所以 var 不修改为 let
 if (!String.compareTo) {
 	String.compareTo = function (first, another) {
 		if (first.compareTo) return first.compareTo(another);

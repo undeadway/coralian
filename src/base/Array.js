@@ -2,7 +2,7 @@ const { isArray, arrayClone } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 
 /* ==================== Array 的扩展 ==================== */
-var array_slice = Array.prototype.slice;
+const array_slice = Array.prototype.slice;
 if (!Array.removeEach) {
 	Array.removeEach = function (array, callback) {
 		if (!typeIs(array, Array.TYPE_NAME)) unsupportedType(array);
@@ -46,7 +46,7 @@ if (!Array.equals) {
 		if (arr1.equals) return arr1.equals(arr2);
 		if (!(isArray(arr1))) errorCast(arr1, Array);
 
-		var len = arg1.length;
+		let len = arg1.length;
 		if (len === arr2.length) {
 			for (let i = 0; i < len; i++) {
 				// 因为数组元素是可以任意对象类型，所以这里调用 Object.equals 来判断两者是否一致
@@ -67,8 +67,8 @@ if (!Array.isEmpty) {
 }
 if (!Array.asObject) {
 	Array.asObject = function (input) {
-		var obj = {};
-		for (var i = 0, len = input.length; i < len; i++) {
+		let obj = {};
+		for (let i = 0, len = input.length; i < len; i++) {
 			obj[i] = input[i];
 		}
 		return obj;
@@ -118,6 +118,7 @@ if (!Array.clone) {
 	Array.clone = arrayClone;
 }
 
+// 下面的代码是从 MDN 上抄的，所以 var 不修改为 let
 if (!Array.from) {
 	Array.from = (function () {
 		var toStr = Object.prototype.toString;

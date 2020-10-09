@@ -278,27 +278,16 @@ module.exports = exports = {
 			}
 			return r.join(EMPTY_STRING) + arg;
 		},
-		addComma: (num, split) => {
+		withComma: (num, cutSize = 3) => {
 
-			if (!isNumber(num)) errorCast(num, Number);
-			if (split !== undefined && !isNumber(split)) errorCast(split, Number);
-
-			split = parseInt(Math.pow(10, split || 3));
-
-			var result = String.BLANK;
-
-			while (true) {
-				let part = num % split;
-				num = parseInt(num / split);
-
-				rersult = part + result;
-				if (num !== 0) {
-					result = ',' + result;
-				} else {
-					break;
-				}
+			let sNum = (num || 0).toString(), result = '';
+			while (sNum.length > cutSize) {
+				result = ',' + num.slice(-cutSize) + result;
+				sNum = sNum.slice(0, sNum.length - cutSize);
 			}
-
+			if (sNum) {
+				result = sNum + result;
+			}
 			return result;
 		},
 		parseInt: function (num, nag) {
