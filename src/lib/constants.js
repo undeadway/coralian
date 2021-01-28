@@ -33,6 +33,7 @@ module.exports = exports = {
 		SPACE_REGX: /\s/, // 标准空白
 		DQUOTE: '"',
 		QUOTE: "'",
+		UNDER_SOURCE: "_",
 		GRAVE_ACCENT: '`',
 		SLASH: '/',
 		ASTERISK: '*',
