@@ -6,29 +6,29 @@ const { isNumber } = Number;
 const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 // 默认对时间进行格式化
 const DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss",
-	YEAR_REGEXP = /(Y+)/;
+	YEAR_REGEXP = /YY(YY)?/;
 // 中文的周几
-const LONG_CHINESE_WEEK = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
-	SHORT_CHINESE_WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const LONG_CHINESE_WEEK = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+	SHORT_CHINESE_WEEK = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 // 地支
-const EARTHLY_BRANCH = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+const EARTHLY_BRANCH = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
 // 天干
-const CELESTIAL_STEM = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+const CELESTIAL_STEM = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
 // 生肖
-const CHINESE_ZODIAC = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+const CHINESE_ZODIAC = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
 const SEXAGENARY_CYCLE_FIRST = 4; // 公元 4年 甲子年
 // 英文的周几
-const ENGLISH_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const ENGLISH_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 // 中文的几月
-const CHINESE_MONTH = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+const CHINESE_MONTH = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
 // 英文的几月
-const ENGLISH_MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augst', 'September',
-	'October', 'November', 'December'
+const ENGLISH_MONTH = ["January", "February", "March", "April", "May", "June", "July", "Augst", "September",
+	"October", "November", "December"
 ];
 // 一个月有几天
 const MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-const CHINESE_CALANER = ['zh', 'xq', 'yue', 'nian'],
-	ONE_COUNT = ['M', 'D', 'h', 'm', 's'];
+const CHINESE_CALANER = ["zh", "xq", "yue", "nian"],
+	ONE_COUNT = ["M", "D", "h", "m", "s"];
 const TEN = 10,
 	TWELVE = 12,
 	THIRTY = 30,
@@ -115,7 +115,7 @@ function instanceTime(arg, format) {
 				_date.setTime(arg);
 				break;
 			default:
-				unsupportedOperation('所选择的格式化参数不正确');
+				unsupportedOperation("所选择的格式化参数不正确");
 		}
 		return _date;
 	} else {
@@ -261,58 +261,58 @@ module.exports = exports = {
 		 * 农历年表示法暂时不支持
 		 */
 		getSpringFestival: function (year) {
-			checkYearIsValid(year);
-			unsupportedOperation('暂不支持农历年表示法');
+			// checkYearIsValid(year);
+			unsupportedOperation("暂不支持农历年表示法");
 		},
 		getMonthlyCalendar: function (year) {
-			checkYearIsValid(year);
-			unsupportedOperation('暂不支持农历年表示法');
+			// checkYearIsValid(year);
+			unsupportedOperation("暂不支持农历年表示法");
 
 		}
 	}
 };
 
-Object.defineProperty(exports, 'YYYY', {
+Object.defineProperty(exports, "YYYY", {
 	value: 0,
 	writable: false
 });
-Object.defineProperty(exports, 'YY', {
+Object.defineProperty(exports, "YY", {
 	value: 1,
 	writable: false
 });
-Object.defineProperty(exports, 'Month', {
+Object.defineProperty(exports, "Month", {
 	value: 2,
 	writable: false
 });
-Object.defineProperty(exports, 'Date', {
+Object.defineProperty(exports, "Date", {
 	value: 4,
 	writable: false
 });
-Object.defineProperty(exports, 'YYMMDD', {
+Object.defineProperty(exports, "YYMMDD", {
 	value: 6,
 	writable: false
 });
-Object.defineProperty(exports, 'YYYYMMDD', {
+Object.defineProperty(exports, "YYYYMMDD", {
 	value: 8,
 	writable: false
 });
-Object.defineProperty(exports, 'MILLISECOND', {
+Object.defineProperty(exports, "MILLISECOND", {
 	value: 16,
 	writable: false
 });
-Object.defineProperty(exports, 'ONE_DAY_MILLISECONDS', {
+Object.defineProperty(exports, "ONE_DAY_MILLISECONDS", {
 	value: ONE_DAY_MILLISECONDS,
 	writable: false
 });
-Object.defineProperty(exports, 'CHINESE_MONTH', {
+Object.defineProperty(exports, "CHINESE_MONTH", {
 	value: CHINESE_MONTH,
 	writable: false
 });
-Object.defineProperty(exports, 'ENGLISH_WEEK', {
+Object.defineProperty(exports, "ENGLISH_WEEK", {
 	value: ENGLISH_WEEK,
 	writable: false
 });
-Object.defineProperty(exports, 'SHORT_ENGLISH_WEEK', {
+Object.defineProperty(exports, "SHORT_ENGLISH_WEEK", {
 	value: function () {
 		var ew = [];
 		for (let i = 0, len = ENGLISH_WEEK.length; i < len; i++) {
@@ -322,19 +322,19 @@ Object.defineProperty(exports, 'SHORT_ENGLISH_WEEK', {
 	},
 	writable: false
 });
-Object.defineProperty(exports, 'LONG_CHINESE_WEEK', {
+Object.defineProperty(exports, "LONG_CHINESE_WEEK", {
 	value: LONG_CHINESE_WEEK,
 	writable: false
 });
-Object.defineProperty(exports, 'SHORT_CHINESE_WEEK', {
+Object.defineProperty(exports, "SHORT_CHINESE_WEEK", {
 	value: SHORT_CHINESE_WEEK,
 	writable: false
 });
-Object.defineProperty(exports, 'ENGLISH_MONTH', {
+Object.defineProperty(exports, "ENGLISH_MONTH", {
 	value: ENGLISH_MONTH,
 	writable: false
 });
-Object.defineProperty(exports, 'SHORT_ENGLISH_MONTH', {
+Object.defineProperty(exports, "SHORT_ENGLISH_MONTH", {
 	value: function () {
 		var em = [];
 		for (let i = 0, len = ENGLISH_MONTH.length; i < len; i++) {
