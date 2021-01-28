@@ -10,8 +10,8 @@ function init() {
 
 /* ==================== Error 的扩展 ==================== */
 function debugError(e) {
-	alert('message:' + e.message);
-	alert('stack:' + e.stack);
+	alert("message:" + e.message);
+	alert("stack:" + e.stack);
 	throw e;
 }
 
@@ -79,7 +79,7 @@ function errorStatement() {
 Error.errorStatement = errorStatement;
 
 function illegalArguments(msg) {
-	msg = msg || '函数参数不正确';
+	msg = msg || "函数参数不正确";
 	debugError(msg);
 }
 Error.illegalArguments = illegalArguments;

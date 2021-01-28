@@ -1,5 +1,8 @@
 const replaceElement = require("../base/common").replaceElement;
 const { LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L } = replaceElement;
+const { Mark, XmlEntity, CharCode, RegxType } = require("./constants");
+
+const HTML_NEW_LINE = "<br />";
 
 function replaceLoop(str, objs, callback) {
 	var result = [];
@@ -17,7 +20,7 @@ function replaceLoop(str, objs, callback) {
 		var end = LOOP_REG_END + action + DEFAULT_SURFIX;
 		let inStr = str.slice(firstEnd + 1, str.indexOf(end));
 		let obj = objs,
-			tmpAction = action.split(".");
+			tmpAction = action.split(Mark.POINT);
 		for (let i = 0, len = tmpAction.length; i < len; i++) {
 			if (!obj) break;
 			obj = obj[tmpAction[i]];
@@ -29,16 +32,16 @@ function replaceLoop(str, objs, callback) {
 			for (let i = 0, len = keys.length; i < len; i++) {
 				let o = obj[isArr ? i : keys[i]];
 				let loopStr = inStr; // 定义循环所使用的变量
-				loopStr = loopStr.replace(new RegExp(LOOP_IN_START + "id}", "g"), i);
-				loopStr = loopStr.replace(new RegExp(LOOP_IN_START + "key}", "g"), keys[i]);
+				loopStr = loopStr.replace(new RegExp(`${LOOP_IN_START}id}`, RegxType.GLOBAL), i);
+				loopStr = loopStr.replace(new RegExp(`${LOOP_IN_START}key}`,RegxType.GLOBAL), keys[i]);
 				if (String.TYPE_NAME === typeof o) {
-					result.push(loopStr.replace(new RegExp(LOOP_IN_START + "text}", "g"), keys[i]));
+					result.push(loopStr.replace(new RegExp(`${LOOP_IN_START}text}`, RegxType.GLOBAL), keys[i]));
 				} else {
 					// 递归查找子循环
 					loopStr = replaceLoop(loopStr, o);
 					// 替换内部元素
-					loopStr = replaceElement(loopStr, o, LOOP_IN_START + action + ".");
-					loopStr = callback(loopStr, o, action + ".");
+					loopStr = replaceElement(loopStr, o, `${LOOP_IN_START}${action}${Mark.POINT}`);
+					loopStr = callback(loopStr, o, `${action}${Mark.POINT}`);
 					result.push(loopStr);
 				}
 			}
@@ -57,7 +60,7 @@ module.exports = exports = {
 	 */
 	htmlEscape: function (str, aspect) {
 
-		str = str.replace(/\&/g, "&amp;");
+		str = str.replace(/\&/g,  XmlEntity.AMP);
 
 		var first, second, third, forth;
 		if (aspect) {
@@ -69,17 +72,17 @@ module.exports = exports = {
 
 		str = (!!first) ? first(str) : str;
 
-		str = str.replace(/  /ig, ' &nbsp;');
-		str = str.replace(/\t/ig, '&nbsp;&nbsp;&nbsp;&nbsp;\uFEFF'); // 制表符这么写主要是为了满足表现形式和制表符相同（不会换行）
+		str = str.replace(/  /ig, `${Mark.SPACE}${XmlEntity.SPACE}`);
+		str = str.replace(/\t/ig, `${XmlEntity.SPACE}${XmlEntity.SPACE}${XmlEntity.SPACE}${XmlEntity.SPACE}${CharCode.ZERO_WIDTH}`); // 制表符这么写主要是为了满足表现形式和制表符相同（不会换行）
 
 		str = (!!second) ? second(str) : str;
 
-		str = str.replace(/</ig, '&lt;');
-		str = str.replace(/>/ig, '&gt;');
+		str = str.replace(/</ig, XmlEntity.LEFT_ANGLE);
+		str = str.replace(/>/ig, XmlEntity.RIGHT_ANGLE);
 
 		str = (!!third) ? third(str) : str;
 
-		str = str.replace(/(\r\n|\n|\r)/ig, '<br />');
+		str = str.replace(/(\r\n|\n|\r)/ig, HTML_NEW_LINE);
 
 		str = (!!forth) ? forth(str) : str;
 

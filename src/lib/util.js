@@ -34,13 +34,13 @@ const StringUtil = {
 				// 这里 encodeURIComponent 是因为 nodejs 端才这么写，其他服务器语言可能用不着
 				// JSON.stringify 这句是因为可能存在包含对象类型的数据
 				if (typeIs(obj[key], Object.TYPE_NAME)) {
-					string.push(key + '=' + JSON.stringify(encodeURIComponent(obj[key])));
+					string.push(key + Mark.EQUALS + JSON.stringify(encodeURIComponent(obj[key])));
 				} else {
-					string.push(key + '=' + encodeURIComponent(obj[key]));
+					string.push(key + Mark.EQUALS + encodeURIComponent(obj[key]));
 				}
 			}
 		}
-		return string.join('&');
+		return string.join(Mark.AND);
 	},
 	firstToUpperCase: function (str) {
 		if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
@@ -82,16 +82,16 @@ const MathUtil = {
 			SIXTY_TWO = 62
 		SIXTY_FOUR = 64;
 
-		const BIN_START = '0b',
-			OCT_START = '0o',
-			HEX_START = '0x'
+		const BIN_START = "0b",
+			OCT_START = "0o",
+			HEX_START = "0x"
 
 		const NaN_STR = Number.NaN_TYPE_NAME;
 		const HEX_CHARS = {};
-		HEX_CHARS[DEC] = '0123456789';
-		HEX_CHARS[HEX] = HEX_CHARS[DEC] + 'ABCDEF';
-		HEX_CHARS[TWENTY_SIX] = 'abcdefghijklmnopqrstuvwxyz';
-		HEX_CHARS[SIXTY_FOUR] = (HEX_CHARS[DEC] + HEX_CHARS[TWENTY_SIX] + HEX_CHARS[TWENTY_SIX].toUpperCase()).replace(/[Oo01lI]/g, String.BLANK) + '!@$&#%';
+		HEX_CHARS[DEC] = "0123456789";
+		HEX_CHARS[HEX] = HEX_CHARS[DEC] + "ABCDEF";
+		HEX_CHARS[TWENTY_SIX] = "abcdefghijklmnopqrstuvwxyz";
+		HEX_CHARS[SIXTY_FOUR] = (HEX_CHARS[DEC] + HEX_CHARS[TWENTY_SIX] + HEX_CHARS[TWENTY_SIX].toUpperCase()).replace(/[Oo01lI]/g, String.BLANK) + "!@$&#%";
 		HEX_CHARS[SIXTY_TWO] = HEX_CHARS[SIXTY_FOUR].slice(2);
 
 		// Returns a string representation of the given number for the given alphabet:
@@ -99,7 +99,7 @@ const MathUtil = {
 			var base = alphabet.length;
 			var digits = [];	// these will be in reverse order since arrays are stacks
 
-			// execute at least once, even if num is 0, since we should return the '0':
+			// execute at least once, even if num is 0, since we should return the "0":
 			do {
 				digits.push(num % base);	// TODO handle negatives properly?
 				num = Math.floor(num / base);
@@ -278,7 +278,7 @@ const ObjectUtil = {
 const CharUtil = (function () {
 
 	function invaildCharacter(input) {
-		throw new Error(input + ' 不是合法的字符');
+		throw new Error(input + " 不是合法的字符");
 	}
 
 	const ZERO = 0x0030,
@@ -327,7 +327,7 @@ const CharUtil = (function () {
 			if (isChar(value)) {
 				return String.fromCharCode(value.charCodeAt(0) + count);
 			} else {
-				unsupportedOperation(value + ' 不是合法的字符');
+				unsupportedOperation(value + " 不是合法的字符");
 			}
 		},
 		compare: function (char1, char2) {
@@ -381,9 +381,9 @@ const NumberUtil = {
 	},
 	withComma: (num, cutSize = 3) => {
 
-		let sNum = (num || 0).toString(), result = '';
+		let sNum = (num || 0).toString(), result = String.BLANK;
 		while (sNum.length > cutSize) {
-			result = ',' + num.slice(-cutSize) + result;
+			result = Mark.COMMA + num.slice(-cutSize) + result;
 			sNum = sNum.slice(0, sNum.length - cutSize);
 		}
 		if (sNum) {

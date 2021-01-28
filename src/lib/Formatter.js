@@ -1,7 +1,9 @@
+const { Mark } = require("./constants");
+
 function formatNumber(number) {
 
 	// 目前只实现保留两位小数
-	number = (number).toString().split(".");
+	number = (number).toString().split(Mark.POINT);
 
 	var after = number[1];
 	if (after && after.length > 2) {
@@ -11,7 +13,7 @@ function formatNumber(number) {
 			after += 1;
 		}
 	}
-	number = number[0] + "." + (after || 0);
+	number = number[0] + Mark.POINT + (after || 0);
 
 	return number;
 }

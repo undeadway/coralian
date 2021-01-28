@@ -1,3 +1,5 @@
+const { Mark } = require("./constants");
+
 const UPPER_CASE = /[A-Z]/,
 	LOWER_CASE = /[a-z]/,
 	NUMBER = /[0-9]/,
@@ -5,7 +7,7 @@ const UPPER_CASE = /[A-Z]/,
 
 function passwordCheckError(msg, id) {
 	var e = new Error(msg);
-	e.id = id || 'password';
+	e.id = id || "password";
 
 	throw e;
 }
@@ -13,7 +15,7 @@ function passwordCheckError(msg, id) {
 function isValidPassword(password) {
 
 	if (String.isEmpty(password)) {
-		passwordCheckError('密码不能为空');
+		passwordCheckError("密码不能为空");
 	}
 
 	/*
@@ -21,7 +23,7 @@ function isValidPassword(password) {
 	 * 1. 长度必须 >= 6 位
 	 */
 	if (password.length < 6) {
-		passwordCheckError('密码长度最少 6 位');
+		passwordCheckError("密码长度最少 6 位");
 	}
 
 	/*
@@ -78,14 +80,14 @@ module.exports = exports = {
 		var year = id.substr(6, 4),//身份证年
 			month = id.substr(10, 2),//身份证月
 			date = id.substr(12, 2),//身份证日
-			time = Date.parse(month + '-' + date + '-' + year),//身份证日期时间戳date
+			time = Date.parse(`${month}${Mark.HYPHEN}${date}${Mark.HYPHEN}${year}`),//身份证日期时间戳date
 			nowTime = Date.parse(new Date()),//当前时间戳
 			dates = (new Date(year, month, 0)).getDate();//身份证当月天数
 		if (time > nowTime || date > dates) return false;
 
 		//校验码判断
 		var c = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);   //系数
-		var b = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');  //校验码对照表
+		var b = new Array("1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2");  //校验码对照表
 		var id_array = id.split(String.BLANK);
 		var sum = 0;
 		for (var k = 0; k < 17; k++) {

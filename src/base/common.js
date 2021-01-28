@@ -1,94 +1,94 @@
-Object.defineProperty(Array, 'TYPE_NAME', {
+Object.defineProperty(Array, "TYPE_NAME", {
 	get: () => {
-		return 'array';
+		return "array";
 	}
 });
-Object.defineProperty(Boolean, 'TYPE_NAME', {
+Object.defineProperty(Boolean, "TYPE_NAME", {
 	get: () => {
-		return 'boolean';
+		return "boolean";
 	}
 });
-Object.defineProperty(Error, 'TYPE_NAME', {
+Object.defineProperty(Error, "TYPE_NAME", {
 	get: () => {
-		return 'error';
+		return "error";
 	}
 });
-Object.defineProperty(Function, 'TYPE_NAME', {
+Object.defineProperty(Function, "TYPE_NAME", {
 	get: () => {
-		return 'function';
+		return "function";
 	}
 });
-Object.defineProperty(Number, 'TYPE_NAME', {
+Object.defineProperty(Number, "TYPE_NAME", {
 	get: () => {
-		return 'number';
+		return "number";
 	}
 });
-Object.defineProperty(Number, 'NaN_TYPE_NAME', {
+Object.defineProperty(Number, "NaN_TYPE_NAME", {
 	get: () => {
-		return 'NaN';
+		return "NaN";
 	}
 });
-Object.defineProperty(Number, 'Infinity_TYPE_NAME', {
+Object.defineProperty(Number, "Infinity_TYPE_NAME", {
 	get: () => {
-		return 'Infinity';
+		return "Infinity";
 	}
 });
-Object.defineProperty(Object, 'TYPE_NAME', {
+Object.defineProperty(Object, "TYPE_NAME", {
 	get: () => {
-		return 'object';
+		return "object";
 	}
 });
-Object.defineProperty(Object, 'NULL_TYPE_NAME', {
+Object.defineProperty(Object, "NULL_TYPE_NAME", {
 	get: () => {
-		return 'null';
+		return "null";
 	}
 });
-Object.defineProperty(Object, 'UNDEFINED_TYPE_NAME', {
+Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
 	get: () => {
-		return 'undefined';
+		return "undefined";
 	}
 });
-Object.defineProperty(String, 'TYPE_NAME', {
+Object.defineProperty(String, "TYPE_NAME", {
 	get: () => {
-		return 'string';
+		return "string";
 	}
 });
-Object.defineProperty(RegExp, 'TYPE_NAME', {
+Object.defineProperty(RegExp, "TYPE_NAME", {
 	get: () => {
-		return 'regexp';
+		return "regexp";
 	}
 });
-Object.defineProperty(Date, 'TYPE_NAME', {
+Object.defineProperty(Date, "TYPE_NAME", {
 	get: () => {
-		return 'date';
+		return "date";
 	}
 });
 //  ES6 新增
 if (Set) {
-	Object.defineProperty(Set, 'TYPE_NAME', {
+	Object.defineProperty(Set, "TYPE_NAME", {
 		get: () => {
-			return 'set';
+			return "set";
 		}
 	});
 }
 if (WeakSet) {
-	Object.defineProperty( WeakSet, 'TYPE_NAME', {
+	Object.defineProperty( WeakSet, "TYPE_NAME", {
 		get: () => {
-			return 'weakset';
+			return "weakset";
 		}
 	});
 }
 if (Map) {
-	Object.defineProperty(Map, 'TYPE_NAME', {
+	Object.defineProperty(Map, "TYPE_NAME", {
 		get: () => {
-			return 'set';
+			return "set";
 		}
 	});
 }
 if (WeakMap) {
-	Object.defineProperty( WeakMap, 'TYPE_NAME', {
+	Object.defineProperty( WeakMap, "TYPE_NAME", {
 		get: () => {
-			return 'weakset';
+			return "weakset";
 		}
 	});
 }
@@ -100,9 +100,9 @@ if (WeakMap) {
 // 	});
 // }
 if (Symbol) {
-	Object.defineProperty(Symbol, 'TYPE_NAME', {
+	Object.defineProperty(Symbol, "TYPE_NAME", {
 		get: () => {
-			return 'symbol';
+			return "symbol";
 		}
 	});
 }
@@ -112,7 +112,7 @@ const _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 		return arr && (arr instanceof Array ||
 			(typeof arr === Object.TYPE_NAME &&
 				typeof arr.length === Number.TYPE_NAME &&
-				arr.propertyIsEnumerable('length')));
+				arr.propertyIsEnumerable("length")));
 	};
 
 const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
@@ -127,6 +127,7 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 	};
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
+const { Mark } = require("./../lib/constants");
 
 /**
  * 用于得到数据类型
@@ -244,7 +245,7 @@ function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURF
 		p2 = str.indexOf(surfix, p1 + prefix.length);
 		if (p2 === -1) break;
 		let holder = str.substring(p1 + prefix.length, p2);
-		let nests = holder.split('.');
+		let nests = holder.split(Mark.POINT);
 		let val = obj;
 		for (let i = 0, length = nests.length; i < length; i++) {
 			val = val[nests[i]];
@@ -308,7 +309,7 @@ let getFunctionName = exports.getFunctionName = (func) => {
 	} else {
 		let arr = null,
 			str = func.toString();
-		if (str.charAt(0) === '[') {
+		if (str.charAt(0) === Mark.LEFT_SQUARE_BRACKET) {
 			arr = str.match(/\[\w+\s*(\w+)\]/);
 		} else {
 			arr = str.match(/function\s*(\w+)/);
@@ -321,14 +322,15 @@ let getFunctionName = exports.getFunctionName = (func) => {
 	return functionName;
 }
 
-const FUNCTION_MARK = 'function ', ARG_MARK = 'arg';
-const BEFOR_BRACKET = '(', AFTER_BRACKET = ');';
+const ARG_MARK = "arg";
 const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 	let _d = [];
 	for (let i = 0; i < count; i++) {
 		_d.push(ARG_MARK + i);
 	}
-	return FUNCTION_MARK + name + BEFOR_BRACKET + _d.join() + AFTER_BRACKET;
+
+	let pars = _d.join();
+	return `function ${name}${Mark.LEFT_PARENTHE}${pars}${Mark.RIGHT_PARENTHE}${Mark.SEMICOLON}`;
 }
 
 exports.newInstance = (type, args) => {
@@ -609,8 +611,8 @@ exports.isNumber = (number, notation) => {
 
 	notation = notation || 10;
 
-	if (notation === 16 && !String.startsWith((number).toString().toLowerCase(), '0x')) {
-		number = '0x' + number;
+	if (notation === 16 && !String.startsWith((number).toString().toLowerCase(), "0x")) {
+		number = "0x" + number;
 	}
 
 	return isFinite(number);
@@ -618,7 +620,7 @@ exports.isNumber = (number, notation) => {
 
 exports.formatString = (str, ...obj) => {
 
-	if (!obj) unsupportedOperation('至少需要一个字符来进行替换');
+	if (!obj) unsupportedOperation("至少需要一个字符来进行替换");
 
 	if (Object.TYPE_NAME === typeOf(obj[0])) {
 		str = replaceElement(str, obj[0]);

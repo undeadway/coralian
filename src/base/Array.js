@@ -123,7 +123,7 @@ if (!Array.from) {
 	Array.from = (function () {
 		var toStr = Object.prototype.toString;
 		var isCallable = function (fn) {
-			return typeof fn === Function.TYPE_NAME || toStr.call(fn) === '[object Function]';
+			return typeof fn === Function.TYPE_NAME || toStr.call(fn) === "[object Function]";
 		};
 		var toInteger = function (value) {
 			var number = Number(value);
@@ -161,7 +161,7 @@ if (!Array.from) {
 				// 5. else      
 				// 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
 				if (!isCallable(mapFn)) {
-					throw new TypeError('Array.from: when provided, the second argument must be a function');
+					throw new TypeError("Array.from: when provided, the second argument must be a function");
 				}
 
 				// 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.

@@ -1,28 +1,29 @@
 const { browserOnly, hasOwnProperty } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
+const { Mark, HtmlTag } = require("./constants");
 
 // 标签
-const START_START_TAG = '<',
-	START_END_TAG = '</',
-	END_TAG = '>',
-	ENMPTY_END_TAG = ' />';
+const START_START_TAG = Mark.LEFT_ANGLE,
+	START_END_TAG = `${Mark.LEFT_ANGLE}${Mark.SLASH}`,
+	END_TAG = Mark.RIGHT_ANGLE,
+	ENMPTY_END_TAG = ` ${Mark.SLASH}${Mark.RIGHT_ANGLE}`;
 
 // 包括 img 在内没有回标签的标签集合
-const NO_BODY_TAG = ['img', 'input', 'br', 'hr', 'title'];
+const NO_BODY_TAG = [HtmlTag.IMG, HtmlTag.INPUT, HtmlTag.BR, HtmlTag.HR, HtmlTag.TITLE];
 
 // 不能再在标签内部添加同名标签
 const NOT_SAME_TAG = [
 	// HTML 体标签
-	'html', 'head', 'title', 'body',
+	HtmlTag.HTML, HtmlTag.HEAD, HtmlTag.TITLE, HtmlTag.BODY,
 	// 其他标签
-	'a', 'i', 'b', 'del', 'u', 'strike'
+	, HtmlTag.A, HtmlTag.I, HtmlTag.B, HtmlTag.DEL, HtmlTag.U, HtmlTag.STRIKE
 ];
 
-const ABEND_TAG = ['script'];
+const ABEND_TAG = [HtmlTag.SCRIPT];
 
 const KEY_NAME = new Map();
-KEY_NAME.set('class', 'className');
+KEY_NAME.set("class", "className");
 
 function getKeyName(key) {
 	return KEY_NAME.has(key) ? KEY_NAME.get(key) : key;
@@ -30,7 +31,7 @@ function getKeyName(key) {
 
 function XmlWrapper(tag, attribute, xmlType) {
 
-	let _hashcode = '$=!' + (2388 / Math.random() + Math.sin(Date.now()));
+	let _hashcode = "$=!" + (2388 / Math.random() + Math.sin(Date.now()));
 
 	if (!tag || !typeIs(tag, String.TYPE_NAME)) throw new Error("只有非空文本能作为标签");
 	if (Array.has(ABEND_TAG, tag)) throw new Error("不允许使用 XmlWrapper 来动态构建 " + tag + " 元素");
@@ -372,7 +373,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 					}
 					break;
 				case XmlWrapper:
-					if (type === 'node') {
+					if (type === "node") {
 						if (!!tag && element.element.getTag() === tag) {
 							removed.push(element.element);
 							nRemoved++;
@@ -415,7 +416,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 		})
 	};
 	this.removeAttribute = function (key) {
-		return attrs['delete'](key);
+		return attrs["delete"](key);
 	};
 	this.getAttribute = function (key) {
 		return attrs.get(key);
@@ -431,7 +432,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 		var xml = [START_START_TAG, tag];
 		attrs.forEach(function (val, key) {
-			xml.push(' ' + key + '="' + attrs.get(key) + '"');
+			xml.push(Mark.SPACE + key + `${Mark.EQUALS}${Mark.DQUOTE}` + attrs.get(key) + Mark.DQUOTE);
 		});
 
 		var len = children.length;
@@ -507,7 +508,7 @@ function jsonToXml(json, rootTag) {
 
 	if (!typeIs(json, Object.TYPE_NAME, Array.TYPE_NAME, String.TYPE_NAME, Number.TYPE_NAME)) unsupportedType(json);
 
-	var root = new XmlWrapper(rootTag || 'root');
+	var root = new XmlWrapper(rootTag || "root");
 	root.setXmlType(true);
 	if (typeOf(json, String.TYPE_NAME)) {
 		root.add(json);

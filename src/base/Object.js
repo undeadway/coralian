@@ -37,7 +37,7 @@ Object.addAll = addAll;
 if (!Object.keys) {
 	Object.keys = function (o) {
 		if (o !== Object(o))
-			throw new TypeError('Object.keys called on a non-object');
+			throw new TypeError("Object.keys called on a non-object");
 		let k = [];
 		for (let p in o) {
 			if (hasOwnProperty(o, p)) {
@@ -52,7 +52,7 @@ if (!Object.keys) {
 if (!Object.values) {
 	Object.values = function (o) {
 		if (o !== Object(o))
-			throw new TypeError('Object.keys called on a non-object');
+			throw new TypeError("Object.keys called on a non-object");
 		var k = [];
 		for (let p in o) {
 			if (hasOwnProperty(o, p)) {

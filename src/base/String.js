@@ -74,7 +74,7 @@ String.lastCode = function (string) {
 	return string.charCodeAt(string.length - 1);
 };
 if (!String.startsWith) {
-	Object.defineProperty(String, 'startsWith', {
+	Object.defineProperty(String, "startsWith", {
 		enumerable: false,
 		configurable: false,
 		writable: false,
@@ -161,7 +161,7 @@ if (!String.fromCodePoint) {
 					codePoint > 0x10FFFF || // not a valid Unicode code point
 					floor(codePoint) != codePoint // not an integer
 				) {
-					throw RangeError('Invalid code point: ' + codePoint);
+					throw RangeError("Invalid code point: " + codePoint);
 				}
 				if (codePoint <= 0xFFFF) { // BMP code point
 					codeUnits.push(codePoint);
@@ -180,10 +180,10 @@ if (!String.fromCodePoint) {
 			return result;
 		};
 		if (defineProperty) {
-			defineProperty(String, 'fromCodePoint', {
-				'value': fromCodePoint,
-				'configurable': true,
-				'writable': true
+			defineProperty(String, "fromCodePoint", {
+				"value": fromCodePoint,
+				"configurable": true,
+				"writable": true
 			});
 		} else {
 			String.fromCodePoint = fromCodePoint;
@@ -192,7 +192,7 @@ if (!String.fromCodePoint) {
 }
 if (!String.prototype.codePointAt) {
 	(function () {
-		'use strict'; // needed to support `apply`/`call` with
+		"use strict"; // needed to support `apply`/`call` with
 		// `undefined`/`null`
 		var codePointAt = function (position) {
 			if (this == null) {
@@ -223,10 +223,10 @@ if (!String.prototype.codePointAt) {
 			}
 			return first;
 		};
-		Object.defineProperty(String.prototype, 'codePointAt', {
-			'value': codePointAt,
-			'configurable': true,
-			'writable': true
+		Object.defineProperty(String.prototype, "codePointAt", {
+			"value": codePointAt,
+			"configurable": true,
+			"writable": true
 		});
 	}());
 }
@@ -236,7 +236,7 @@ String.asArray = function (input) {
 	return input.match(STRING_AS_ARRAY_REGX);
 };
 
-Object.defineProperty(String, 'BLANK', {
+Object.defineProperty(String, "BLANK", {
 	value: EMPTY_STRING,
 	writable: false
 });
