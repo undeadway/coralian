@@ -1,5 +1,6 @@
 const { hasOwnProperty, Interface, Iterator, objectClone, getType } = require("../base/common");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
+const { Mark } =  require("./constants");
 
 module.exports = exports = {
 	Interface: Interface,
@@ -237,6 +238,19 @@ module.exports = exports = {
 		weight: function (tag) {
 			return "<" + tag + ">" + input + "</" + tag + ">";
 		},
+		underbarToCamel: (str, type = false) => {
+			if (String.contains(key, Mark.UNDER_SOURCE)) {
+				let result = [];
+				let arr = str.split(UNDERBAR);
+				let start = type ? 1 : 0; // 驼峰是大驼峰还是小驼峰
+				for (let i = start, len = arr.length; i < len; i++) {
+					result.push(this.firstToUpperCase(arr[i].toLowserCase()));
+				}
+				return result.join(String.BLANK);
+			} else {
+				return str;
+			}
+		},
 		queryString: function (obj) {
 
 			if (typeIs(obj, String.TYPE_NAME)) {
@@ -342,7 +356,8 @@ module.exports = exports = {
 			},
 			isSpace: function (input) {
 				if (!isChar(input)) invaildCharacter(input);
-				return Array.has(SPACE, input);
+				// return Array.has(SPACE, input);
+				return Mark.SPACE_REGX.test(input);
 			},
 			change: function (value, count) {
 				if (!Number.isNumber(count)) errorCast(count, Number);
