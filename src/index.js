@@ -104,7 +104,7 @@ function setToGlobal(parent, pkg, obj) {
 
 const Coralian = {
 	ABOUT: 'Coralian',
-	VERSION: '0.0.6',
+	VERSION: '0.0.22',
 	HOMEPAGE: 'http://codes.waygc.net/project/?coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
