@@ -22,11 +22,13 @@
 /*
  * 这些属于 JS 的基本类库扩展，不用导入Coralian命名空间
  */
-require("./base/Error");
-require("./base/Array");
-require("./base/Object");
-require("./base/String");
-require("./base/others");
+// require("./base/Error");
+// require("./base/Array");
+// require("./base/Object");
+// require("./base/String");
+// require("./base/others");
+require.context("./base/.");
+
 
 const { side, typeOf, typeIs, browserOnly, serverOnly } = require("./base/common");
 const { noReference, unsupportedType } = Error;
