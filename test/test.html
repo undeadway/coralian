@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <script src="./../dist/coralian.js"></script>
+</head>
+<body>
+    <script>
+        const list = [String, Array, Error, Object, Date, Number, Function, Map, Set];
+
+        list.map(obj => {
+            for (let k in obj) {
+                console.log(Function.getName(obj), k);
+            }
+        });
+
+        console.log(Coralian);
+    </script>
+</body>
+</html>
