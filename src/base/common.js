@@ -300,7 +300,7 @@ function instanceTo(instance, type) {
 }
 exports.instanceTo = instanceTo;
 
-let getFunctionName = exports.getFunctionName = (func) => {
+const getFunctionName = exports.getFunctionName = (func) => {
 
 	let functionName = String.BLANK;
 	let _name = func.name;
