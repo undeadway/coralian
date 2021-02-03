@@ -59,9 +59,9 @@ function isValidPassword(password) {
 	if (MARKS.test(password)) {
 		point += 1;
 	}
-	if (point < 13 && point !== 7 && point !== 11)
+	if (point < 13 && point !== 7 && point !== 11) {
 		return passwordCheckError("密码至少要包含大写字母、小写字母、数字或特殊字符中的三项");
-
+	}
 }
 
 module.exports = exports = {

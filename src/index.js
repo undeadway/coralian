@@ -84,7 +84,6 @@ if (side) {
 			lib[file] = require(`./base/${file}`);
 		});
 	} finally {
-
 	}
 }
 

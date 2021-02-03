@@ -1,7 +1,6 @@
 /*
  * 定义所有的常量
  */
-
 const DELETE = "delete";
 
 module.exports = exports = {

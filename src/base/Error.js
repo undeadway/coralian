@@ -3,17 +3,13 @@
  * 所以只能做一个懒加载模式
  */
 let isNumber, getFunctionName;
-function init() {
+/* ==================== Error 的扩展 ==================== */
+function debugError(e) {
 	if (!isNumber || !getFunctionName) {
 		let common = require("../base/common");
 		isNumber = common.isNumber;
 		getFunctionName = common.getFunctionName;
 	}
-}
-
-/* ==================== Error 的扩展 ==================== */
-function debugError(e) {
-	init();
 
 	alert("message:" + e.message);
 	alert("stack:" + e.stack);
