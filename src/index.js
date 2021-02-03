@@ -22,14 +22,7 @@
 /*
  * 这些属于 JS 的基本类库扩展，不用导入Coralian命名空间
  */
-// require("./base/Error");
-// require("./base/Array");
-// require("./base/Object");
-// require("./base/String");
-// require("./base/others");
-require.context("./base/.");
-
-
+const lib = {};
 const { side, typeOf, typeIs, browserOnly, serverOnly } = require("./base/common");
 const { noReference, unsupportedType } = Error;
 
@@ -54,6 +47,20 @@ if (side) {
 	} else if (!window.console.log) {
 		that.console.log = that.alert
 	}
+
+	// 前端借用 webpack 的 require.context 函数进行自动挂载文件
+	const base = require.context("./base/.");
+	base.keys().forEach(key => {
+		base(key);
+	});
+	const _lib = require.context("./lib/.");
+	_lib.keys().forEach(key => {
+		/^\.\/(((?!\.js).)+)?(.js)?$/.test(key);
+		if (!lib[RegExp.$1]) {
+			lib[key.replace("./", "")] = _lib(key);
+		}
+	});
+	
 } else {
 	that = global;
 	that.alert = function (msg) {
@@ -62,6 +69,19 @@ if (side) {
 		}
 		console.log(msg);
 	};
+
+	// 后端采用 nodejs 的 fs 模块进行文件挂载
+	const fs = require("fs");
+	const base = fs.readdirSync("./src/base");
+	base.map((file) => {
+		file = file.split(".")[0];
+		require(`./base/${file}`);
+	});
+	const _lib = fs.readdirSync("./src/lib");
+	_lib.map((file) => {
+		file = file.split(".")[0];
+		lib[file] = require(`./base/${file}`);
+	});
 }
 
 // 将 typeOf 和 typeIs 分别添加到全局对象
@@ -82,7 +102,7 @@ function setToGlobal(parent, pkg, obj) {
 	}
 }
 
-that.Coralian = {
+const Coralian = {
 	ABOUT: 'Coralian',
 	VERSION: '0.0.6',
 	HOMEPAGE: 'http://codes.waygc.net/project/?coralian',
@@ -111,14 +131,9 @@ that.Coralian = {
 	},
 	exports: function (name, obj) {
 		setExports(that, name, obj);
-	},
-	logger: require("./lib/logger"),
-	constants: require("./lib/constants"),
-	util: require("./lib/util"),
-	dom: require("./lib/dom"),
-	Calendar: require("./lib/Calendar"),
-	Formatter: require("./lib/Formatter"),
-	Random: require("./lib/Random"),
-	ReplaceHolder: require("./lib/ReplaceHolder"),
-	Validator: require("./lib/Validator")
+	}
 };
+
+Object.assign(Coralian, lib);
+
+that.Coralian = Coralian;
