@@ -71,7 +71,7 @@ if (side) {
 	};
 
 	// 后端采用 nodejs 的 fs 模块进行文件挂载
-	try {
+	try { // 套 try catch 的目的时因为前端打包时可能找不到 fs 模块
 		const fs = require("fs");
 		const base = fs.readdirSync("./src/base");
 		base.map((file) => {
