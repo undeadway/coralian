@@ -2,7 +2,6 @@ const { browserOnly, hasOwnProperty } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
 const { Mark, HtmlTag } = require("./constants");
-
 // 标签
 const START_START_TAG = Mark.LEFT_ANGLE,
 	START_END_TAG = `${Mark.LEFT_ANGLE}${Mark.SLASH}`,
@@ -11,7 +10,6 @@ const START_START_TAG = Mark.LEFT_ANGLE,
 
 // 包括 img 在内没有回标签的标签集合
 const NO_BODY_TAG = [HtmlTag.IMG, HtmlTag.INPUT, HtmlTag.BR, HtmlTag.HR, HtmlTag.TITLE];
-
 // 不能再在标签内部添加同名标签
 const NOT_SAME_TAG = [
 	// HTML 体标签
@@ -19,9 +17,7 @@ const NOT_SAME_TAG = [
 	// 其他标签
 	, HtmlTag.A, HtmlTag.I, HtmlTag.B, HtmlTag.DEL, HtmlTag.U, HtmlTag.STRIKE
 ];
-
 const ABEND_TAG = [HtmlTag.SCRIPT];
-
 const KEY_NAME = new Map();
 KEY_NAME.set("class", "className");
 

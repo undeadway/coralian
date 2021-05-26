@@ -60,7 +60,7 @@ if (side) {
 			lib[key.replace("./", "")] = _lib(key);
 		}
 	});
-	
+
 } else {
 	that = global;
 	that.alert = function (msg) {
@@ -71,17 +71,20 @@ if (side) {
 	};
 
 	// 后端采用 nodejs 的 fs 模块进行文件挂载
-	const fs = require("fs");
-	const base = fs.readdirSync("./src/base");
-	base.map((file) => {
-		file = file.split(".")[0];
-		require(`./base/${file}`);
-	});
-	const _lib = fs.readdirSync("./src/lib");
-	_lib.map((file) => {
-		file = file.split(".")[0];
-		lib[file] = require(`./base/${file}`);
-	});
+	try { // 套 try catch 的目的时因为前端打包时可能找不到 fs 模块
+		const fs = require("fs");
+		const base = fs.readdirSync("./src/base");
+		base.map((file) => {
+			file = file.split(".")[0];
+			require(`./base/${file}`);
+		});
+		const _lib = fs.readdirSync("./src/lib");
+		_lib.map((file) => {
+			file = file.split(".")[0];
+			lib[file] = require(`./base/${file}`);
+		});
+	} finally {
+	}
 }
 
 // 将 typeOf 和 typeIs 分别添加到全局对象
@@ -104,7 +107,7 @@ function setToGlobal(parent, pkg, obj) {
 
 const Coralian = {
 	ABOUT: 'Coralian',
-	VERSION: '0.0.6',
+	VERSION: '0.0.22',
 	HOMEPAGE: 'http://codes.waygc.net/project/?coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
