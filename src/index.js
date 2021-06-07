@@ -73,12 +73,12 @@ if (side) {
 	// 后端采用 nodejs 的 fs 模块进行文件挂载
 	try { // 套 try catch 的目的时因为前端打包时可能找不到 fs 模块
 		const fs = require("fs");
-		const base = fs.readdirSync("./src/base");
+		const base = fs.readdirSync(`${__dirname}/base`);
 		base.map((file) => {
 			file = file.split(".")[0];
 			require(`./base/${file}`);
 		});
-		const _lib = fs.readdirSync("./src/lib");
+		const _lib = fs.readdirSync(`${__dirname}/src/lib`);
 		_lib.map((file) => {
 			file = file.split(".")[0];
 			lib[file] = require(`./base/${file}`);
