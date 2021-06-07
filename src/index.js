@@ -81,7 +81,7 @@ if (side) {
 		const _lib = fs.readdirSync(`${__dirname}/lib`);
 		_lib.map((file) => {
 			file = file.split(".")[0];
-			lib[file] = require(`./base/${file}`);
+			lib[file] = require(`./lib/${file}`);
 		});
 	} finally {
 	}
