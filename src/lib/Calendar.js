@@ -6,7 +6,7 @@ const { isNumber } = Number;
 const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 // 默认对时间进行格式化
 const DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss",
-	YEAR_REGEXP = /YY(YY)?/;
+
 // 中文的周几
 const LONG_CHINESE_WEEK = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
 	SHORT_CHINESE_WEEK = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
@@ -44,6 +44,7 @@ function formatTime(date, format) {
 	var tmpMonth = date.getMonth();
 	var tmpDay = date.getDay();
 	var o = {
+		"YY+": date.getFullYear(),
 		"M+": (tmpMonth + 1), // month
 		"yue": CHINESE_MONTH[tmpMonth],
 		"month": ENGLISH_MONTH[tmpMonth],
@@ -58,21 +59,21 @@ function formatTime(date, format) {
 		"w": ENGLISH_WEEK[tmpDay].slice(0, 3),
 		"week": ENGLISH_WEEK[tmpDay]
 	};
-	if (YEAR_REGEXP.test(format)) {
-		format = format.replace(RegExp.$1, (date.getFullYear()).toString().substr(4 - RegExp.$1.length));
-	}
+
 	for (let k in o) {
 		if (hasOwnProperty(o, k)) {
+
 			let regExp = new RegExp("(" + k + ")");
 			if (regExp.test(format)) {
+				let regxVal = format.match(regExp[0]);
 				let val = o[k];
 				if (Array.has(CHINESE_CALANER, k)) {
-					format = format.replace(regExp, val);
+					format = format.replace(regxVal, val);
 				} else {
 					if (!Array.has(ONE_COUNT, RegExp.$1) && val < 10) {
 						val = "0" + val;
 					}
-					format = format.replace(regExp, val);
+					format = format.replace(regxVal, val);
 				}
 			}
 		}
