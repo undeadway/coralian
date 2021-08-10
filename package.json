@@ -1,6 +1,6 @@
 {
   "name": "coralian",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "The base expands library of Javascript",
   "main": "./src/index.js",
   "scripts": {
