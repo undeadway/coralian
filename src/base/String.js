@@ -1,3 +1,5 @@
+const { typeIs } = require("./common");
+
 /* ==================== String 的扩展 ==================== */
 const { errorCast, unsupportedType } = Error;
 
@@ -248,4 +250,44 @@ String.from = (obj) => {
 	if (obj === null || obj === undefined) return EMPTY_STRING;
 	return (obj).valueOf();
 };
+
+String.lowerCamelCase = (input, mark = "-") => {
+
+	if (!typeIs(input, 'string', 'array')) {
+		unsupportedType(input);
+	}
+	if (typeIs(input, 'string')) {
+		input = input.split(mark);
+	}
+
+	let output = [];
+
+	output.push(input.shift().toLowerCase());
+
+	input.map(item => {
+		let str = item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+		output.push(str);
+	});
+
+	return output.join(String.BLANK);
+};
+
+String.upperCamelCase = (input, mark = "-") => {
+
+	if (!typeIs(input, 'string', 'array')) {
+		unsupportedType(input);
+	}
+	if (typeIs(input, 'string')) {
+		input = input.split(mark);
+	}
+
+	let output = [];
+
+	input.map(item => {
+		let str = item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+		output.push(str);
+	});
+
+	return output.join(String.BLANK);
+}
 /* ==================== String 的扩展 ==================== */

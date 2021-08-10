@@ -5,7 +5,7 @@ const { isNumber } = Number;
 // 一天的毫秒数
 const ONE_DAY_MILLISECONDS = 24 * 3600 * 1000;
 // 默认对时间进行格式化
-const DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss",
+const DEFAULT_DT_FORMAT = "YYYY-MM-DD hh:mm:ss";
 
 // 中文的周几
 const LONG_CHINESE_WEEK = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],

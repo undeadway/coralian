@@ -207,18 +207,18 @@ exports.typeOf = typeOf;
  * 从第二个参数开始是一个可变长参数，可以传入任意多字符串参数表达数据类型，
  * 只要其中一个和被比较对象的结果一致，则返回 ture 当全部不符合的时候，返回 false 。
  */
-function typeIs(object, types) {
+function typeIs(object, ...types) {
 
 	let type = typeOf(object);
-	let _types = types;
+	// let _types = types;
 
-	if (arguments.length === 2 && typeof types === String.TYPE_NAME) {
-		return type === types;
-	} else if (!_isArray(types) && arguments.length > 2) {
-		_types = Array.prototype.slice.call(arguments, 1);
-	}
+	// if (arguments.length === 2 && typeof types === String.TYPE_NAME) {
+	// 	return type === types;
+	// } else if (!_isArray(types) && arguments.length > 2) {
+	// 	_types = Array.prototype.slice.call(arguments, 1);
+	// }
 
-	return Array.has(_types, type);
+	return new Set(types).has(type);
 }
 exports.typeIs = typeIs;
 
