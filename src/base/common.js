@@ -217,8 +217,11 @@ function typeIs(object, ...types) {
 	// } else if (!_isArray(types) && arguments.length > 2) {
 	// 	_types = Array.prototype.slice.call(arguments, 1);
 	// }
-
-	return new Set(types).has(type);
+	if (Array.has) {
+		Array.has(types, type);
+	} else {
+		return new Set(types).has(type);
+	}
 }
 exports.typeIs = typeIs;
 
