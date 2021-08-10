@@ -44,7 +44,7 @@ function formatTime(date, format) {
 	var tmpMonth = date.getMonth();
 	var tmpDay = date.getDay();
 	var o = {
-		"YY+": date.getFullYear(),
+		"(YY)+": date.getFullYear(),
 		"M+": (tmpMonth + 1), // month
 		"yue": CHINESE_MONTH[tmpMonth],
 		"month": ENGLISH_MONTH[tmpMonth],
@@ -65,7 +65,7 @@ function formatTime(date, format) {
 
 			let regExp = new RegExp("(" + k + ")");
 			if (regExp.test(format)) {
-				let regxVal = format.match(regExp[0]);
+				let regxVal = format.match(regExp)[0];
 				let val = o[k];
 				if (Array.has(CHINESE_CALANER, k)) {
 					format = format.replace(regxVal, val);
