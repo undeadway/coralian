@@ -48,7 +48,7 @@ if (side) {
 		that.console.log = that.alert
 	}
 
-	// 前端借用 webpack 的 require.context 函数进行自动挂载文件
+	// 前端借用 webpack 的 require.context 函数进行自动挂载文件 
 	const base = require.context("./base/.");
 	base.keys().forEach(key => {
 		base(key);
@@ -111,6 +111,9 @@ const Coralian = {
 	HOMEPAGE: 'http://codes.waygc.net/project/?coralian',
 	AUTHOR: 'hzwaygc@gmail.com',
 	side: function () {
+		return side;
+	},
+	isBrowser: () => {
 		return side;
 	},
 	/*
