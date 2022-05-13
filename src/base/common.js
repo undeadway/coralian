@@ -86,22 +86,22 @@ if (!Object.TYPE_NAME) {
 		}
 	});
 }
-// null
-if (!Object.NULL_TYPE_NAME) {
-	Object.defineProperty(Object, "NULL_TYPE_NAME", {
-		get: () => {
-			return "null";
-		}
-	});
-}
-// undefined
-if (!Object.UNDEFINED_TYPE_NAME) {
-	Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
-		get: () => {
-			return "undefined";
-		}
-	});
-}
+// // null
+// if (!Object.NULL_TYPE_NAME) {
+// 	Object.defineProperty(Object, "NULL_TYPE_NAME", {
+// 		get: () => {
+// 			return "null";
+// 		}
+// 	});
+// }
+// // undefined
+// if (!Object.UNDEFINED_TYPE_NAME) {
+// 	Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
+// 		get: () => {
+// 			return "undefined";
+// 		}
+// 	});
+// }
 
 //  ES6 新增
 if (Set && !Array.TYPE_NAME) {
