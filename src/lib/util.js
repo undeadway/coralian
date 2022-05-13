@@ -1,4 +1,4 @@
-const { hasOwnProperty, Interface, Iterator, objectClone, getType } = require("../base/common");
+const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../base/common");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
 const { Mark } = require("./constants");
 
@@ -399,7 +399,15 @@ const NumberUtil = {
 	}
 };
 
+
+
 module.exports = exports = {
+	getNull: () => {
+		return Null;
+	},
+	getUndefined: () => {
+		return Undefined;
+	},
 	Interface: Interface,
 	Iterator: Iterator,
 	MathUtil: MathUtil,

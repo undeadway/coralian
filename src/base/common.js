@@ -168,6 +168,48 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 const { Mark } = require("./../lib/constants");
+const { types } = require("util");
+
+const typeTo = {
+	toString: () => {
+		return this.name.toLowerCase();
+	}
+}
+
+
+function Null () {}
+function Undefined () {};
+
+const nullObj = new Null();
+const undefinedObj = new Undefined();
+
+Object.defineProperties(nullObj,  {
+	"TYPE_NAME": {
+		value: "null",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return null;
+		},
+		writable: false
+	}
+});
+Object.defineProperties(undefinedObj,  {
+	"TYPE_NAME": {
+		value: "undefined",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return undefined;
+		},
+		writable: false
+	}
+});
+
+exports.Null = nullObj;
+exports.Undefined = undefinedObj;
 
 /**
  * 用于得到数据类型
@@ -206,30 +248,34 @@ function typeOf(object) {
 	let result;
 
 	if (object === null) {
-		result = Object.NULL_TYPE_NAME;
+		result = nullObj.TYPE_NAME;
 	} else if (_isArray(object)) {
 		result = Array.TYPE_NAME;
 	} else if (object !== object) {
 		result = NaN.TYPE_NAME;
 	} else if (object === Infinity || object === -Infinity) {
 		result = Infinity.TYPE_NAME;
-	} else if (object instanceof RegExp) {
+	} else if (types.isRegExp(object)) {
 		result = RegExp.TYPE_NAME;
-	} else if (object instanceof Number) { // new Number
+	} else if (types.isNumberObject(object)) { // new Number
 		result = Number.TYPE_NAME;
-	} else if (object instanceof Boolean) { // new Boolean
+	} else if (types.isBooleanObject(object)) { // new Boolean
 		result = Boolean.TYPE_NAME;
-	} else if (object instanceof String) { // new String
+	} else if (types.isStringObject(object)) { // new String
 		result = String.TYPE_NAME;
-	} else if (object instanceof Date) {
+	} else if (types.isDate(object)) {
 		result = Date.TYPE_NAME;
-	} else if (object instanceof Set) {
+	} else if (types.isSet(object)) {
 		result = Set.TYPE_NAME;
-	} else if (object instanceof WeakSet) {
+	} else if (types.isWeakSet(object)) {
 		result = WeakSet.TYPE_NAME;
-	} else if (object instanceof Map) {
+	} else if (types.isMap(object)) {
 		result = Map.TYPE_NAME;
-	} else if (object instanceof WeakMap) {
+	} else if (types.isWeakMap(object)) {
+		result = WeakMap.TYPE_NAME;
+	} else if (types.isWeakMap(object)) {
+		result = WeakMap.TYPE_NAME;
+	} else if (types.isWeakMap(object)) {
 		result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
