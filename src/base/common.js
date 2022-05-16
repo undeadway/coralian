@@ -86,22 +86,22 @@ if (!Object.TYPE_NAME) {
 		}
 	});
 }
-// null
-if (!Object.NULL_TYPE_NAME) {
-	Object.defineProperty(Object, "NULL_TYPE_NAME", {
-		get: () => {
-			return "null";
-		}
-	});
-}
-// undefined
-if (!Object.UNDEFINED_TYPE_NAME) {
-	Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
-		get: () => {
-			return "undefined";
-		}
-	});
-}
+// // null
+// if (!Object.NULL_TYPE_NAME) {
+// 	Object.defineProperty(Object, "NULL_TYPE_NAME", {
+// 		get: () => {
+// 			return "null";
+// 		}
+// 	});
+// }
+// // undefined
+// if (!Object.UNDEFINED_TYPE_NAME) {
+// 	Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
+// 		get: () => {
+// 			return "undefined";
+// 		}
+// 	});
+// }
 
 //  ES6 新增
 if (Set && !Array.TYPE_NAME) {
@@ -718,7 +718,7 @@ exports.formatString = (str, ...obj) => {
 	return str;
 }
 
-const side = typeof (window) !== nullObj.TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
+const side = typeof (window) !== undefinedObj.TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
 exports.side = side;
 
 const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";

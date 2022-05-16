@@ -23,7 +23,7 @@
  * 这些属于 JS 的基本类库扩展，不用导入Coralian命名空间
  */
 const lib = {};
-const { side, typeOf, typeIs, browserOnly, serverOnly } = require("./base/common");
+const { side, typeOf, typeIs, browserOnly, serverOnly, Null,Undefined } = require("./base/common");
 const { noReference, unsupportedType } = Error;
 
 let that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
@@ -90,6 +90,8 @@ if (side) {
 // 将 typeOf 和 typeIs 分别添加到全局对象
 that.typeOf = typeOf;
 that.typeIs = typeIs;
+that.Null = Null;
+that.Undefined = Undefined;
 
 function setToGlobal(parent, pkg, obj) {
 
