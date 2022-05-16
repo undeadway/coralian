@@ -718,7 +718,7 @@ exports.formatString = (str, ...obj) => {
 	return str;
 }
 
-const side = typeof (window) !== Object.UNDEFINED_TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
+const side = typeof (window) !== nullObj.TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
 exports.side = side;
 
 const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";
