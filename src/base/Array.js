@@ -1,4 +1,4 @@
-const { isArray, arrayClone, Null, Object } = require("../base/common");
+const { isArray, arrayClone, Null, Undefined } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 
 /* ==================== Array 的扩展 ==================== */
