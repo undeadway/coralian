@@ -22,6 +22,7 @@
 /*
  * 这些属于 JS 的基本类库扩展，不用导入Coralian命名空间
  */
+require("jsconst");
 const lib = {};
 const { side, typeOf, typeIs, browserOnly, serverOnly, Null,Undefined } = require("./base/common");
 const { noReference, unsupportedType } = Error;
