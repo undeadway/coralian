@@ -1,4 +1,4 @@
-const { Char } = NodeConst;
+const { Char } = JsConst;
 
 function formatNumber(number) {
 

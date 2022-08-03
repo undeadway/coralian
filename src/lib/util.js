@@ -1,6 +1,6 @@
 const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../base/common");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
-const { Char } = NodeConst;
+const { Char } = JsConst;
 
 const StringUtil = {
 	normal: function (input) {

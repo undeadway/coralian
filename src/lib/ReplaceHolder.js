@@ -1,6 +1,6 @@
 const replaceElement = require("../base/common").replaceElement;
 const { LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L } = replaceElement;
-const { Char, XmlEntity, CharCode, RegxType } = NodeConst;
+const { Char, XmlEntity, CharCode, RegxType } = JsConst;
 
 const HTML_NEW_LINE = "<br />";
 

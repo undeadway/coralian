@@ -167,7 +167,7 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 	};
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
-const { Char } = NodeConst;
+const { Char } = JsConst;
 const { types } = require("util");
 
 const typeTo = {

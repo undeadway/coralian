@@ -21,7 +21,7 @@
   },
   "homepage": "http://prj.waygc.net/?coralian",
   "dependencies": {
-    "node-const": "git+https://gitee.com/undeadway/node-const#dev"
+    "jsconst": "git+https://gitee.com/undeadway/jsconst#dev"
   },
   "devDependencies": {
     "webpack": "^4.20.2",

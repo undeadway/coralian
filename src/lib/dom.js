@@ -1,7 +1,7 @@
 const { browserOnly, hasOwnProperty } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
-const { Char, HtmlTag } = NodeConst;
+const { Char, HtmlTag } = JsConst;
 // 标签
 const START_START_TAG = Char.Angle.LEFT,
 	START_END_TAG = `${Char.Angle.LEFT}${Char.SLASH}`,
