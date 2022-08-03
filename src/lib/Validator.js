@@ -1,4 +1,4 @@
-const { Const } = NodConst;
+const { Const } = JsConst;
 
 const UPPER_CASE = /[A-Z]/,
 	LOWER_CASE = /[a-z]/,
