@@ -167,7 +167,7 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 	};
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
-const { Mark } = require("./../lib/constants");
+const { Char } = NodeConst;
 const { types } = require("util");
 
 const typeTo = {
@@ -330,7 +330,7 @@ function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURF
 		p2 = str.indexOf(surfix, p1 + prefix.length);
 		if (p2 === -1) break;
 		let holder = str.substring(p1 + prefix.length, p2);
-		let nests = holder.split(Mark.POINT);
+		let nests = holder.split(Char.POINT);
 		let val = obj;
 		for (let i = 0, length = nests.length; i < length; i++) {
 			val = val[nests[i]];
@@ -394,7 +394,7 @@ const getFunctionName = exports.getFunctionName = (func) => {
 	} else {
 		let arr = null,
 			str = func.toString();
-		if (str.charAt(0) === Mark.LEFT_SQUARE_BRACKET) {
+		if (str.charAt(0) === Char.SquareBracket.LEFT) {
 			arr = str.match(/\[\w+\s*(\w+)\]/);
 		} else {
 			arr = str.match(/function\s*(\w+)/);
@@ -415,7 +415,7 @@ const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 	}
 
 	let pars = _d.join();
-	return `function ${name}${Mark.LEFT_PARENTHE}${pars}${Mark.RIGHT_PARENTHE}${Mark.SEMICOLON}`;
+	return `function ${name}${Char.Parenthe.LEFT}${pars}${Char.Parenthe.RIGHT}${Char.SEMICOLON}`;
 }
 
 exports.newInstance = (type, args) => {

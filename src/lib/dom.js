@@ -1,12 +1,12 @@
 const { browserOnly, hasOwnProperty } = require("../base/common");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
-const { Mark, HtmlTag } = require("./constants");
+const { Char, HtmlTag } = NodeConst;
 // 标签
-const START_START_TAG = Mark.LEFT_ANGLE,
-	START_END_TAG = `${Mark.LEFT_ANGLE}${Mark.SLASH}`,
-	END_TAG = Mark.RIGHT_ANGLE,
-	ENMPTY_END_TAG = ` ${Mark.SLASH}${Mark.RIGHT_ANGLE}`;
+const START_START_TAG = Char.Angle.LEFT,
+	START_END_TAG = `${Char.Angle.LEFT}${Char.SLASH}`,
+	END_TAG = Char.Angle.RIGHT,
+	ENMPTY_END_TAG = ` ${Char.SLASH}${Char.Angle.RIGHT}`;
 
 // 包括 img 在内没有回标签的标签集合
 const NO_BODY_TAG = [HtmlTag.IMG, HtmlTag.INPUT, HtmlTag.BR, HtmlTag.HR, HtmlTag.TITLE];
@@ -355,8 +355,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 		if (len <= last) indexOutOfBounds(last, len);
 
 		var removed = [];
-		var nRemoved = 0,
-			tRevmoed = 0;
+		var tRevmoed = 0;
 
 		for (let i = index; i < last; i++) {
 
@@ -428,7 +427,7 @@ function XmlWrapper(tag, attribute, xmlType) {
 
 		var xml = [START_START_TAG, tag];
 		attrs.forEach(function (val, key) {
-			xml.push(Mark.SPACE + key + `${Mark.EQUALS}${Mark.DQUOTE}` + attrs.get(key) + Mark.DQUOTE);
+			xml.push(Char.Space.SPACE + key + `${Char.EQUALS}${Char.DQUOTE}` + attrs.get(key) + Char.DQUOTE);
 		});
 
 		var len = children.length;

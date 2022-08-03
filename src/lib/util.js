@@ -1,6 +1,6 @@
 const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../base/common");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
-const { Mark } = require("./constants");
+const { Char } = NodeConst;
 
 const StringUtil = {
 	normal: function (input) {
@@ -10,9 +10,9 @@ const StringUtil = {
 		return "<" + tag + ">" + input + "</" + tag + ">";
 	},
 	undersourceToCamel: (str, type = false) => {
-		if (String.contains(str, Mark.UNDER_SOURCE)) {
+		if (String.contains(str, Char.UNDER_SOURCE)) {
 			let result = [];
-			let arr = str.split(Mark.UNDER_SOURCE);
+			let arr = str.split(Char.UNDER_SOURCE);
 			let start = type ? 1 : 0; // 驼峰是大驼峰还是小驼峰
 			for (let i = start, len = arr.length; i < len; i++) {
 				result.push(StringUtil.firstToUpperCase(arr[i].toLowerCase()));
@@ -34,13 +34,13 @@ const StringUtil = {
 				// 这里 encodeURIComponent 是因为 nodejs 端才这么写，其他服务器语言可能用不着
 				// JSON.stringify 这句是因为可能存在包含对象类型的数据
 				if (typeIs(obj[key], Object.TYPE_NAME)) {
-					string.push(key + Mark.EQUALS + JSON.stringify(encodeURIComponent(obj[key])));
+					string.push(key + Char.EQUALS + JSON.stringify(encodeURIComponent(obj[key])));
 				} else {
-					string.push(key + Mark.EQUALS + encodeURIComponent(obj[key]));
+					string.push(key + Char.EQUALS + encodeURIComponent(obj[key]));
 				}
 			}
 		}
-		return string.join(Mark.AND);
+		return string.join(Char.AND);
 	},
 	firstToUpperCase: function (str) {
 		if (!typeIs(str, String.TYPE_NAME)) errorCast(str, String);
@@ -320,7 +320,7 @@ const CharUtil = (function () {
 		isSpace: function (input) {
 			if (!isChar(input)) invaildCharacter(input);
 			// return Array.has(SPACE, input);
-			return Mark.SPACE_REGX.test(input);
+			return Char.Space.REGX.test(input);
 		},
 		change: function (value, count) {
 			if (!Number.isNumber(count)) errorCast(count, Number);
@@ -383,7 +383,7 @@ const NumberUtil = {
 
 		let sNum = (num || 0).toString(), result = String.BLANK;
 		while (sNum.length > cutSize) {
-			result = Mark.COMMA + num.slice(-cutSize) + result;
+			result = Char.COMMA + num.slice(-cutSize) + result;
 			sNum = sNum.slice(0, sNum.length - cutSize);
 		}
 		if (sNum) {

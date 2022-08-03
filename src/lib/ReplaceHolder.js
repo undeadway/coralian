@@ -1,6 +1,6 @@
 const replaceElement = require("../base/common").replaceElement;
 const { LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L } = replaceElement;
-const { Mark, XmlEntity, CharCode, RegxType } = require("./constants");
+const { Char, XmlEntity, CharCode, RegxType } = NodeConst;
 
 const HTML_NEW_LINE = "<br />";
 
@@ -20,7 +20,7 @@ function replaceLoop(str, objs, callback) {
 		var end = LOOP_REG_END + action + DEFAULT_SURFIX;
 		let inStr = str.slice(firstEnd + 1, str.indexOf(end));
 		let obj = objs,
-			tmpAction = action.split(Mark.POINT);
+			tmpAction = action.split(Char.POINT);
 		for (let i = 0, len = tmpAction.length; i < len; i++) {
 			if (!obj) break;
 			obj = obj[tmpAction[i]];
@@ -40,8 +40,8 @@ function replaceLoop(str, objs, callback) {
 					// 递归查找子循环
 					loopStr = replaceLoop(loopStr, o);
 					// 替换内部元素
-					loopStr = replaceElement(loopStr, o, `${LOOP_IN_START}${action}${Mark.POINT}`);
-					loopStr = callback(loopStr, o, `${action}${Mark.POINT}`);
+					loopStr = replaceElement(loopStr, o, `${LOOP_IN_START}${action}${Char.POINT}`);
+					loopStr = callback(loopStr, o, `${action}${Char.POINT}`);
 					result.push(loopStr);
 				}
 			}
@@ -72,7 +72,7 @@ module.exports = exports = {
 
 		str = (!!first) ? first(str) : str;
 
-		str = str.replace(/  /ig, `${Mark.SPACE}${XmlEntity.SPACE}`);
+		str = str.replace(/  /ig, `${Char.Space.BLANK}${XmlEntity.SPACE}`);
 		str = str.replace(/\t/ig, `${XmlEntity.SPACE}${XmlEntity.SPACE}${XmlEntity.SPACE}${XmlEntity.SPACE}${CharCode.ZERO_WIDTH}`); // 制表符这么写主要是为了满足表现形式和制表符相同（不会换行）
 
 		str = (!!second) ? second(str) : str;
