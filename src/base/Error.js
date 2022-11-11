@@ -2,13 +2,14 @@
  * 这里这么写的原因是 Error 和 common 之间存在关联调用
  * 所以只能做一个懒加载模式
  */
-let isNumber, getFunctionName;
+let isNumber, getFunctionName, typeOf;
 /* ==================== Error 的扩展 ==================== */
 function debugError(e) {
-	if (!isNumber || !getFunctionName) {
-		let common = require("../common/defines");
-		isNumber = common.isNumber;
-		getFunctionName = common.getFunctionName;
+	if (!isNumber || !getFunctionName || !typeOf) {
+		let defines = require("../common/defines");
+		isNumber = defines.isNumber;
+		getFunctionName = defines.getFunctionName;
+		typeOf = defines.typeOf;
 	}
 
 	alert("message:" + e.message);
