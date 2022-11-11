@@ -1,4 +1,4 @@
-const { hasOwnProperty, getFunctionName, getFunctionDefine, getType, isNumber } = require("../common/defines");
+const { hasOwnProperty, getFunctionName, getFunctionDefine, getType, isNumber } = require("../common/base");
 const { errorCast, unsupportedType, noReference } = Error;
 
 /* ==================== Date 的扩展 ==================== */

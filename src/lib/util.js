@@ -1,4 +1,4 @@
-const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../common/defines");
+const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../common/base");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
 const { Char } = JsConst;
 
@@ -412,6 +412,5 @@ module.exports = exports = {
 	ObjectUtil: ObjectUtil,
 	StringUtil: StringUtil,
 	NumberUtil: NumberUtil,
-	CharUtil: CharUtil,
-	Types: Types
+	CharUtil: CharUtil
 }

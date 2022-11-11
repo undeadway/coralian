@@ -36,5 +36,5 @@ module.exports = exports = {
 		}
 		return formated;
 	},
-	formatString:  require("./../common/defines").formatString
+	formatString:  require("./../common/base").formatString
 };

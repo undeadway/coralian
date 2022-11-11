@@ -1,4 +1,4 @@
-const { hasOwnProperty, formatString } = require("./../common/defines");
+const { hasOwnProperty, formatString } = require("./../common/base");
 const { unsupportedType, unsupportedOperation, errorCast } = Error;
 const { isNumber } = Number;
 

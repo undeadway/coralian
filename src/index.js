@@ -25,7 +25,7 @@
 require("jsconst");
 const lib = {};
 
-const { side, browserOnly, serverOnly } = require("./common/base");
+const { side, browserOnly, serverOnly, typeOf, typeIs, Null,Undefined } = require("./common/base");
 
 let that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
 	n_eval = null; // 将 eval 函数的指针赋值给本地局部变量（暂时不知道能干嘛，保留指针）
@@ -88,7 +88,6 @@ if (side) {
 	}
 }
 
-const { typeOf, typeIs, Null,Undefined } = require("./common/defines");
 const { noReference, unsupportedType } = Error;
 
 // 将 typeOf 和 typeIs 分别添加到全局对象

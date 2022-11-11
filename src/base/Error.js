@@ -2,19 +2,35 @@
  * 这里这么写的原因是 Error 和 common 之间存在关联调用
  * 所以只能做一个懒加载模式
  */
-let isNumber, getFunctionName, typeOf;
-/* ==================== Error 的扩展 ==================== */
-function debugError(e) {
-	if (!isNumber || !getFunctionName || !typeOf) {
-		let defines = require("../common/defines");
-		isNumber = defines.isNumber;
-		getFunctionName = defines.getFunctionName;
-		typeOf = defines.typeOf;
+let _isNumber, _getFunctionName, _typeOf;
+function initBase () {
+	let defines = require("../common/base");
+	_typeOf = defines.typeOf;
+	_isNumber = defines.isNumber;
+	_getFunctionName = defines.getFunctionName;
+}
+function typeOf (obj) {
+	if (!_typeOf) {
+		initBase();
 	}
 
-	alert("message:" + e.message);
-	alert("stack:" + e.stack);
-	throw e;
+	return _typeOf(obj);
+}
+
+function getFunctionName () {
+	if (!_getFunctionName) {
+		initBase();
+	}
+
+	return _getFunctionName(obj);
+}
+
+function isNumber () {
+	if (!_isNumber) {
+		initBase();
+	}
+
+	return _isNumber(obj);
 }
 
 function errorCast(obj, type) {
@@ -55,7 +71,7 @@ Error.noReference = noReference;
 function unsupportedType(type) {
 
 	let error = new TypeError();
-	error.message = typeOf(type) + "类型的数据不被当前操作所支持。";
+	error.message = _typeOf(type) + "类型的数据不被当前操作所支持。";
 	debugError(error);
 }
 Error.unsupportedType = unsupportedType;
