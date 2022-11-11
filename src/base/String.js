@@ -1,4 +1,4 @@
-const { typeIs } = require("./common");
+const { typeIs } = require("../common/defines");
 
 /* ==================== String 的扩展 ==================== */
 const { errorCast, unsupportedType } = Error;
