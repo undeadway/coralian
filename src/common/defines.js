@@ -166,6 +166,7 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 		return keys;
 	};
 
+require("./../base/Error");
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 const { Char } = JsConst;
 
