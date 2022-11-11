@@ -24,8 +24,8 @@
  */
 require("jsconst");
 const lib = {};
-const { side, typeOf, typeIs, browserOnly, serverOnly, Null,Undefined } = require("./base/common");
-const { noReference, unsupportedType } = Error;
+
+const { side, browserOnly, serverOnly } = require("./common/base");
 
 let that = null, // 定义 全局变量 that，node 中等价于 global 浏览器中等价于 window
 	n_eval = null; // 将 eval 函数的指针赋值给本地局部变量（暂时不知道能干嘛，保留指针）
@@ -40,7 +40,7 @@ if (side) {
 
 	// 如果客户端没有实现 console.log 则用 window.alert 来代为实现相关功能
 	if (!window.console) {
-		that.cosole = {
+		that.console = {
 			log: that.alert,
 			err: that.alert,
 			warn: that.alert
@@ -87,6 +87,9 @@ if (side) {
 	} finally {
 	}
 }
+
+const { typeOf, typeIs, Null,Undefined } = require("./common/defines");
+const { noReference, unsupportedType } = Error;
 
 // 将 typeOf 和 typeIs 分别添加到全局对象
 that.typeOf = typeOf;

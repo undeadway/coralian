@@ -1,4 +1,4 @@
-const { keyArray, hasOwnProperty, instanceTo, objectClone, isPrimitive } = require("../base/common");
+const { keyArray, hasOwnProperty, instanceTo, objectClone, isPrimitive } = require("./common/defines");
 const { unsupportedType, noReference } = Error;
 
 /* ==================== Object 的扩展 ==================== */

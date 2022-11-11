@@ -1,4 +1,4 @@
-const replaceElement = require("../base/common").replaceElement;
+const replaceElement = require("../common/defines").replaceElement;
 const { LOOP_REG_START, LOOP_REG_END, LOOP_IN_START, DEFAULT_SURFIX, LOOP_REG_START_L } = replaceElement;
 const { Char, XmlEntity, CharCode, RegxType } = JsConst;
 

@@ -3,7 +3,7 @@
  * 以及对日志进行最基本的格式化功能
  */
 const Calendar = require("./Calendar");
-const formatString = require("./../base/common").formatString;
+const formatString = require("./../common/defines").formatString;
 
 const INFO = 'INFO',
 	ERROR = 'ERROR',

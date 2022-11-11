@@ -6,7 +6,7 @@ let isNumber, getFunctionName;
 /* ==================== Error 的扩展 ==================== */
 function debugError(e) {
 	if (!isNumber || !getFunctionName) {
-		let common = require("../base/common");
+		let common = require("../common/defines");
 		isNumber = common.isNumber;
 		getFunctionName = common.getFunctionName;
 	}

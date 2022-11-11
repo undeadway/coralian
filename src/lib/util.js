@@ -1,4 +1,4 @@
-const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../base/common");
+const { hasOwnProperty, Interface, Iterator, objectClone, getType, Null, Undefined } = require("../common/defines");
 const { unsupportedOperation, unsupportedType, errorCast, illegalArguments } = Error;
 const { Char } = JsConst;
 

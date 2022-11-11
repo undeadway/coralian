@@ -1,4 +1,5 @@
-const { browserOnly, hasOwnProperty } = require("../base/common");
+const { browserOnly } = require("../common/base");
+const { hasOwnProperty } = require("../common/defines");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 const EMPTY_STRING = String.BLANK;
 const { Char, HtmlTag } = JsConst;
