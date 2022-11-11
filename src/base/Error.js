@@ -16,7 +16,6 @@ function typeOf (obj) {
 
 	return _typeOf(obj);
 }
-
 function getFunctionName () {
 	if (!_getFunctionName) {
 		initBase();
@@ -24,13 +23,17 @@ function getFunctionName () {
 
 	return _getFunctionName(obj);
 }
-
 function isNumber () {
 	if (!_isNumber) {
 		initBase();
 	}
 
 	return _isNumber(obj);
+}
+
+function debugError (error) {
+	console.log(error);
+	throw error;
 }
 
 function errorCast(obj, type) {
@@ -42,7 +45,7 @@ function errorCast(obj, type) {
 	let error = new TypeError();
 	console.error(error.message);
 	console.error(error.stack);
-	error = typeOf(obj) + " 类型的数据无法转变为 " + getFunctionName(type) + "。";
+	error.message = typeOf(obj) + " 类型的数据无法转变为 " + getFunctionName(type) + "。";
 	debugError(error);
 }
 Error.errorCast = errorCast;
