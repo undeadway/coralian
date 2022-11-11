@@ -215,6 +215,42 @@ const Types = {
 	},
 };
 
+
+
+function Null () {}
+function Undefined () {};
+
+const nullObj = new Null();
+const undefinedObj = new Undefined();
+
+Object.defineProperties(nullObj,  {
+	"TYPE_NAME": {
+		value: "null",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return null;
+		},
+		writable: false
+	}
+});
+Object.defineProperties(undefinedObj,  {
+	"TYPE_NAME": {
+		value: "undefined",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return undefined;
+		},
+		writable: false
+	}
+});
+
+exports.Null = nullObj;
+exports.Undefined = undefinedObj;
+
 /**
  * 用于得到数据类型
  * 一般以 string 类型返回数据类型的值
@@ -253,6 +289,8 @@ const Types = {
 
 	if (object === null) {
 		result = nullObj.TYPE_NAME;
+	} else if (object === undefined) {
+		result = undefinedObj.TYPE_NAME;
 	} else if (_isArray(object)) {
 		result = Array.TYPE_NAME;
 	} else if (object !== object) {
@@ -301,40 +339,6 @@ const typeTo = {
 		return this.name.toLowerCase();
 	}
 }
-
-function Null () {}
-function Undefined () {};
-
-const nullObj = new Null();
-const undefinedObj = new Undefined();
-
-Object.defineProperties(nullObj,  {
-	"TYPE_NAME": {
-		value: "null",
-		writable: false
-	},
-	"getValue": {
-		value: () => {
-			return null;
-		},
-		writable: false
-	}
-});
-Object.defineProperties(undefinedObj,  {
-	"TYPE_NAME": {
-		value: "undefined",
-		writable: false
-	},
-	"getValue": {
-		value: () => {
-			return undefined;
-		},
-		writable: false
-	}
-});
-
-exports.Null = nullObj;
-exports.Undefined = undefinedObj;
 
 /*
  * 第一个参数是需要被比较的 Object 对象
