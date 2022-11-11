@@ -71,7 +71,7 @@ Error.noReference = noReference;
 function unsupportedType(type) {
 
 	let error = new TypeError();
-	error.message = _typeOf(type) + "类型的数据不被当前操作所支持。";
+	error.message = typeOf(type) + "类型的数据不被当前操作所支持。";
 	debugError(error);
 }
 Error.unsupportedType = unsupportedType;
