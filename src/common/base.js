@@ -187,29 +187,23 @@ const formatString = exports.formatString = (str, ...obj) => {
 const Types = {
 	isNumberObject: (obj) => {
 		try {
-			return isNumber(obj.valueOf()) && (obj !== obj.valueOf());
+			return obj.valueOf && isNumber(obj.valueOf()) && (obj !== obj.valueOf());
 		} catch (e) {
-			console.log(obj);
-			console.log(e);
 			return false;
 		}
 	},
 	isBooleanObject: (obj) => {
 		try {
 			let val = obj.valueOf();
-			return (val === true || val === false) && (obj !== obj.valueOf());
+			return obj.valueOf && (val === true || val === false) && (obj !== obj.valueOf());
 		} catch (e) {
-			console.log(obj);
-			console.log(e);
 			return false;
 		}
 	},
 	isStringObject: (obj) => {
 		try {
-			return (obj.valueOf() === obj.toString()) && (obj !== obj.valueOf());
+			return obj.valueOf && (obj.valueOf() === obj.toString()) && (obj !== obj.valueOf());
 		} catch (e) {
-			console.log(obj);
-			console.log(e);
 			return false;
 		}
 	},
