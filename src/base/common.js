@@ -168,14 +168,44 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 const { Char } = JsConst;
-const { Types } = require("util");
+
+
+
+const Types = {
+	isNumberObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isBooleanObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isStringObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isRegExp: (obj) => {
+		return obj instanceof RegExp;
+	},
+	isDate: (obj) => {
+		return obj instanceof Date;
+	},
+	isSet: (obj) => {
+		return obj instanceof Set;
+	},
+	isWeakSet: (obj) => {
+		return obj instanceof WeakSet;
+	},
+	isMap: (obj) => {
+		return obj instanceof Map;
+	},
+	isWeakMap: (obj) => {
+		return obj instanceof WeakMap;
+	},
+};
 
 const typeTo = {
 	toString: () => {
 		return this.name.toLowerCase();
 	}
 }
-
 
 function Null () {}
 function Undefined () {};
