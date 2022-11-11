@@ -399,7 +399,35 @@ const NumberUtil = {
 	}
 };
 
-
+const Types = {
+	isNumberObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isBooleanObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isStringObject: (obj) => {
+		return obj === obj.valueOf();
+	},
+	isRegExp: (obj) => {
+		return obj instanceof RegExp;
+	},
+	isDate: (obj) => {
+		return obj instanceof Date;
+	},
+	isSet: (obj) => {
+		return obj instanceof Set;
+	},
+	isWeakSet: (obj) => {
+		return obj instanceof WeakSet;
+	},
+	isMap: (obj) => {
+		return obj instanceof Map;
+	},
+	isWeakMap: (obj) => {
+		return obj instanceof WeakMap;
+	},
+};
 
 module.exports = exports = {
 	getNull: () => {
@@ -414,5 +442,6 @@ module.exports = exports = {
 	ObjectUtil: ObjectUtil,
 	StringUtil: StringUtil,
 	NumberUtil: NumberUtil,
-	CharUtil: CharUtil
+	CharUtil: CharUtil,
+	Types: Types
 }

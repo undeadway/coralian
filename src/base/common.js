@@ -168,7 +168,7 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 
 const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
 const { Char } = JsConst;
-const { types } = require("util");
+const { Types } = require("util");
 
 const typeTo = {
 	toString: () => {
@@ -255,28 +255,28 @@ function typeOf(object) {
 		result = NaN.TYPE_NAME;
 	} else if (object === Infinity || object === -Infinity) {
 		result = Infinity.TYPE_NAME;
-	} else if (types.isRegExp(object)) {
+	} else if (Types.isRegExp(object)) {
 		result = RegExp.TYPE_NAME;
-	} else if (types.isNumberObject(object)) { // new Number
+	} else if (Types.isNumberObject(object)) { // new Number
 		result = Number.TYPE_NAME;
-	} else if (types.isBooleanObject(object)) { // new Boolean
+	} else if (Types.isBooleanObject(object)) { // new Boolean
 		result = Boolean.TYPE_NAME;
-	} else if (types.isStringObject(object)) { // new String
+	} else if (Types.isStringObject(object)) { // new String
 		result = String.TYPE_NAME;
-	} else if (types.isDate(object)) {
+	} else if (Types.isDate(object)) {
 		result = Date.TYPE_NAME;
-	} else if (types.isSet(object)) {
+	} else if (Types.isSet(object)) {
 		result = Set.TYPE_NAME;
-	} else if (types.isWeakSet(object)) {
+	} else if (Types.isWeakSet(object)) {
 		result = WeakSet.TYPE_NAME;
-	} else if (types.isMap(object)) {
+	} else if (Types.isMap(object)) {
 		result = Map.TYPE_NAME;
-	} else if (types.isWeakMap(object)) {
+	} else if (Types.isWeakMap(object)) {
 		result = WeakMap.TYPE_NAME;
-	} else if (types.isWeakMap(object)) {
-		result = WeakMap.TYPE_NAME;
-	} else if (types.isWeakMap(object)) {
-		result = WeakMap.TYPE_NAME;
+	// } else if (Types.isWeakMap(object)) {
+	// 	result = WeakMap.TYPE_NAME;
+	// } else if (Types.isWeakMap(object)) {
+	// 	result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
 		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
