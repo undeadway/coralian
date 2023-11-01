@@ -24,7 +24,8 @@ exports.log = exports.ingo = (str) => {
 	console.log(format(INFO, str));
 };
 exports.err = (err) => {
-	console.error(err.message)
+	err = err || {};
+	console.error(err.message || "错误信息")
 	console.error(format(ERROR, err.stack));
 };
 exports.warn = (str) => {
