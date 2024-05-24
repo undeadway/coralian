@@ -1,4 +1,4 @@
-const { isArray, arrayClone } = require("../base/common");
+const { isArray, arrayClone, Null, Undefined } = require("../common/base");
 const { unsupportedType, indexOutOfBounds, errorCast } = Error;
 
 /* ==================== Array 的扩展 ==================== */
@@ -157,7 +157,7 @@ if (!Array.from) {
 			// 4. If mapfn is undefined, then let mapping be false.
 			var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
 			var T;
-			if (typeof mapFn !== Object.UNDEFINED_TYPE_NAME) {
+			if (typeof mapFn !== Undefined.TYPE_NAME) {
 				// 5. else      
 				// 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
 				if (!isCallable(mapFn)) {
@@ -186,7 +186,7 @@ if (!Array.from) {
 			while (k < len) {
 				kValue = items[k];
 				if (mapFn) {
-					A[k] = typeof T === Object.UNDEFINED_TYPE_NAME ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+					A[k] = typeof T === Undefined.TYPE_NAME ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
 				} else {
 					A[k] = kValue;
 				}

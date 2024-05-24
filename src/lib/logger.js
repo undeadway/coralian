@@ -3,7 +3,7 @@
  * 以及对日志进行最基本的格式化功能
  */
 const Calendar = require("./Calendar");
-const formatString = require("./../base/common").formatString;
+const formatString = require("./../common/base").formatString;
 
 const INFO = 'INFO',
 	ERROR = 'ERROR',
@@ -24,7 +24,8 @@ exports.log = exports.ingo = (str) => {
 	console.log(format(INFO, str));
 };
 exports.err = (err) => {
-	console.error(err.message)
+	err = err || {};
+	console.error(err.message || "错误信息")
 	console.error(format(ERROR, err.stack));
 };
 exports.warn = (str) => {

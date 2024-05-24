@@ -1,111 +1,17 @@
-Object.defineProperty(Array, "TYPE_NAME", {
-	get: () => {
-		return "array";
-	}
-});
-Object.defineProperty(Boolean, "TYPE_NAME", {
-	get: () => {
-		return "boolean";
-	}
-});
-Object.defineProperty(Error, "TYPE_NAME", {
-	get: () => {
-		return "error";
-	}
-});
-Object.defineProperty(Function, "TYPE_NAME", {
-	get: () => {
-		return "function";
-	}
-});
-Object.defineProperty(Number, "TYPE_NAME", {
-	get: () => {
-		return "number";
-	}
-});
-Object.defineProperty(Number, "NaN_TYPE_NAME", {
-	get: () => {
-		return "NaN";
-	}
-});
-Object.defineProperty(Number, "Infinity_TYPE_NAME", {
-	get: () => {
-		return "Infinity";
-	}
-});
-Object.defineProperty(Object, "TYPE_NAME", {
-	get: () => {
-		return "object";
-	}
-});
-Object.defineProperty(Object, "NULL_TYPE_NAME", {
-	get: () => {
-		return "null";
-	}
-});
-Object.defineProperty(Object, "UNDEFINED_TYPE_NAME", {
-	get: () => {
-		return "undefined";
-	}
-});
-Object.defineProperty(String, "TYPE_NAME", {
-	get: () => {
-		return "string";
-	}
-});
-Object.defineProperty(RegExp, "TYPE_NAME", {
-	get: () => {
-		return "regexp";
-	}
-});
-Object.defineProperty(Date, "TYPE_NAME", {
-	get: () => {
-		return "date";
-	}
-});
-//  ES6 新增
-if (Set) {
-	Object.defineProperty(Set, "TYPE_NAME", {
-		get: () => {
-			return "set";
-		}
-	});
+
+
+const side = typeof (window) !== "undefined"; // 设置端点，side = true 客户端 side = false 服务端
+
+const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";
+exports.browserOnly = () => {
+	if (!side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "浏览器"));
 }
-if (WeakSet) {
-	Object.defineProperty( WeakSet, "TYPE_NAME", {
-		get: () => {
-			return "weakset";
-		}
-	});
+
+exports.serverOnly = () => {
+	if (side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "服务端"));
 }
-if (Map) {
-	Object.defineProperty(Map, "TYPE_NAME", {
-		get: () => {
-			return "set";
-		}
-	});
-}
-if (WeakMap) {
-	Object.defineProperty( WeakMap, "TYPE_NAME", {
-		get: () => {
-			return "weakset";
-		}
-	});
-}
-// if (global.TypedArray) {
-// 	Object.defineProperty( global.TypedArray, 'TYPE_NAME', {
-// 		get: () => {
-// 			return 'typedarray';
-// 		}
-// 	});
-// }
-if (Symbol) {
-	Object.defineProperty(Symbol, "TYPE_NAME", {
-		get: () => {
-			return "symbol";
-		}
-	});
-}
+
+exports.side = side;
 
 const _isArray = exports.isArray = (Array.isArray) ? Array.isArray :
 	(arr) => {
@@ -126,8 +32,111 @@ const keyArray = exports.keyArray = (Object.keys) ? Object.keys :
 		return keys;
 	};
 
-const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
-const { Mark } = require("./../lib/constants");
+
+const isNumber = exports.isNumber = (number, notation = 10) => {
+
+	if (number !== number) return false;
+
+	if (notation === 16 && !String.startsWith((number).toString().toLowerCase(), "0x")) {
+		number = "0x" + number;
+	}
+
+	return isFinite(number);
+}
+	
+const formatString = exports.formatString = (str, ...obj) => {
+
+	if (!obj) unsupportedOperation("至少需要一个字符来进行替换");
+
+	if (Object.TYPE_NAME === typeOf(obj[0])) {
+		str = replaceElement(str, obj[0]);
+	} else {
+		Object.forEach(obj, function (i, e) {
+			str = str.replace(/\%s/, e);
+		});
+	}
+
+	return str;
+}
+
+const Types = {
+	isNumberObject: (obj) => {
+		try {
+			return obj.valueOf && isNumber(obj.valueOf()) && (obj !== obj.valueOf());
+		} catch (e) {
+			return false;
+		}
+	},
+	isBooleanObject: (obj) => {
+		try {
+			let val = obj.valueOf();
+			return obj.valueOf && (val === true || val === false) && (obj !== obj.valueOf());
+		} catch (e) {
+			return false;
+		}
+	},
+	isStringObject: (obj) => {
+		try {
+			return obj.valueOf && (obj.valueOf() === obj.toString()) && (obj !== obj.valueOf());
+		} catch (e) {
+			return false;
+		}
+	},
+	isRegExp: (obj) => {
+		return obj instanceof RegExp;
+	},
+	isDate: (obj) => {
+		return obj instanceof Date;
+	},
+	isSet: (obj) => {
+		return obj instanceof Set;
+	},
+	isWeakSet: (obj) => {
+		return obj instanceof WeakSet;
+	},
+	isMap: (obj) => {
+		return obj instanceof Map;
+	},
+	isWeakMap: (obj) => {
+		return obj instanceof WeakMap;
+	},
+};
+
+
+
+function Null () {}
+function Undefined () {};
+
+const nullObj = new Null();
+const undefinedObj = new Undefined();
+
+Object.defineProperties(nullObj,  {
+	"TYPE_NAME": {
+		value: "null",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return null;
+		},
+		writable: false
+	}
+});
+Object.defineProperties(undefinedObj,  {
+	"TYPE_NAME": {
+		value: "undefined",
+		writable: false
+	},
+	"getValue": {
+		value: () => {
+			return undefined;
+		},
+		writable: false
+	}
+});
+
+exports.Null = nullObj;
+exports.Undefined = undefinedObj;
 
 /**
  * 用于得到数据类型
@@ -162,35 +171,41 @@ const { Mark } = require("./../lib/constants");
  * 
  * @returns
  */
-function typeOf(object) {
+ function typeOf(object) {
 	let result;
 
 	if (object === null) {
-		result = Object.NULL_TYPE_NAME;
+		result = nullObj.TYPE_NAME;
+	} else if (object === undefined) {
+		result = undefinedObj.TYPE_NAME;
 	} else if (_isArray(object)) {
 		result = Array.TYPE_NAME;
 	} else if (object !== object) {
 		result = NaN.TYPE_NAME;
 	} else if (object === Infinity || object === -Infinity) {
 		result = Infinity.TYPE_NAME;
-	} else if (object instanceof RegExp) {
+	} else if (Types.isRegExp(object)) {
 		result = RegExp.TYPE_NAME;
-	} else if (object instanceof Number) { // new Number
+	} else if (Types.isNumberObject(object)) { // new Number
 		result = Number.TYPE_NAME;
-	} else if (object instanceof Boolean) { // new Boolean
+	} else if (Types.isBooleanObject(object)) { // new Boolean
 		result = Boolean.TYPE_NAME;
-	} else if (object instanceof String) { // new String
+	} else if (Types.isStringObject(object)) { // new String
 		result = String.TYPE_NAME;
-	} else if (object instanceof Date) {
+	} else if (Types.isDate(object)) {
 		result = Date.TYPE_NAME;
-	} else if (object instanceof Set) {
+	} else if (Types.isSet(object)) {
 		result = Set.TYPE_NAME;
-	} else if (object instanceof WeakSet) {
+	} else if (Types.isWeakSet(object)) {
 		result = WeakSet.TYPE_NAME;
-	} else if (object instanceof Map) {
+	} else if (Types.isMap(object)) {
 		result = Map.TYPE_NAME;
-	} else if (object instanceof WeakMap) {
+	} else if (Types.isWeakMap(object)) {
 		result = WeakMap.TYPE_NAME;
+	// } else if (Types.isWeakMap(object)) {
+	// 	result = WeakMap.TYPE_NAME;
+	// } else if (Types.isWeakMap(object)) {
+	// 	result = WeakMap.TYPE_NAME;
 	} else {
 		result = typeof object;
 		if (result === Number.TYPE_NAME && isNaN(object)) { // 以防有漏网之鱼
@@ -201,6 +216,16 @@ function typeOf(object) {
 	return result;
 }
 exports.typeOf = typeOf;
+
+require("./../base/Error");
+const { errorCast, noReference, unsupportedType, indexOutOfBounds, unsupportedOperation, noSuchMethod } = Error;
+const { Char } = JsConst;
+
+const typeTo = {
+	toString: () => {
+		return this.name.toLowerCase();
+	}
+}
 
 /*
  * 第一个参数是需要被比较的 Object 对象
@@ -244,7 +269,7 @@ function replaceElement(str, obj, prefix = DEFAULT_PREFIX, surfix = DEFAULT_SURF
 		p2 = str.indexOf(surfix, p1 + prefix.length);
 		if (p2 === -1) break;
 		let holder = str.substring(p1 + prefix.length, p2);
-		let nests = holder.split(Mark.POINT);
+		let nests = holder.split(Char.POINT);
 		let val = obj;
 		for (let i = 0, length = nests.length; i < length; i++) {
 			val = val[nests[i]];
@@ -308,7 +333,7 @@ const getFunctionName = exports.getFunctionName = (func) => {
 	} else {
 		let arr = null,
 			str = func.toString();
-		if (str.charAt(0) === Mark.LEFT_SQUARE_BRACKET) {
+		if (str.charAt(0) === Char.SquareBracket.LEFT) {
 			arr = str.match(/\[\w+\s*(\w+)\]/);
 		} else {
 			arr = str.match(/function\s*(\w+)/);
@@ -329,7 +354,7 @@ const getFunctionDefine = exports.getFunctionDefine = (name, count) => {
 	}
 
 	let pars = _d.join();
-	return `function ${name}${Mark.LEFT_PARENTHE}${pars}${Mark.RIGHT_PARENTHE}${Mark.SEMICOLON}`;
+	return `function ${name}${Char.Parenthe.LEFT}${pars}${Char.Parenthe.RIGHT}${Char.SEMICOLON}`;
 }
 
 exports.newInstance = (type, args) => {
@@ -602,44 +627,4 @@ exports.Interface = {
 			"size", // size 方法，获得集合的大小（元素个数）
 			"toArray" // toArray 方法，将集合转化成数组
 		])
-}
-
-exports.isNumber = (number, notation) => {
-
-	if (number !== number) return false;
-
-	notation = notation || 10;
-
-	if (notation === 16 && !String.startsWith((number).toString().toLowerCase(), "0x")) {
-		number = "0x" + number;
-	}
-
-	return isFinite(number);
-}
-
-exports.formatString = (str, ...obj) => {
-
-	if (!obj) unsupportedOperation("至少需要一个字符来进行替换");
-
-	if (Object.TYPE_NAME === typeOf(obj[0])) {
-		str = replaceElement(str, obj[0]);
-	} else {
-		Object.forEach(obj, function (i, e) {
-			str = str.replace(/\%s/, e);
-		});
-	}
-
-	return str;
-}
-
-const side = typeof (window) !== Object.UNDEFINED_TYPE_NAME; // 设置端点，side = true 客户端 side = false 服务端
-exports.side = side;
-
-const SIDE_ONLY_FMT_STR = "只能在%s中使该功能用";
-exports.browserOnly = () => {
-	if (!side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "浏览器"));
-}
-
-exports.serverOnly = () => {
-	if (side) throw new Error(formatString(SIDE_ONLY_FMT_STR, "服务端"));
 }

@@ -1,4 +1,4 @@
-const { Mark } = require("./constants");
+const { Const } = JsConst;
 
 const UPPER_CASE = /[A-Z]/,
 	LOWER_CASE = /[a-z]/,
@@ -80,7 +80,7 @@ module.exports = exports = {
 		var year = id.substr(6, 4),//身份证年
 			month = id.substr(10, 2),//身份证月
 			date = id.substr(12, 2),//身份证日
-			time = Date.parse(`${month}${Mark.HYPHEN}${date}${Mark.HYPHEN}${year}`),//身份证日期时间戳date
+			time = Date.parse(`${month}${Char.HYPHEN}${date}${Char.HYPHEN}${year}`),//身份证日期时间戳date
 			nowTime = Date.parse(new Date()),//当前时间戳
 			dates = (new Date(year, month, 0)).getDate();//身份证当月天数
 		if (time > nowTime || date > dates) return false;

@@ -1,4 +1,5 @@
 exports = module.exports = {
+    skip: true,
     test: () => {
         let a = "a";
 

@@ -2,18 +2,38 @@
  * 这里这么写的原因是 Error 和 common 之间存在关联调用
  * 所以只能做一个懒加载模式
  */
-let isNumber, getFunctionName;
-/* ==================== Error 的扩展 ==================== */
-function debugError(e) {
-	if (!isNumber || !getFunctionName) {
-		let common = require("../base/common");
-		isNumber = common.isNumber;
-		getFunctionName = common.getFunctionName;
+let _isNumber, _getFunctionName, _typeOf;
+function initBase () {
+	let defines = require("../common/base");
+	_typeOf = defines.typeOf;
+	_isNumber = defines.isNumber;
+	_getFunctionName = defines.getFunctionName;
+}
+function typeOf (obj) {
+	if (!_typeOf) {
+		initBase();
 	}
 
-	alert("message:" + e.message);
-	alert("stack:" + e.stack);
-	throw e;
+	return _typeOf(obj);
+}
+function getFunctionName () {
+	if (!_getFunctionName) {
+		initBase();
+	}
+
+	return _getFunctionName(obj);
+}
+function isNumber () {
+	if (!_isNumber) {
+		initBase();
+	}
+
+	return _isNumber(obj);
+}
+
+function debugError (error) {
+	console.log(error);
+	throw error;
 }
 
 function errorCast(obj, type) {
@@ -25,7 +45,7 @@ function errorCast(obj, type) {
 	let error = new TypeError();
 	console.error(error.message);
 	console.error(error.stack);
-	error = typeOf(obj) + " 类型的数据无法转变为 " + getFunctionName(type) + "。";
+	error.message = typeOf(obj) + " 类型的数据无法转变为 " + getFunctionName(type) + "。";
 	debugError(error);
 }
 Error.errorCast = errorCast;

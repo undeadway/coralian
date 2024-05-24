@@ -1,4 +1,4 @@
-const { typeIs } = require("./common");
+const { typeIs } = require("../common/base");
 
 /* ==================== String 的扩展 ==================== */
 const { errorCast, unsupportedType } = Error;
@@ -238,10 +238,12 @@ String.asArray = function (input) {
 	return input.match(STRING_AS_ARRAY_REGX);
 };
 
-Object.defineProperty(String, "BLANK", {
-	value: EMPTY_STRING,
-	writable: false
-});
+if (String.BLANK === undefined) {
+	Object.defineProperty(String, "BLANK", {
+		value: EMPTY_STRING,
+		writable: false
+	});
+}
 
 /*
  * 因为JS已经有 valueOf 函数，所以这里用 from 来实现 类似 Java 中 String.valueOf 的 功能
